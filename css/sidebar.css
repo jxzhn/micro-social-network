@@ -1,8 +1,8 @@
 #sidebar {
     position: fixed;
     top: 0;
-    left: 14%;
-    width: 16%;
+    left: max(14%, 11.2em);
+    width: max(16%, 12.8em);
     height: 100vh;
     box-sizing: border-box;
     padding: 8px;
@@ -109,8 +109,8 @@
 #main {
     position: absolute;
     top: 0;
-    left: 30%;
-    width: 50%;
+    left: max(30%, 24em);
+    width: max(50%, 40em);
     height: 100%;
     border-right: 1px solid var(--light-gray);
 }

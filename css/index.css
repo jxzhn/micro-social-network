@@ -73,11 +73,9 @@
 }
 
 .tweet-interact-row>span {
+    display: inline-block;
+    width: 7em;
     transition: color 0.2s;
-}
-
-.tweet-interact-row>span+span {
-    margin-left: 2em;
 }
 
 .tweet-interact-row>span>i {
