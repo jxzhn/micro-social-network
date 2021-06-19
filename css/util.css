@@ -1,0 +1,156 @@
+@import "https://use.fontawesome.com/releases/v5.11.2/css/all.css"; /* Font Awesome 图标库 */
+@import "./notosanssc.css"; /* Noto Sans SC 字体 */
+
+body,input,label,select,option,textarea,button,fieldset,legend,th,td {
+    font-family: "Noto Sans SC";
+}
+
+:root {
+    --primary-theme: rgb(29, 161, 242);
+    --primary-hover-bg: rgb(232, 245, 254);
+    --primary-theme-dark: rgb(26, 145, 218);
+    --primary-theme-light: rgb(142, 208, 248);
+    --light-gray: gainsboro;
+    --white: white;
+    --black: black;
+    --gray: rgb(91, 112, 131);
+}
+
+button.solid-button {
+    background-color: var(--primary-theme);
+    color: var(--white);
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 999em;
+    font-weight: bold;
+    box-shadow: 0px 4px 12px var(--light-gray);
+}
+
+button.solid-button:hover {
+    background-color: var(--primary-theme-dark);
+}
+
+button.solid-button:disabled {
+    background-color: var(--primary-theme-light);
+}
+
+button.hollow-button {
+    background-color: var(--white);
+    color: var(--primary-theme);
+    border: solid 1px var(--primary-theme);
+    padding: 0.5em 1em;
+    border-radius: 999em;
+    font-weight: bold;
+}
+
+button.hollow-button:hover {
+    background-color: var(--primary-hover-bg);
+}
+
+#sidebar {
+    position: fixed;
+    left: 14%;
+    width: 16%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 8px;
+    border-right: solid 1px var(--light-gray);
+    user-select: none;
+}
+
+#sidebar>* {
+    margin-bottom: 1em;
+}
+
+#logo {
+    color: var(--primary-theme);
+    font-size: 28px;
+}
+
+#nav {
+    font-size: 24px;
+    font-weight: bold;
+    list-style-type:none;
+}
+
+#nav>li {
+    margin-top: 0.5em;
+    margin-left: -1em;
+    width: fit-content;
+    padding: 0.5em 1em;
+    border-radius: 999em;
+}
+
+#nav>li:hover {
+    background-color: var(--primary-hover-bg);
+}
+
+#nav>li>a {
+    color: var(--black);
+    text-decoration: none;
+}
+
+#nav>.nav-righthere>a {
+    color: var(--primary-theme);
+    text-decoration: none;
+}
+
+#nav .nav-icon {
+    font-size: 28px;
+    margin-right: 0.5em;
+}
+
+#send-blog>button {
+    font-size: 20px;
+    width: 90%;
+    margin-left: -1em;
+}
+
+#side-user {
+    width: 90%;
+    display: flex;
+    position: absolute;
+    bottom: 0.5em;
+    left: -1em;
+    padding: 0.8em;
+    border-radius: 999em;
+}
+
+#side-user-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 999em;
+    border: solid 1px var(--light-gray);
+    margin-right: 12px;
+}
+
+#side-user>div {
+    line-height: 1.2em;
+}
+
+#side-user-name {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#side-user-id {
+    font-size: 14px;
+    color: var(--gray); 
+    margin-top: -1em;
+}
+
+#side-user:hover {
+    background-color: var(--primary-hover-bg);
+}
+
+#side-user-dots {
+    font-size: 24px;
+    position: absolute;
+    top: 1em;
+    transform: translateY(-50%);
+    right: 0.5em;
+}
+
+#main {
+    margin-left: 30%;
+}
