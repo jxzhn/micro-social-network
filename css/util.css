@@ -1,10 +1,6 @@
 @import "https://use.fontawesome.com/releases/v5.11.2/css/all.css"; /* Font Awesome 图标库 */
 @import "./notosanssc.css"; /* Noto Sans SC 字体 */
 
-body,input,label,select,option,textarea,button,fieldset,legend,th,td {
-    font-family: "Noto Sans SC";
-}
-
 :root {
     --primary-theme: rgb(29, 161, 242);
     --primary-hover-bg: rgb(232, 245, 254);
@@ -12,8 +8,17 @@ body,input,label,select,option,textarea,button,fieldset,legend,th,td {
     --primary-theme-light: rgb(142, 208, 248);
     --light-gray: gainsboro;
     --white: white;
-    --black: black;
+    --black: rgb(15, 20, 25);
     --gray: rgb(91, 112, 131);
+    --gray-hover-bg: rgb(247, 247, 247);
+    --gray-bg: rgb(247, 249, 250);
+    --red: rgb(224, 36, 94);
+    --red-hover-bg: rgb(245, 226, 232);
+}
+
+body,input,label,select,option,textarea,button,fieldset,legend,th,td {
+    font-family: "Noto Sans SC";
+    color: var(--black);
 }
 
 button.solid-button {
@@ -23,7 +28,7 @@ button.solid-button {
     padding: 0.5em 1em;
     border-radius: 999em;
     font-weight: bold;
-    box-shadow: 0px 4px 12px var(--light-gray);
+    transition: background-color 0.2s;
 }
 
 button.solid-button:hover {
@@ -41,6 +46,7 @@ button.hollow-button {
     padding: 0.5em 1em;
     border-radius: 999em;
     font-weight: bold;
+    transition: background-color 0.2s;
 }
 
 button.hollow-button:hover {
