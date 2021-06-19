@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>登录</title>
+<link rel="stylesheet" href="./css/util.css" />
+<link rel="stylesheet" type="text/css" href="css/login.css">
+<link href="fontawesome/css/fontawesome.css" rel="stylesheet">
+<link href="fontawesome/css/brands.css" rel="stylesheet">
+<link href="fontawesome/css/solid.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="img">
+            <img src="pics/login.png">
+            <i id="icon" class="fas fa-paper-plane" aria-hidden="true" ></i>
+        </div>
+        <div class="main">
+            <div class="login">
+                <i class="fas fa-paper-plane" aria-hidden="true" ></i>
+                <h1>登录 微微博</h1>
+                <input id="username" name="username" type="text" value="用户名" 
+                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
+                    style="color:rgb(91, 112, 131)">
+                <br>
+                <input id="password" name="password" type="text" value="密码"
+                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
+                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
+                    style="color:rgb(91, 112, 131)">
+                <br>
+                <button id="login" class="solid-button loginbtn" name="submit">登录</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>by: xxx,xxx,xxx,xxx,xxx</p>
+      </footer>
+</body>
+</html>
