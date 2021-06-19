@@ -1,0 +1,66 @@
+#header{
+    padding: 10px;
+}
+#return{
+    padding: 0 10px;
+    color: var(--primary-theme);
+}
+#banner{
+    height:200px;
+    background: url("../pics/banner.jpg") center;
+    background-size: cover;
+    margin-bottom: 60px;
+}    
+#photo{
+    position: relative;
+    display: inline-block;
+    top: 130px;
+    left: 20px;
+    width: 120px;
+    height: 120px;
+    background: url("../pics/photo.jpg") center;
+    background-size: cover;
+    border-radius: 66px;
+    border: 6px solid var(--white);
+}
+#editbtn{
+    position: relative;
+    display: inline-block;
+    top: 105px;
+    left: 370px;
+    width: 120px;
+    height: 40px;
+    border-radius: 25px;
+}
+#followbtn{
+    position: relative;
+    display: inline-block;
+    top: 105px;
+    left: 370px;
+    width: 120px;
+    height: 40px;
+    border-radius: 25px;
+}
+#info{
+    padding-left: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--light-gray);
+}
+#follower, #following{
+    font-weight: bold;
+}
+#weibos{
+}
+
+.username{
+    font-weight: bold;
+    font-size: 24px;
+}
+.gray{
+    color: var(--gray);
+    font-size: 10px;
+}
+.introduction{
+    margin-top: 10px;
+    font-size: 13px;
+}

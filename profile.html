@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>首页</title>
+    <title>个人主页</title>
     <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
 </head>
@@ -37,11 +38,27 @@
         </div>
     </div>
     <div id="main">
-        <!-- 按钮CSS展示 -->
-        <button class="solid-button">实心按钮（正常）</button>
-        <button class="solid-button" disabled>实心按钮（禁用）</button>
-        <br /><br />
-        <button class="hollow-button">空心按钮</button>
+        <div id="header">
+            <i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i>
+            <span class="username">username</span>
+        </div>
+        <div id="banner">
+            <div id="photo"></div>
+            <button id="editbtn" class="hollow-button">编辑个人资料</button>
+            <!-- <button id="followbtn" class="solid-button">关注</button> -->
+        </div>
+        <div id="info">
+            <span class="username">username</span>
+            <br>
+            <span class="gray">@userid</span>
+            <br>
+            <p class="introduction">This is a long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long introduction.</p>
+            <a id="following">20</a> <span class="gray">关注</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a id="follower">20</a> <span class="gray">粉丝</span>
+        </div>
+        <div id="weibos">
+            个人微微博
+        </div>
     </div>
 </body>
 </html>
