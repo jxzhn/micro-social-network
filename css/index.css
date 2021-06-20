@@ -56,7 +56,7 @@
 .tweet-content-img {
     margin-top: 1em;
     width: 96%;
-    height: 40vh;
+    height: max(40vh, 25em);
     border-radius: 12px;
     border: solid 1px var(--light-gray);
     overflow:hidden;
