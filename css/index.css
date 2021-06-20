@@ -112,3 +112,19 @@
 .tweet-like.tweet-liked {
     color: var(--red);
 }
+
+#loading {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--gray-bg);
+    text-align: center;
+    padding: 0.5em;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--gray);
+    user-select: none;
+}
+
+#loading>span>i {
+    font-size: 18px;
+    margin-right: 1em;
+}
