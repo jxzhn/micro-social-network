@@ -127,7 +127,6 @@ window.addEventListener('scroll', () => {
     var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
     // 变量scrollHeight是滚动条的总高度
     var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-    console.log(scrollTop + windowHeight, scrollHeight)
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
