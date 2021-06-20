@@ -1,0 +1,115 @@
+#return {
+    font-size: 24px;
+    color: var(--primary-theme);
+    padding: 0.35em 0.4em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+    margin-right: 1em;
+}
+
+#return:hover {
+    background-color: var(--primary-hover-bg);
+}
+
+.interval {
+    box-sizing: border-box;
+    height: calc(2.5 * 24px); /* 2.5 * 24 是 title-bar 的高度 */
+    background-color: var(--gray-bg);
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.tweet-detail-block {
+    padding: 1em;
+    font-size: 15px;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.tweet-detail-user-row {
+    display: flex;
+}
+
+.tweet-detail-user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 999em;
+    margin-right: 12px;
+    border: 1px solid var(--light-gray);
+}
+
+.tweet-detail-user-name {
+    font-weight: bold;
+}
+
+.tweet-detail-user-id {
+    color: var(--gray);
+}
+
+.tweet-detail-dot {
+    position: relative;
+    top: -0.25em;
+    color: var(--gray);
+}
+
+.tweet-detail-date {
+    font-size: 15px;
+    color: var(--gray);
+}
+
+.tweet-detail-content {
+    padding: 0.5em 0;
+    font-size: 20px;
+}
+
+.tweet-detail-content-img {
+    margin-top: 1em;
+    width: 96%;
+    height: max(40vh, 25em);
+    border-radius: 12px;
+    border: solid 1px var(--light-gray);
+    overflow:hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.tweet-detail-interact-row {
+    margin-top: 0.5em;
+    color: var(--gray);
+    position: relative;
+    margin-left: -0.5em;
+    font-size: 18px;
+}
+
+.tweet-detail-interact-row>span {
+    display: inline-block;
+    width: 7em;
+    transition: color 0.2s;
+}
+
+.tweet-detail-interact-row>span>i {
+    font-size: 20px;
+    padding: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+}
+
+.tweet-detail-comment:hover {
+    color: var(--primary-theme);
+}
+
+.tweet-detail-comment:hover>i {
+    background-color: var(--primary-hover-bg);
+}
+
+.tweet-detail-like:hover {
+    color: var(--red);
+}
+
+.tweet-detail-like:hover>i {
+    background-color: var(--red-hover-bg);
+}
+
+.tweet-detail-like.tweet-detail-liked {
+    color: var(--red);
+}

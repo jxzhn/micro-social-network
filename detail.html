@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>首页</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./css/util.css" />
+    <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/detail.css">
+    <link rel="stylesheet" href="./css/popup.css" />
+    <link rel="stylesheet" href="./css/send-tweet.css" />
+</head>
+<body>
+    <div id="sidebar">
+        <div id="logo">
+            <i class="fas fa-paper-plane"></i>
+        </div>
+        <div id="nav">
+            <li>
+                <a href="./index.html"><i class="far fa-compass nav-icon"></i>首页</a>
+            </li>
+            <li>
+                <a href="./notice.html"><i class="far fa-bell nav-icon"></i>我的通知</a>
+            </li>
+            <li>
+                <a href="./profile.html"><i class="far fa-user-circle nav-icon"></i>个人</a>
+            </li>
+        </div>
+        <div id="send-blog">
+            <button class="solid-button" onclick="showPopup('send-tweet-popup');">说点什么</button>
+        </div>
+        <div id="side-user">
+            <img id="side-user-img">
+            <div>
+                <span id="side-user-name"></span><br />
+                <span id="side-user-id"></span>
+            </div>
+            <div id="side-user-dots">
+                ...
+            </div>
+        </div>
+    </div>
+    <div id="main">
+        <div id="title-bar">
+            <a href="./index.html"><i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i></a>
+            <span>详情</span>
+        </div>
+        <div class="interval"></div>
+        <!--tweet blocks-->
+        <div id="loading">
+            <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
+        </div>
+    </div>
+    <div id="send-tweet-popup" class="popup">
+        <div class="popup-title-bar">
+            <span onclick="hidePopup('send-tweet-popup');"><i class="fas fa-times popup-close"></i></span>
+            <span class="popup-title">说点什么</span>
+        </div>
+        <div id="send-tweet">
+            <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268965?v=4">
+            <div id="send-tweet-detail">
+                <div id="send-tweet-editor" contenteditable="plaintext-only" placeholder="有什么新鲜事？"></div>
+                <div id="send-tweet-img"></div>
+                <div id="send-tweet-interact">
+                    <input type="file" id="send-tweet-img-file" accept="image/*" style="display:none" onchange="handlePhoto(this.files)" />
+                    <span onclick="clickAddPhoto();"><i class="far fa-image"></i></span>
+                    <span id="send-tweet-len">0/140</span>
+                    <button id="send-tweet-button" class="solid-button popup-top-button" onclick="sendTweet();">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="./js/ajax.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
+<script type="text/javascript" src="./js/detail.js"></script>
+<script type="text/javascript" src="./js/popup.js"></script>
+<script type="text/javascript" src="./js/send-tweet.js"></script>
+</html>
