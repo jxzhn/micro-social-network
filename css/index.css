@@ -3,10 +3,14 @@
     font-weight: bold;
     border-bottom: 1px solid var(--light-gray);
     padding: 0.5em 1em;
+    position: fixed;
+    background-color: var(--white);
+    box-sizing: border-box;
+    width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
 }
 
 .interval {
-    height: 0.75em;
+    height: calc(2.5 * 24px + 0.75em); /* 2.5 * 24 是 title-bar 的高度 */
     background-color: var(--gray-bg);
     border-bottom: 1px solid var(--light-gray);
 }
