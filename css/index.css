@@ -8,6 +8,7 @@
     box-sizing: border-box;
     width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
     user-select: none;
+    z-index: 1;
 }
 
 .interval {
