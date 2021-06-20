@@ -48,8 +48,9 @@
         </div>
         <div id="banner">
             <div id="avatar"></div>
-            <button id="editbtn" class="hollow-button" onclick="showPopup('edit-popup')">编辑个人资料</button>
-            <!-- <button id="followbtn" class="solid-button">关注</button> -->
+            <button id="editbtn" class="hollow-button" onclick="initPopup()">编辑个人资料</button>
+            <button id="followbtn" class="solid-button" onclick="follow();">关注</button>
+            <button id="followedbtn" class="solid-button" onclick="cancelFollow();">取消关注</button>
         </div>
         <div id="info">
             <span class="username">username</span>
@@ -115,25 +116,69 @@
                     </div>
                 </div>
             </div>
+            <div class="tweet-block">
+                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
+                <div class="tweet-detail">
+                    <div class="tweet-info-row">
+                        <span class="tweet-user-name">一位路过的靓仔</span>
+                        <span class="tweet-user-id">@handsomeboy</span>
+                        <span class="tweet-dot">.</span>
+                        <span class="tweet-date">6 月 14 日</span>
+                    </div>
+                    <div class="tweet-content">
+                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
+                    </div>
+                    <div class="tweet-interact-row">
+                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
+                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tweet-block">
+                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
+                <div class="tweet-detail">
+                    <div class="tweet-info-row">
+                        <span class="tweet-user-name">一位路过的靓仔</span>
+                        <span class="tweet-user-id">@handsomeboy</span>
+                        <span class="tweet-dot">.</span>
+                        <span class="tweet-date">6 月 14 日</span>
+                    </div>
+                    <div class="tweet-content">
+                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
+                    </div>
+                    <div class="tweet-interact-row">
+                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
+                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- 个人资料编辑 -->
     <div id="edit-popup" class="popup">
         <div class="popup-title-bar">
-            <span><i class="fas fa-times popup-close" onclick="hidePopup('edit-popup')"></i></span>
+            <span><i class="fas fa-times popup-close" onclick="cancelEdit()"></i></span>
             <span class="popup-title">编辑个人资料</span>
-            <button  id="edit-save" class="popup-top-button solid-button">保存</button>
+            <button  id="edit-save" class="popup-top-button solid-button" onclick="saveEdit()">保存</button>
         </div>
         <div id="edit-pic">
             <div id="edit-banner"></div>
-            <div id="edit-banner-hover">
-                <i class="fas fa-camera" aria-hidden="true" ></i>
-            </div>
+            <div id="new-edit-banner"></div>
+            <label id = "edit-banner-label">
+                <div id="edit-banner-hover">
+                    <i class="fas fa-camera" aria-hidden="true" ></i>
+                </div>
+                <input id="edit-banner-input" type="file" accept="image/*" onchange="updateEditBanner(this.files)"/>
+            </label>
             <div id="edit-avatar"></div>
-            <div id="edit-avatar-hover">
-                <i class="fas fa-camera" aria-hidden="true" ></i>
-            </div>
+            <div id="new-edit-avatar"></div>
+            <label id = "edit-avatar-label">
+                <div id="edit-avatar-hover">
+                    <i class="fas fa-camera" aria-hidden="true" ></i>
+                </div>
+                <input id="edit-avatar-input" type="file" accept="image/*" onchange="updateEditAvatar(this.files)"/>
+            </label>
         </div>
         <div id="edit-input">
             <br>
@@ -147,7 +192,11 @@
                 <label for="edit-introduction">简介</label>
             </div>
         </div>
+        <div id="edit-error">
+            <div id="edit-errormsg"></div>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="./js/popup.js"></script>
+<script type="text/javascript" src="./js/profile.js"></script>
 </html>

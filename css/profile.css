@@ -27,7 +27,8 @@
     border-radius: 4.5em;
     border: 6px solid var(--white);
 }
-#editbtn, #followbtn{
+#editbtn, #followbtn, #followedbtn{
+    display: block;
     float: right;
     transform: translateX(-0.5em) translateY(15em);
     width: 9em;
@@ -64,28 +65,41 @@
     width: 100%;
     height: 38%;
 }
+#new-edit-banner{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    background-position: center;
+    background-size: cover;
+    /* display: none; */
+} 
 #edit-banner{
     position: absolute;
     width: 100%;
     height: 25%;
-    background: url("../pics/banner.jpg") center;
+    background-position: center;
+    background-image:  url("../pics/banner.jpg");
     background-size: cover;
 }   
 #edit-banner-hover{
     position: absolute;
     width: 100%;
     height: 25%;
-}   
-#edit-banner-hover:hover{
-    background-color: var(--black);
-    opacity: 0.3;
-}   
+}     
 #edit-banner-hover i {
     position: absolute;
     left: 49%;
-    top: 40%;
+    top: 45%;
     font-size: 14;
     color: var(--white);
+} 
+#edit-banner-input{
+    opacity:0;
+    cursor:pointer;
+}
+#edit-banner-label:hover #edit-banner-hover{
+    background-color: var(--black);
+    opacity: 0.3;
 }   
 
 #edit-avatar{
@@ -99,6 +113,17 @@
     border-radius: 8em;
     border: 4px solid var(--white);
 }
+#new-edit-avatar{
+    position: absolute;
+    top: 25%;
+    left: 3%;
+    width: 7em;
+    height: 7em;
+    background-position: center;
+    background-size: cover;
+    border-radius: 8em;
+    border: 4px solid var(--white);
+}
 #edit-avatar-hover{
     position: absolute;
     top: 25%;
@@ -108,19 +133,24 @@
     border-radius: 8em;
     border: 4px solid transparent;
 }   
-#edit-avatar-hover:hover{
-    background-color: var(--black);
-    background-clip: content-box;
-    opacity: 0.3;
-}
 #edit-avatar-hover i {
     position: absolute;
-    left: 42%;
-    top: 40%;
+    left: 43%;
+    top: 43%;
     z-index: 6;
     font-size: 14;
     color: var(--white);
 }   
+
+#edit-avatar-input{
+    opacity:0;
+    cursor:pointer;
+}
+#edit-avatar-label:hover #edit-avatar-hover{
+    background-color: var(--black);
+    background-clip: content-box;
+    opacity: 0.3;
+} 
 
 #edit-input{
     position: absolute;
@@ -141,4 +171,11 @@
 #edit-name:focus, #edit-introduction:focus{
     border: 2px solid var(--primary-theme);
     outline: none;
+}
+#edit-error{
+    text-align: center;
+}
+#edit-errormsg{
+    color: var(--gray);
+    font-size: 14px;
 }
