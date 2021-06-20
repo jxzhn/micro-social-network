@@ -11,24 +11,27 @@
 <body>
     <div class="container">
         <div class="img">
-            <img src="pics/login.png">
             <i id="icon" class="fas fa-paper-plane" aria-hidden="true" ></i>
         </div>
         <div class="main">
             <div class="login">
                 <i id="smallicon" class="fas fa-paper-plane" aria-hidden="true" ></i>
                 <h1>登录 微微博</h1>
-                <input id="username" name="username" type="text" value="用户名" 
+                <input id="username" type="text" value="用户名" 
+                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
+                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
+                    style="color:rgb(91, 112, 131)">
+                <br>
+                <input id="password" type="text" value="密码"
                     onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
                     onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
                     style="color:rgb(91, 112, 131)">
                 <br>
-                <input id="password" name="password" type="text" value="密码"
-                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
-                    style="color:rgb(91, 112, 131)">
+                <button id="login" class="solid-button loginbtn" onclick="login()">登录</button>
                 <br>
-                <button id="login" class="solid-button loginbtn" name="submit">登录</button>
+                <div id="error">
+                    <span id="errormsg"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -36,4 +39,5 @@
         <p>by: xxx,xxx,xxx,xxx,xxx</p>
       </footer>
 </body>
+<script type="text/javascript" src="./js/login.js"></script>
 </html>
