@@ -26,6 +26,7 @@
     border-bottom: 1px solid var(--light-gray);
     padding: 0.5em;
     position: relative;
+    user-select: none;
 }
 
 .popup-close {

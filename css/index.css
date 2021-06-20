@@ -3,6 +3,7 @@
     font-weight: bold;
     border-bottom: 1px solid var(--light-gray);
     padding: 0.5em 1em;
+    user-select: none;
 }
 
 .interval {
