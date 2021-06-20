@@ -41,7 +41,7 @@ function showTweets(tweetList) {
                 `<div class="tweet-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
             `</div>\n` + 
             `<div class="tweet-interact-row">\n` + 
-                `<span class="tweet-comment"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+                `<span class="tweet-comment" onclick="goDetail(${i})"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
                 `<span class="tweet-like ${tweet.liked?'tweet-liked':''}" onclick="clickLike(this, ${i});"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
             `</div>\n` + 
         `</div>`

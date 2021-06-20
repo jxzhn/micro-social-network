@@ -59,6 +59,11 @@ async function loadDetail(numTweet) {
     showTweetDetail();
 }
 
+var tweetCommentBox;
+var tweetCommentTextarea;
+var tweetComentLen;
+var tweetSendCommentButton;
+
 function showTweetDetail() {
     var block = document.createElement('div');
     block.classList.add('tweet-detail-block');
@@ -81,11 +86,44 @@ function showTweetDetail() {
         `<span class="tweet-detail-date">${new Date(tweet.date).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
     `</div>\n` +
     `<div class="tweet-detail-interact-row">\n` + 
-        `<span class="tweet-detail-comment"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+        `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
         `<span class="tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}" onclick="clickLike(this)"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+    `</div>\n` +
+    `<div id="tweet-comment-box" class="cool-input-box">\n` + 
+        `<textarea id="tweet-comment-textarea" required></textarea>\n` + 
+        `<label for="test-textarea">评论</label>\n` +
+        `<span id="tweet-comment-len">0/140</span>` +
+        `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
     `</div>\n`
 
     loading.parentNode.insertBefore(block, loading);
+
+    tweetCommentBox = document.getElementById('tweet-comment-box');
+    tweetCommentTextarea = document.getElementById('tweet-comment-textarea');
+    tweetComentLen = document.getElementById('tweet-comment-len');
+    tweetSendCommentButton = document.getElementById('tweet-send-comment-button');
+
+    tweetCommentTextarea.addEventListener('keypress', (e) => {
+        // 13 - 回车
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    
+    tweetCommentTextarea.addEventListener('keyup', (e) => {
+        var content = tweetCommentTextarea.value;
+        tweetComentLen.textContent = `${content.length}/140`;
+    
+        if (!content.length || content.length > 140) {
+            tweetComentLen.style.color = 'var(--red)';
+            tweetSendCommentButton.disabled = true;
+        } else {
+            tweetComentLen.style.color = 'var(--gray)';
+            tweetSendCommentButton.disabled = false;
+        }
+    });
+    
 
     loadMoreComments(8);
 }
@@ -173,6 +211,19 @@ function goUserProfile(i) {
     window.location.href = "/profile.html?id=" + loadedCommentList[i].user.userId;
 }
 
+function sendComment() {
+    var content = tweetCommentTextarea.value;
+
+    console.log(content);
+
+    // 重置
+    tweetCommentTextarea.value = '';
+    tweetComentLen.textContent = '0/140';
+    tweetComentLen.style.color = 'var(--red)';
+    tweetSendCommentButton.disabled = true;
+    tweetCommentBox.style.display = 'none';
+}
+
 window.addEventListener('scroll', () => {
     // 变量scrollTop是滚动条滚动时，离顶部的距离
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -189,3 +240,7 @@ window.addEventListener('scroll', () => {
 
 
 loadDetail();
+
+function showCommentBox() {
+    tweetCommentBox.style.display = tweetCommentBox.style.display == 'block'?'none':'block';
+}

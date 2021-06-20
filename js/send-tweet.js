@@ -12,9 +12,9 @@ sendTweetEditor.addEventListener('keypress', (e) => {
 
 sendTweetEditor.addEventListener('keyup', (e) => {
     var content = sendTweetEditor.textContent;
-    sendTweetLen.innerHTML = `${content.length}/140`;
+    sendTweetLen.textContent = `${content.length}/140`;
 
-    if (content.length > 140) {
+    if (!content.length || content.length > 140) {
         sendTweetLen.style.color = 'var(--red)';
         sendTweetButton.disabled = true;
     } else {
@@ -61,4 +61,10 @@ function sendTweet() {
     console.log(data);
 
     hidePopup('send-tweet-popup');
+    sendTweetEditor.textContent = '';
+    sendTweetLen.textContent = '0/140';
+    sendTweetLen.style.color = 'var(--red)';
+    sendTweetButton.disabled = true;
+    imgDataURL = '';
+    sendTweetImg.style.display = 'none';
 }

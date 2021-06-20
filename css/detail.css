@@ -114,3 +114,33 @@
 .tweet-detail-like.tweet-detail-liked {
     color: var(--red);
 }
+
+#tweet-comment-box {
+    position: relative;
+    margin-top: 1em;
+    width: 100%;
+    display: none;
+}
+
+#tweet-comment-textarea {
+    box-sizing: border-box;
+    width: 80%;
+    height: 8em;
+}
+
+#tweet-comment-len {
+    font-size: 16px;
+    position: absolute;
+    right: 2.5em;
+    bottom: 5em;
+    user-select: none;
+    color: var(--red);
+}
+
+#tweet-send-comment-button {
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    bottom: 2.5em;
+    width: 18%;
+}
