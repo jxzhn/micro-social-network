@@ -16,6 +16,7 @@
     transform: translateX(-50%) translateY(-50%);
     width: max(40%, 32em);
     height: min(80%, 40em);
+    min-height: 30em;
     background-color: var(--white);
     border-radius: 16px;
     z-index: 9;

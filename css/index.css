@@ -33,6 +33,7 @@
     height: 50px;
     border-radius: 999em;
     margin-right: 12px;
+    border: 1px solid var(--light-gray);
 }
 
 .tweet-user-name {
