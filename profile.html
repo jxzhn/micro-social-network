@@ -4,6 +4,7 @@
     <title>个人主页</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
     <link rel="stylesheet" href="./css/popup.css" />
@@ -39,9 +40,11 @@
         </div>
     </div>
     <div id="main">
-        <div id="titlebar">
+        <div id="title-bar">
             <a href="./index.html"><i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i></a>
             <span class="username">username</span>
+        </div>
+        <div class="interval">
         </div>
         <div id="banner">
             <div id="avatar"></div>
@@ -58,7 +61,60 @@
             <a id="follower">20</a> <span class="gray">粉丝</span>
         </div>
         <div id="tweets">
-            个人微微博
+            <div class="tweet-block">
+                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
+                <div class="tweet-detail">
+                    <div class="tweet-info-row">
+                        <span class="tweet-user-name">一位路过的靓仔</span>
+                        <span class="tweet-user-id">@handsomeboy</span>
+                        <span class="tweet-dot">.</span>
+                        <span class="tweet-date">6 月 14 日</span>
+                    </div>
+                    <div class="tweet-content">
+                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
+                    </div>
+                    <div class="tweet-interact-row">
+                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
+                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tweet-block">
+                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
+                <div class="tweet-detail">
+                    <div class="tweet-info-row">
+                        <span class="tweet-user-name">一位路过的靓仔</span>
+                        <span class="tweet-user-id">@handsomeboy</span>
+                        <span class="tweet-dot">.</span>
+                        <span class="tweet-date">6 月 14 日</span>
+                    </div>
+                    <div class="tweet-content">
+                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
+                    </div>
+                    <div class="tweet-interact-row">
+                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
+                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tweet-block">
+                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
+                <div class="tweet-detail">
+                    <div class="tweet-info-row">
+                        <span class="tweet-user-name">一位路过的靓仔</span>
+                        <span class="tweet-user-id">@handsomeboy</span>
+                        <span class="tweet-dot">.</span>
+                        <span class="tweet-date">6 月 14 日</span>
+                    </div>
+                    <div class="tweet-content">
+                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
+                    </div>
+                    <div class="tweet-interact-row">
+                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
+                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -80,13 +136,16 @@
             </div>
         </div>
         <div id="edit-input">
-            <span class="gray">昵称</span>
             <br>
-            <input id="edit-name">
+            <div class="cool-input-box">
+                <input id="edit-name" type="text" required/>
+                <label for="edit-name">昵称</label>
+            </div>
             <br>
-            <span class="gray">简介</span>
-            <br>
-            <textarea id="edit-introduction"></textarea>
+            <div class="cool-input-box">
+                <textarea id="edit-introduction" required></textarea>
+                <label for="edit-introduction">简介</label>
+            </div>
         </div>
     </div>
 </body>
