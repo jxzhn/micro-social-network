@@ -1,10 +1,3 @@
-#titlebar{
-    font-size: 24px;
-    font-weight: bold;
-    border-bottom: 1px solid var(--light-gray);
-    padding: 0.25em;
-    user-select: none; 
-}
 #return {
     font-size: 24px;
     color: var(--primary-theme);
@@ -20,12 +13,12 @@
     height:12em;
     background: url("../pics/banner.jpg") center;
     background-size: cover;
-    margin-bottom: 3.5em;
+    margin-bottom: 4.5em;
 }    
 #avatar{
     position: absolute;
     display: inline-block;
-    top: 11em;
+    top: 12.5em;
     left: 1em;
     width: 7.5em;
     height: 7.5em;
@@ -69,19 +62,19 @@
 /* 个人资料编辑窗口 */
 #edit-pic{
     width: 100%;
-    height: 12em;
+    height: 38%;
 }
 #edit-banner{
     position: absolute;
     width: 100%;
-    height: 8em;
+    height: 25%;
     background: url("../pics/banner.jpg") center;
     background-size: cover;
 }   
 #edit-banner-hover{
     position: absolute;
     width: 100%;
-    height: 8em;
+    height: 25%;
 }   
 #edit-banner-hover:hover{
     background-color: var(--black);
@@ -97,7 +90,7 @@
 
 #edit-avatar{
     position: absolute;
-    top: 8em;
+    top: 25%;
     left: 3%;
     width: 7em;
     height: 7em;
@@ -108,7 +101,7 @@
 }
 #edit-avatar-hover{
     position: absolute;
-    top: 8em;
+    top: 25%;
     left: 3%;
     width: 7em;
     height: 7em;
@@ -134,27 +127,18 @@
     width: 100%;
     height: 50%;
     left: 50%;
-    transform: translateX(-42%);
+    transform: translateX(-43%);
 }
 #edit-name{
     width: 80%;
-    height: 8%;
-    padding: 1em;
-    margin: 1em 0;
-    font-size: 14px;
-    border-radius: 0.5em;
-    border: 1px solid var(--gray);
+    height: 1em;
 }
 
 #edit-introduction{
     width: 80%;
-    height: 35%;
-    padding: 1em;
-    margin: 1em 0;
-    font-size: 14px;
-    border-radius: 0.5em;
-    border: 1px solid var(--gray);
-    resize: none;
+    height: 7em;
 }
-#edit-input span{
+#edit-name:focus, #edit-introduction:focus{
+    border: 2px solid var(--primary-theme);
+    outline: none;
 }

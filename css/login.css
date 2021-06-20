@@ -7,7 +7,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-align: center; 
-    min-width: 800px;
+    min-width: 1100px;
     min-height: 500px;
     user-select: none;
 }
@@ -54,15 +54,10 @@ h1{
 }
 #username, #password{
     width: 20em;
-    padding: 1.25em 1em;
-    margin: 1em 0;
-    font-size: 16px;
-    border-radius: 0.5em;
-    border: 1px solid var(--gray);
 }
 
 #login{
-    width: 22.25em;
+    width: 21.5em;
     padding: 1em;
     margin: 1em 0;
     font-size: 16px;
