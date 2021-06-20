@@ -51,41 +51,40 @@ function cancelFollow(){
 var edit_errormsg = document.getElementById("edit-errormsg");
 var edit_name = document.getElementById("edit-name");
 var edit_introduction = document.getElementById("edit-introduction");
+var edit_banner = document.getElementById("edit-banner");
+var edit_avatar = document.getElementById("edit-avatar");
+var bannerDataURL;
+var avatarDataURL;
+edit_banner.style.backgroundImage = banner.style.backgroundImage;
+edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
 function initPopup(){
     edit_name.value = username[0].innerHTML;
     edit_introduction.value = introduction.innerHTML;
     showPopup('edit-popup');
 }
 
-var bannerDataURL;
-var avatarDataURL;
 function updateEditBanner(files){
-    var new_banner = document.getElementById("new-edit-banner");
+    console.log("new");
     var imageType = /^image\//;
     if (!files.length || !imageType.test(files[0].type)) {
-        bannerDataURL = undefined;
         return;
     }
     var reader = new FileReader();
     reader.onload = (e) => {
         bannerDataURL = e.target.result;
-        new_banner.style.display = 'block';
-        new_banner.style.backgroundImage = `url(${bannerDataURL})`;
+        edit_banner.style.backgroundImage = `url(${bannerDataURL})`;
     }
     reader.readAsDataURL(files[0]);
 }
 function updateEditAvatar(files){
-    var new_avatar = document.getElementById("new-edit-avatar");
     var imageType = /^image\//;
     if (!files.length || !imageType.test(files[0].type)) {
-        avatarDataURL = undefined;
         return;
     }
     var reader = new FileReader();
     reader.onload = (e) => {
         avatarDataURL = e.target.result;
-        new_avatar.style.display = 'block';
-        new_avatar.style.backgroundImage = `url(${avatarDataURL})`;
+        edit_avatar.style.backgroundImage = `url(${avatarDataURL})`;
     }
     reader.readAsDataURL(files[0]);
 }
