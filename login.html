@@ -17,15 +17,15 @@
             <div class="login">
                 <i id="smallicon" class="fas fa-paper-plane" aria-hidden="true" ></i>
                 <h1>登录 微微博</h1>
-                <input id="username" type="text" value="用户名" 
-                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}"
-                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
-                    style="color:rgb(91, 112, 131)">
+                <div class="cool-input-box">
+                    <input id="username" type="text" required/>
+                    <label for="username">用户名</label>
+                </div>
                 <br>
-                <input id="password" type="text" value="密码"
-                    onFocus="if(value==defaultValue){value='';this.style.color='#000'}" 
-                    onBlur="if(!value){value=defaultValue;this.style.color='rgb(91, 112, 131)'}" 
-                    style="color:rgb(91, 112, 131)">
+                <div class="cool-input-box">
+                    <input id="password" type="text" required/>
+                    <label for="password">密码</label>
+                </div>
                 <br>
                 <button id="login" class="solid-button loginbtn" onclick="login()">登录</button>
                 <br>
