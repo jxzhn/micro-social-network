@@ -84,6 +84,7 @@
     display: inline-block;
     width: 7em;
     transition: color 0.2s;
+    user-select: none;
 }
 
 .tweet-detail-interact-row>span>i {
