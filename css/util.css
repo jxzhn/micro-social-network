@@ -52,3 +52,40 @@ button.hollow-button {
 button.hollow-button:hover {
     background-color: var(--primary-hover-bg);
 }
+
+.cool-input-box {
+    position: relative;
+}
+
+.cool-input-box>input, .cool-input-box>textarea {
+    padding: 1.5em 0.5em 0.5em 0.5em;
+    border: solid 1px var(--gray);
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    resize: none;
+}
+
+.cool-input-box>input:focus, .cool-input-box>textarea:focus {
+    border-width: 2px;
+    border-color: var(--primary-theme);
+}
+
+.cool-input-box>input+label, .cool-input-box>textarea+label {
+    position: absolute;
+    top: 1em;
+    left: 0.5em;
+    font-size: 16px;
+    color: var(--gray);
+    transition: top 0.2s, font-size 0.2s, color 0.2s;
+}
+
+.cool-input-box>input:focus+label, .cool-input-box>input:valid+label,
+.cool-input-box>textarea:focus+label, .cool-input-box>textarea:valid+label {
+    top: 0.25em;
+    font-size: 14px;
+}
+
+.cool-input-box>input:focus+label, .cool-input-box>textarea:focus+label {
+    color: var(--primary-theme);
+}
