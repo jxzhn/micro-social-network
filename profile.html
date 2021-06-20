@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/profile.css">
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
+    <link rel="stylesheet" href="./css/popup.css" />
 </head>
 <body>
     <div id="sidebar">
@@ -39,12 +40,12 @@
     </div>
     <div id="main">
         <div id="titlebar">
-            <i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i>
+            <a href="./index.html"><i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i></a>
             <span class="username">username</span>
         </div>
         <div id="banner">
             <div id="avatar"></div>
-            <button id="editbtn" class="hollow-button" onclick="showBox()">编辑个人资料</button>
+            <button id="editbtn" class="hollow-button" onclick="showPopup('edit-popup')">编辑个人资料</button>
             <!-- <button id="followbtn" class="solid-button">关注</button> -->
         </div>
         <div id="info">
@@ -56,78 +57,38 @@
             <a id="following">20</a> <span class="gray">关注</span>&nbsp;&nbsp;&nbsp;&nbsp;
             <a id="follower">20</a> <span class="gray">粉丝</span>
         </div>
-        <div id="weibos">
+        <div id="tweets">
             个人微微博
         </div>
     </div>
 
     <!-- 个人资料编辑 -->
-    <div id="shadow"></div>
-    <div id="edit">
-        <div id="edit-titlebar">
-            <i id="close-editbox" class="fas fa-times" aria-hidden="true" onclick="hideBox()" ></i>
-            <span id="edit-title">编辑个人资料</span>
-            <button id="edit-save" class="solid-button">保存</button>
+    <div id="edit-popup" class="popup">
+        <div class="popup-title-bar">
+            <span><i class="fas fa-times popup-close" onclick="hidePopup('edit-popup')"></i></span>
+            <span class="popup-title">编辑个人资料</span>
+            <button  id="edit-save" class="popup-top-button solid-button">保存</button>
         </div>
         <div id="edit-pic">
-            <div id="edit-avatar-hover">
-                <i class="fas fa-camera" aria-hidden="true" ></i>
-            </div>
-            <div id="edit-avatar"></div>
-            
+            <div id="edit-banner"></div>
             <div id="edit-banner-hover">
                 <i class="fas fa-camera" aria-hidden="true" ></i>
             </div>
-            <div id="edit-banner"></div>
+            <div id="edit-avatar"></div>
+            <div id="edit-avatar-hover">
+                <i class="fas fa-camera" aria-hidden="true" ></i>
+            </div>
         </div>
         <div id="edit-input">
             <span class="gray">昵称</span>
+            <br>
             <input id="edit-name">
             <br>
             <span class="gray">简介</span>
+            <br>
             <textarea id="edit-introduction"></textarea>
         </div>
     </div>
 </body>
-<!-- 个人资料编辑 -->
-<script>
-    var editbox = document.getElementById("edit");
-    var shadow = document.getElementById("shadow");
-    function pos(){
-        console.log(editbox.clientWidth);
-        editbox.style.left = (document.documentElement.clientWidth/2-editbox.clientWidth/2)+"px";
-        editbox.style.top = (document.documentElement.clientHeight/2-editbox.clientHeight/2)+"px";
-     }
-
-    function showShadow() {
-      shadow.style.width = "" + document.documentElement.scrollWidth + "px";
-      if (document.documentElement.clientHeight > document.documentElement.scrollHeight)
-        shadow.style.height = "" + document.documentElement.clientHeight + "px";
-      else
-        shadow.style.height = "" + document.documentElement.scrollHeight + "px";
-      shadow.style.display = "block";
-    }
-
-    function hideShadow() {
-      shadow.style.display = "none";
-    }
-
-    function hideBox() {
-      editbox.style.display = "none";
-      hideShadow();
-    }
-  
-    function showBox(){
-        showShadow();
-        editbox.style.display = "block";
-        pos();
-    }
-
-    pos();
-    window.onresize = pos;
-</script>
-<!-- 图片选择 -->
-<script>
-
-</script>
+<script type="text/javascript" src="./js/popup.js"></script>
 </html>
