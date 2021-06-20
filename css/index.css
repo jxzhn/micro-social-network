@@ -7,12 +7,14 @@
     background-color: var(--white);
     box-sizing: border-box;
     width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
+    height: 2.5em;
     user-select: none;
     z-index: 1;
 }
 
 .interval {
-    height: calc(2.5 * 24px + 0.75em); /* 2.5 * 24 是 title-bar 的高度 */
+    box-sizing: border-box;
+    height: calc(2.5 * 24px); /* 2.5 * 24 是 title-bar 的高度 */
     background-color: var(--gray-bg);
     border-bottom: 1px solid var(--light-gray);
 }
@@ -111,4 +113,20 @@
 
 .tweet-like.tweet-liked {
     color: var(--red);
+}
+
+#loading {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--gray-bg);
+    text-align: center;
+    padding: 0.5em;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--gray);
+    user-select: none;
+}
+
+#loading>span>i {
+    font-size: 18px;
+    margin-right: 1em;
 }
