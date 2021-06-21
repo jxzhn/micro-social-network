@@ -3,7 +3,7 @@
     top: 0;
     left: max(14%, 11.2em);
     width: max(16%, 12.8em);
-    height: max(100vh, 30em);
+    height: max(100vh, 35em);
     box-sizing: border-box;
     padding: 8px;
     border-right: solid 1px var(--light-gray);
