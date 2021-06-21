@@ -5,6 +5,7 @@
     border-radius: 999em;
     transition: background-color 0.2s;
     margin-right: 1em;
+    display: none;
 }
 #return:hover {
     background-color: var(--primary-hover-bg);
@@ -27,13 +28,14 @@
     border-radius: 4.5em;
     border: 6px solid var(--white);
 }
-#editBtn, #followBtn, #followedBtn{
+#editBtn, #followBtn, #cancelFollowBtn{
     display: block;
     float: right;
     transform: translateX(-0.5em) translateY(15em);
     width: 9em;
     height: 3em;
     border-radius: 3em;
+    display: none;
 }
 #info{
     padding:0 1em;

@@ -4,8 +4,9 @@ var avatar = document.getElementById("avatar");
 var username = document.getElementsByClassName("username");
 var introduction = document.getElementById("introduction");
 
-var isFollowed = false;
-var isMyPage = true;
+var editBtn = document.getElementById('editBtn');
+var followBtn = document.getElementById('followBtn');
+var cancelFollowBtn = document.getElementById('cancelFollowBtn');
 
 function getQueryVariable(variable)
 {
@@ -18,53 +19,62 @@ function getQueryVariable(variable)
     return false;
 }
 
-//--------------------------init page-------------------------
-var editBtn = document.getElementById('editBtn');
-    var followBtn = document.getElementById('followBtn');
-    var followedBtn = document.getElementById('followedBtn');
-function initFollowPage(){
-}
+var userId = getQueryVariable("id");
+var currentUserId;
+var isFollowing = true;//FIXME:
 function setEditBtn(){
     editBtn.style.display = "block";
     followBtn.style.display = "none";
-    followedBtn.style.display = "none";
+    cancelFollowdBtn.style.display = "none";
 }
 function setFollowBtn(){
-    editBtn = editBtn.style.display = "none";
-    followBtn.style.display = "none";
-    followedBtn.style.display = "block";
-}
-function setFollowedBtn(){
-    editBtn = editBtn.style.display = "none";
+    editBtn.style.display = "none";
     followBtn.style.display = "block";
-    followedBtn.style.display = "none";
+    cancelFollowBtn.style.display = "none";
 }
-function initProfilePage(){
+function setCancelFollowBtn(){
+    editBtn.style.display = "none";
+    followBtn.style.display = "none";
+    cancelFollowBtn.style.display = "block";
+}
+async function initProfilePage(){
+    var currentUser = await currentUserInfoPromise;
+    currentUserId = currentUser.userId;
     var returnBtn = document.getElementById("return");
     var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
      //个人主页进入
-    if(!getQueryVariable("id")){ 
-        returnBtn.style.display = "none";
+    if(!userId){ 
         setEditBtn();
     }
     else{ //头像进入
+        returnBtn.style.display = "inline-block";
         sideBarProfile[0].classList.remove("nav-righthere");
         userIcon.classList.remove("fas");
         userIcon.classList.add("far");
+        if(userId == currentUserId){
+            setEditBtn();
+        }
+        else if(isFollowing){
+            setCancelFollowBtn();
+        }
+        else{
+            setFollowBtn();
+        }
     }
 }
 initProfilePage();
 
 //---------------------- Page function---------------------- 
 function follow(){
-    isFollowed = true;
-    setButtons();
+    isFollowing = true;
+    setCancelFollowBtn();
     //TODO:updateDB
 }
 function cancelFollow(){
-    isFollowed = false;
-    setButtons();
+    console.log("test");
+    isFollowing = false;
+    setFollowBtn();
     //TODO:updateDB
 }
 
