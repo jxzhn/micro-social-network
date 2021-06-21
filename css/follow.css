@@ -37,7 +37,7 @@
     box-sizing: border-box;
 }
 .follow-label{
-    margin-bottom: 0.24em;
+    margin-bottom: 0.25em;
     transition: color 0.2s;
 }
 .follow-bar{
@@ -58,10 +58,4 @@
 }
 .follow-select-selected .follow-bar{
     background-color: var(--primary-theme);
-}
-#following-bar{
-    left: 20%;
-}
-#followed-bar{
-    left: 70%;
 }
