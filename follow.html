@@ -17,13 +17,16 @@
         </div>
         <div id="nav">
             <li>
-                <a href="./index.html"><i class="far fa-compass nav-icon"></i>首页</a>
+                <a href="./search.html"><i class="far fa-compass nav-icon"></i>探索</a>
+            </li>
+            <li>
+                <a href="./index.html"><i class="far fa-sun nav-icon"></i>首页</a>
             </li>
             <li>
                 <a href="./notice.html"><i class="far fa-bell nav-icon"></i>我的通知</a>
             </li>
             <li>
-                <a href="#"><i class="fas fa-user-circle nav-icon"></i>个人</a>
+                <a href="#"><i class="far fa-user-circle nav-icon"></i>个人</a>
             </li>
         </div>
         <div id="send-blog">
@@ -45,11 +48,14 @@
             <a href="./index.html"><i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i></a>
             <span class="username">username</span>
             <br>
-            <span id="following-select" class="follow-select">关注</span>
-            <span id="followed-select" class="follow-select follow-select-selected">粉丝</span>
-            <br>
-            <div id="following-select-bar" class="follow-select-bar "></div>
-            <div id="followed-select-bar" class="follow-select-bar follow-select-bar-selected"></div>
+            <div id="following-select" class="follow-select">
+                <div id="following-label" class="follow-label">关注</div>
+                <div id="following-bar" class="follow-bar "></div>
+            </div>
+            <div id="followed-select" class="follow-select">
+                <div id="followed-label" class="follow-label follow-label-selected">粉丝</div>
+                <div id="followed-bar" class="follow-bar follow-bar-selected"></div>
+            </div>
         </div>
         <div class="interval">
         </div>
@@ -85,6 +91,6 @@
 <script type="text/javascript" src="./js/ajax.js"></script>
 <script type="text/javascript" src="./js/user.js"></script>
 <script type="text/javascript" src="./js/popup.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="./js/follow.js"></script>
 <script type="text/javascript" src="./js/send-tweet.js"></script>
 </html>

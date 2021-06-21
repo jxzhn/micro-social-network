@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>首页</title>
+    <title>探索</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
@@ -15,11 +15,11 @@
             <i class="fas fa-paper-plane"></i>
         </div>
         <div id="nav">
-            <li>
-                <a href="./search.html"><i class="far fa-compass nav-icon"></i>探索</a>
-            </li>
             <li class="nav-righthere">
-                <a href="./index.html"><i class="fas fa-sun nav-icon"></i>首页</a>
+                <a href="./search.html"><i class="fas fa-compass nav-icon"></i>探索</a>
+            </li>
+            <li>
+                <a href="./index.html"><i class="far fa-sun nav-icon"></i>首页</a>
             </li>
             <li>
                 <a href="./notice.html"><i class="far fa-bell nav-icon"></i>我的通知</a>
@@ -29,9 +29,9 @@
             </li>
         </div>
         <div id="send-blog">
-            <button class="solid-button" onclick="showPopup('send-tweet-popup');" disabled>说点什么</button>
+            <button class="solid-button" onclick="showPopup('send-tweet-popup');">说点什么</button>
         </div>
-        <div id="side-user" style="opacity: 0;">
+        <div id="side-user">
             <img id="side-user-img">
             <div>
                 <span id="side-user-name"></span><br />
@@ -44,7 +44,7 @@
     </div>
     <div id="main">
         <div id="title-bar">
-            首页
+            探索
         </div>
         <div class="interval"></div>
         <!--tweet blocks-->
@@ -58,7 +58,7 @@
             <span class="popup-title">说点什么</span>
         </div>
         <div id="send-tweet">
-            <img id="send-tweet-user-img">
+            <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268965?v=4">
             <div id="send-tweet-detail">
                 <div id="send-tweet-editor" contenteditable="plaintext-only" placeholder="有什么新鲜事？"></div>
                 <div id="send-tweet-img"></div>
