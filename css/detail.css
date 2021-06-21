@@ -1,15 +1,14 @@
-#title-bar {
+#return {
     font-size: 24px;
-    font-weight: bold;
-    border-bottom: 1px solid var(--light-gray);
-    padding: 0.5em 1em;
-    position: fixed;
-    background-color: var(--white);
-    box-sizing: border-box;
-    width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
-    height: 2.5em;
-    user-select: none;
-    z-index: 1;
+    color: var(--primary-theme);
+    padding: 0.35em 0.4em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+    margin-right: 1em;
+}
+
+#return:hover {
+    background-color: var(--primary-hover-bg);
 }
 
 .interval {
@@ -19,19 +18,17 @@
     border-bottom: 1px solid var(--light-gray);
 }
 
-.tweet-block {
+.tweet-detail-block {
     padding: 1em;
-    display: flex;
     font-size: 15px;
     border-bottom: 1px solid var(--light-gray);
-    transition: background-color 0.2s;
 }
 
-.tweet-block:hover {
-    background-color: var(--gray-hover-bg);
+.tweet-detail-user-row {
+    display: flex;
 }
 
-.tweet-user-img {
+.tweet-detail-user-img {
     width: 50px;
     height: 50px;
     border-radius: 999em;
@@ -39,30 +36,31 @@
     border: 1px solid var(--light-gray);
 }
 
-.tweet-user-name {
+.tweet-detail-user-name {
     font-weight: bold;
 }
 
-.tweet-user-id {
+.tweet-detail-user-id {
     color: var(--gray);
 }
 
-.tweet-dot {
+.tweet-detail-dot {
     position: relative;
     top: -0.25em;
     color: var(--gray);
 }
 
-.tweet-date {
+.tweet-detail-date {
     font-size: 15px;
     color: var(--gray);
 }
 
-.tweet-content {
-    font-size: 15px;
+.tweet-detail-content {
+    padding: 0.5em 0;
+    font-size: 20px;
 }
 
-.tweet-content-img {
+.tweet-detail-content-img {
     margin-top: 1em;
     width: 96%;
     height: max(40vh, 25em);
@@ -74,60 +72,75 @@
     background-size: contain;
 }
 
-.tweet-interact-row {
+.tweet-detail-interact-row {
     margin-top: 0.5em;
     color: var(--gray);
     position: relative;
     margin-left: -0.5em;
+    font-size: 18px;
 }
 
-.tweet-interact-row>span {
+.tweet-detail-interact-row>span {
     display: inline-block;
     width: 7em;
     transition: color 0.2s;
     user-select: none;
 }
 
-.tweet-interact-row>span>i {
-    font-size: 16px;
+.tweet-detail-interact-row>span>i {
+    font-size: 20px;
     padding: 0.5em;
     margin-right: 0.5em;
     border-radius: 999em;
     transition: background-color 0.2s;
 }
 
-.tweet-comment:hover {
+.tweet-detail-comment:hover {
     color: var(--primary-theme);
 }
 
-.tweet-comment:hover>i {
+.tweet-detail-comment:hover>i {
     background-color: var(--primary-hover-bg);
 }
 
-.tweet-like:hover {
+.tweet-detail-like:hover {
     color: var(--red);
 }
 
-.tweet-like:hover>i {
+.tweet-detail-like:hover>i {
     background-color: var(--red-hover-bg);
 }
 
-.tweet-like.tweet-liked {
+.tweet-detail-like.tweet-detail-liked {
     color: var(--red);
 }
 
-#loading {
-    box-sizing: border-box;
+#tweet-comment-box {
+    position: relative;
+    margin-top: 1em;
     width: 100%;
-    background-color: var(--gray-bg);
-    text-align: center;
-    padding: 0.5em;
-    border-bottom: 1px solid var(--light-gray);
-    color: var(--gray);
-    user-select: none;
+    display: none;
 }
 
-#loading>span>i {
-    font-size: 18px;
-    margin-right: 1em;
+#tweet-comment-textarea {
+    box-sizing: border-box;
+    width: 80%;
+    height: 8em;
+}
+
+#tweet-comment-len {
+    font-size: 16px;
+    position: absolute;
+    right: 2.5em;
+    bottom: 5em;
+    user-select: none;
+    color: var(--red);
+}
+
+#tweet-send-comment-button {
+    font-size: 16px;
+    position: absolute;
+    right: 0;
+    bottom: 2.5em;
+    width: 18%;
 }

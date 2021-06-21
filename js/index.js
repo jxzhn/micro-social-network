@@ -1,5 +1,6 @@
 var loading = document.getElementById('loading');
-var nowLoadedTweets = 0;
+var loadingLock = false;
+var loadedTweetList = [];
 
 Date.prototype.Format = function(fmt) {
     var o = {   
@@ -20,26 +21,28 @@ Date.prototype.Format = function(fmt) {
 }
 
 function showTweets(tweetList) {
-    for (tweet of tweetList) {
+    for (i in tweetList) {
+        var tweet = tweetList[i];
+
         var block = document.createElement('div');
         block.classList.add('tweet-block');
         
         block.innerHTML =
-        `<img class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
+        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
         `<div class="tweet-detail">\n` + 
             `<div class="tweet-info-row">\n` + 
-                `<span class="tweet-user-name">${tweet.user.userName}</span>\n` + 
-                `<span class="tweet-user-id">@${tweet.user.userId}</span>\n` + 
+                `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span>\n` + 
+                `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
                 `<span class="tweet-dot">.</span>\n` + 
                 `<span class="tweet-date">${new Date(tweet.date).Format('MM 月 dd 日')}</span>\n` + 
             `</div>\n` + 
-            `<div class="tweet-content">\n` + 
+            `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
                 `<span>${tweet.content}</span>\n` + 
                 `<div class="tweet-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
             `</div>\n` + 
             `<div class="tweet-interact-row">\n` + 
-                `<span class="tweet-comment"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
-                `<span class="tweet-like ${tweet.liked?'tweet-liked':''}"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+                `<span class="tweet-comment" onclick="goDetail(${i})"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+                `<span class="tweet-like ${tweet.liked?'tweet-liked':''}" onclick="clickLike(this, ${i});"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
             `</div>\n` + 
         `</div>`
 
@@ -48,12 +51,17 @@ function showTweets(tweetList) {
 }
 
 async function loadMoreTweets(numTweet) {
+    if (loadingLock) {
+        return;
+    }
+    loadingLock = true;
     loading.style.display = 'block';
     // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
-    tweetList = await new Promise((resolve, reject) => {
+    var tweetList = await new Promise((resolve, reject) => {
         setTimeout(() => {
             tweetList = [
                 {
+                    id: Math.round(Math.random() * 1000000000),
                     user: {
                         userName: "一位路过的靓仔",
                         userId: "handsomeboy",
@@ -67,6 +75,7 @@ async function loadMoreTweets(numTweet) {
                     numLike: 20 
                 },
                 {
+                    id: Math.round(Math.random() * 1000000000),
                     user: {
                         userName: "Yes Theory",
                         userId: "YesTheory",
@@ -86,9 +95,29 @@ async function loadMoreTweets(numTweet) {
             resolve(tweetList.slice(0, numTweet));
         }, 1000);
     });
-    nowLoadedTweets += tweetList.length;
+    loadedTweetList.push(...tweetList);
     showTweets(tweetList);
     loading.style.display = 'none';
+    loadingLock = false;
+}
+
+function clickLike(likeElement, i) {
+    console.log(i);
+    var tweet = loadedTweetList[i];
+
+    // 发送 AJAX
+
+    tweet.liked = !tweet.liked;
+    likeElement.classList = `tweet-like ${tweet.liked?'tweet-liked':''}`;
+    likeElement.childNodes[0].classList = `${tweet.liked?'fas':'far'} fa-heart`;
+}
+
+function goDetail(i) {
+    window.location.href = "/detail.html?id=" + loadedTweetList[i].id;
+}
+
+function goUserProfile(i) {
+    window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
 }
 
 window.addEventListener('scroll', () => {
@@ -99,7 +128,7 @@ window.addEventListener('scroll', () => {
     // 变量scrollHeight是滚动条的总高度
     var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
     // 判断滚动条是否到底部
-    if(scrollTop + windowHeight >= scrollHeight){
+    if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
         loadMoreTweets(5);
     }
