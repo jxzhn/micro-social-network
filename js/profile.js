@@ -109,7 +109,10 @@ function saveEdit(){
     edit_errormsg.innerHTML = "";
     //TODO:updateDB
     //send bannerDataURL，avatarDataURL;
-    //send Info
+    console.log(bannerDataURL);
+    console.log(avatarDataURL);
+    console.log(edit_name.value);
+    console.log(edit_introduction.value);
     if(bannerDataURL!=null){
         banner.style.backgroundImage = `url(${bannerDataURL})`;
     }

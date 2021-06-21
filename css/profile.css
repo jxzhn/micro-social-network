@@ -13,12 +13,12 @@
     height:12em;
     background: url("../pics/banner.jpg") center;
     background-size: cover;
-    margin-bottom: 4.5em;
+    margin-bottom: 4em;
 }    
 #avatar{
     position: absolute;
     display: inline-block;
-    top: 12.5em;
+    top: 11.5em;
     left: 1em;
     width: 7.5em;
     height: 7.5em;

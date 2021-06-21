@@ -5,9 +5,10 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="css/profile.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
-    <link rel="stylesheet" href="./css/util.css" />
-    <link rel="stylesheet" href="./css/sidebar.css" />
-    <link rel="stylesheet" href="./css/popup.css" />
+    <link rel="stylesheet" type="text/css" href="./css/util.css" />
+    <link rel="stylesheet" type="text/css" href="./css/sidebar.css" />
+    <link rel="stylesheet" type="text/css" href="./css/popup.css" />
+    <link rel="stylesheet" type="text/css" href="./css/send-tweet.css" />
 </head>
 <body>
     <div id="sidebar">
@@ -26,7 +27,7 @@
             </li>
         </div>
         <div id="send-blog">
-            <button class="solid-button">说点什么</button>
+            <button class="solid-button" onclick="showPopup('send-tweet-popup');">说点什么</button>
         </div>
         <div id="side-user">
             <img id="side-user-img" src="https://avatars.githubusercontent.com/u/84268956?v=4">
@@ -61,97 +62,8 @@
             <a id="following">20</a> <span class="gray">关注</span>&nbsp;&nbsp;&nbsp;&nbsp;
             <a id="follower">20</a> <span class="gray">粉丝</span>
         </div>
-        <div id="tweets">
-            <div class="tweet-block">
-                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
-                <div class="tweet-detail">
-                    <div class="tweet-info-row">
-                        <span class="tweet-user-name">一位路过的靓仔</span>
-                        <span class="tweet-user-id">@handsomeboy</span>
-                        <span class="tweet-dot">.</span>
-                        <span class="tweet-date">6 月 14 日</span>
-                    </div>
-                    <div class="tweet-content">
-                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
-                    </div>
-                    <div class="tweet-interact-row">
-                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
-                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tweet-block">
-                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
-                <div class="tweet-detail">
-                    <div class="tweet-info-row">
-                        <span class="tweet-user-name">一位路过的靓仔</span>
-                        <span class="tweet-user-id">@handsomeboy</span>
-                        <span class="tweet-dot">.</span>
-                        <span class="tweet-date">6 月 14 日</span>
-                    </div>
-                    <div class="tweet-content">
-                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
-                    </div>
-                    <div class="tweet-interact-row">
-                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
-                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tweet-block">
-                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
-                <div class="tweet-detail">
-                    <div class="tweet-info-row">
-                        <span class="tweet-user-name">一位路过的靓仔</span>
-                        <span class="tweet-user-id">@handsomeboy</span>
-                        <span class="tweet-dot">.</span>
-                        <span class="tweet-date">6 月 14 日</span>
-                    </div>
-                    <div class="tweet-content">
-                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
-                    </div>
-                    <div class="tweet-interact-row">
-                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
-                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tweet-block">
-                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
-                <div class="tweet-detail">
-                    <div class="tweet-info-row">
-                        <span class="tweet-user-name">一位路过的靓仔</span>
-                        <span class="tweet-user-id">@handsomeboy</span>
-                        <span class="tweet-dot">.</span>
-                        <span class="tweet-date">6 月 14 日</span>
-                    </div>
-                    <div class="tweet-content">
-                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
-                    </div>
-                    <div class="tweet-interact-row">
-                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
-                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tweet-block">
-                <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268960?v=4">
-                <div class="tweet-detail">
-                    <div class="tweet-info-row">
-                        <span class="tweet-user-name">一位路过的靓仔</span>
-                        <span class="tweet-user-id">@handsomeboy</span>
-                        <span class="tweet-dot">.</span>
-                        <span class="tweet-date">6 月 14 日</span>
-                    </div>
-                    <div class="tweet-content">
-                        <span>新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
-                    </div>
-                    <div class="tweet-interact-row">
-                        <span class="tweet-comment"><i class="far fa-comment"></i>12</span>
-                        <span class="tweet-like"><i class="far fa-heart"></i>200</span>
-                    </div>
-                </div>
-            </div>
+        <div id="loading">
+            <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
         </div>
     </div>
 
@@ -194,7 +106,32 @@
             <div id="edit-errormsg"></div>
         </div>
     </div>
+    <!-- 发送推特弹窗 -->
+    <div id="send-tweet-popup" class="popup">
+        <div class="popup-title-bar">
+            <span onclick="hidePopup('send-tweet-popup');"><i class="fas fa-times popup-close"></i></span>
+            <span class="popup-title">说点什么</span>
+        </div>
+        <div id="send-tweet">
+            <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268965?v=4">
+            <div id="send-tweet-detail">
+                <div id="send-tweet-editor" contenteditable="plaintext-only" placeholder="有什么新鲜事？"></div>
+                <div id="send-tweet-img"></div>
+                <div id="send-tweet-interact">
+                    <input type="file" id="send-tweet-img-file" accept="image/*" style="display:none" onchange="handlePhoto(this.files)" />
+                    <span onclick="clickAddPhoto();"><i class="far fa-image"></i></span>
+                    <span id="send-tweet-len">0/140</span>
+                    <button id="send-tweet-button" class="solid-button popup-top-button" onclick="sendTweet();" disabled>发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
+<script type="text/javascript" src="./js/ajax.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
 <script type="text/javascript" src="./js/popup.js"></script>
+<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="./js/send-tweet.js"></script>
 <script type="text/javascript" src="./js/profile.js"></script>
 </html>
