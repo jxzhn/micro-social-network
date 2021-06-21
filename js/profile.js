@@ -8,6 +8,9 @@ var editBtn = document.getElementById('editBtn');
 var followBtn = document.getElementById('followBtn');
 var cancelFollowBtn = document.getElementById('cancelFollowBtn');
 
+var following =  document.getElementById('following');
+var followed =  document.getElementById('followed');
+
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
@@ -24,7 +27,7 @@ var isFollowing = true;//FIXME:
 function setEditBtn(){
     editBtn.style.display = "block";
     followBtn.style.display = "none";
-    cancelFollowdBtn.style.display = "none";
+    cancelFollowBtn.style.display = "none";
 }
 function setFollowBtn(){
     editBtn.style.display = "none";
@@ -44,6 +47,9 @@ async function initProfilePage(){
     var returnBtn = document.getElementById("return");
     var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
+
+    following.href = "./follow.html" + "?id=" + userId +"&?followType=following";
+    followed.href = "./follow.html" + "?id=" + userId +"&?followType=followed";
      //个人主页进入
     if(!userId){ 
         setEditBtn();

@@ -46,7 +46,9 @@
     margin-top: 1em;
     font-size: 15px;
 }
-#follower, #following{
+#followed, #following, #followed:link, #following:link, #followed:visited, #following:visited, #followed:hover, #following:hover, #followed:active, #following:active{
+    color: var(--black);
+    text-decoration: none;
     font-weight: bold;
 }
 #weibos{
