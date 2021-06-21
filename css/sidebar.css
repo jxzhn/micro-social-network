@@ -68,7 +68,7 @@
     left: -1em;
     padding: 0.8em;
     border-radius: 999em;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
 }
 
 #side-user-img {

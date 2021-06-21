@@ -4,10 +4,10 @@ async function postJsonRequest(url, data) {
         xmlhttp.open('post', url, true);
         xmlhttp.setRequestHeader('content-type', 'application/json');
         xmlhttp.onload = () => {
-            if (xmlhttp.getResponseHeader('content-type').toLowerCase() == 'application/json') {
-                resolve(JSON.parse(request.responseText))
+            if (xmlhttp.getResponseHeader('content-type').toLowerCase().includes('application/json')) {
+                resolve(JSON.parse(xmlhttp.responseText))
             } else {
-                reject(request.responseText);
+                reject(xmlhttp);
             }
         }
         xmlhttp.send(JSON.stringify(data));
