@@ -6,6 +6,7 @@ function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
+    console.log(vars);
     for (var i=0;i<vars.length;i++) {
         var pair = vars[i].split("=");
         if (pair[0] == variable){ return pair[1];} 
@@ -13,11 +14,41 @@ function getQueryVariable(variable)
     return false;
 }
 
+var usedId =  getQueryVariable('id');
+var followType = getQueryVariable('followType');
+var curFollowType = followType;
 //--------------------------init page-------------------------
-function initFollowPage(){
+var following_select = document.getElementById("following-select");
+var followed_select = document.getElementById("followed-select");
+
+async function initFollowPage(){
+    console.log(followType);
+    if(followType == "following"){
+        following_select.classList.add("follow-select-selected");
+    }
+    else{
+        followed_select.classList.add("follow-select-selected");
+    }
 }
 initFollowPage();
 
+//----------------------page function--------------------------
+function selectFollowing(){
+    if(curFollowType == "followed"){
+        following_select.classList.add("follow-select-selected");
+        followed_select.classList.remove("follow-select-selected");
+        curFollowType = "following";
+    }
+    //TODO: update user blocks
+}
+function selectFollowed(){
+    if(curFollowType == "following"){
+        following_select.classList.remove("follow-select-selected");
+        followed_select.classList.add("follow-select-selected");
+        curFollowType = "followed";
+    }
+     //TODO: update user blocks
+}
 Date.prototype.Format = function(fmt) {
     var o = {   
         "M+" : this.getMonth()+1,                 //月份   

@@ -53,10 +53,10 @@
 .follow-select:hover .follow-label{
     color: var(--primary-theme);
 }
-.follow-label-selected{
+.follow-select-selected .follow-label{
     color: var(--primary-theme);
 }
-.follow-bar-selected{
+.follow-select-selected .follow-bar{
     background-color: var(--primary-theme);
 }
 #following-bar{

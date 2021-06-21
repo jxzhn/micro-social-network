@@ -26,7 +26,7 @@
                 <a href="./notice.html"><i class="far fa-bell nav-icon"></i>我的通知</a>
             </li>
             <li>
-                <a href="#"><i class="far fa-user-circle nav-icon"></i>个人</a>
+                <a href="./profile.html"><i class="far fa-user-circle nav-icon"></i>个人</a>
             </li>
         </div>
         <div id="send-blog">
@@ -48,13 +48,13 @@
             <a href="javascript:history.go(-1)"><i id="return" class="fas fa-arrow-left" aria-hidden="true" ></i></a>
             <span class="username">username</span>
             <br>
-            <div id="following-select" class="follow-select">
+            <div id="following-select" class="follow-select" onclick="selectFollowing()">
                 <div id="following-label" class="follow-label">关注</div>
                 <div id="following-bar" class="follow-bar "></div>
             </div>
-            <div id="followed-select" class="follow-select">
-                <div id="followed-label" class="follow-label follow-label-selected">粉丝</div>
-                <div id="followed-bar" class="follow-bar follow-bar-selected"></div>
+            <div id="followed-select" class="follow-select" onclick="selectFollowed()">
+                <div id="followed-label" class="follow-label">粉丝</div>
+                <div id="followed-bar" class="follow-bar"></div>
             </div>
         </div>
         <div class="interval">

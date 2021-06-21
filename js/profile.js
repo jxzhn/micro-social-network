@@ -48,8 +48,8 @@ async function initProfilePage(){
     var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
 
-    following.href = "./follow.html" + "?id=" + userId +"&?followType=following";
-    followed.href = "./follow.html" + "?id=" + userId +"&?followType=followed";
+    following.href = "./follow.html" + "?id=" + userId +"&followType=following";
+    followed.href = "./follow.html" + "?id=" + userId +"&followType=followed";
      //个人主页进入
     if(!userId){ 
         setEditBtn();
