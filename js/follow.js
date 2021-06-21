@@ -2,6 +2,22 @@ var loading = document.getElementById('loading');
 var loadingLock = false;
 var loadedTweetList = [];
 
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable){ return pair[1];} 
+    }
+    return false;
+}
+
+//--------------------------init page-------------------------
+function initFollowPage(){
+}
+initFollowPage();
+
 Date.prototype.Format = function(fmt) {
     var o = {   
         "M+" : this.getMonth()+1,                 //月份   

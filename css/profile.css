@@ -27,7 +27,7 @@
     border-radius: 4.5em;
     border: 6px solid var(--white);
 }
-#editbtn, #followbtn, #followedbtn{
+#editBtn, #followBtn, #followedBtn{
     display: block;
     float: right;
     transform: translateX(-0.5em) translateY(15em);

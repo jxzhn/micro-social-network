@@ -7,32 +7,54 @@ var introduction = document.getElementById("introduction");
 var isFollowed = false;
 var isMyPage = true;
 
-function setButtons(){
-    var editbtn = document.getElementById('editbtn');
-    var followbtn = document.getElementById('followbtn');
-    var followedbtn = document.getElementById('followedbtn');
-    if(isMyPage){
-        followbtn.style.display = "none";
-        followedbtn.style.display = "none";
-        editbtn.style.display = "block";
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable){ return pair[1];} 
     }
-    else{
-        editbtn = editbtn.style.display = "none";
-        if(isFollowed){
-            followbtn.style.display = "none";
-            followedbtn.style.display = "block";
-        }
-        else{
-            followbtn.style.display = "block";
-            followedbtn.style.display = "none";
-        }
-    }
+    return false;
 }
 
-function initPage(){
-    setButtons();
+//--------------------------init page-------------------------
+var editBtn = document.getElementById('editBtn');
+    var followBtn = document.getElementById('followBtn');
+    var followedBtn = document.getElementById('followedBtn');
+function initFollowPage(){
 }
-initPage();
+function setEditBtn(){
+    editBtn.style.display = "block";
+    followBtn.style.display = "none";
+    followedBtn.style.display = "none";
+}
+function setFollowBtn(){
+    editBtn = editBtn.style.display = "none";
+    followBtn.style.display = "none";
+    followedBtn.style.display = "block";
+}
+function setFollowedBtn(){
+    editBtn = editBtn.style.display = "none";
+    followBtn.style.display = "block";
+    followedBtn.style.display = "none";
+}
+function initProfilePage(){
+    var returnBtn = document.getElementById("return");
+    var sideBarProfile = document.getElementsByClassName("nav-righthere");
+    var userIcon = document.getElementById("userIcon");
+     //个人主页进入
+    if(!getQueryVariable("id")){ 
+        returnBtn.style.display = "none";
+        setEditBtn();
+    }
+    else{ //头像进入
+        sideBarProfile[0].classList.remove("nav-righthere");
+        userIcon.classList.remove("fas");
+        userIcon.classList.add("far");
+    }
+}
+initProfilePage();
 
 //---------------------- Page function---------------------- 
 function follow(){
