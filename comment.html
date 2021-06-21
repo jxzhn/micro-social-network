@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
-    <link rel="stylesheet" href="./css/notice.css" />
+    <link rel="stylesheet" href="./css/comment.css" />
 </head>
 <body>
     <div id="sidebar">
@@ -45,33 +45,33 @@
             <div style="padding: 0.23em 0.4em;">
                 <span id="noticeTitle">我的通知</span>
             </div>
-            <div id="like-select" class="notice-select notice-select-selected">
-                <div id="like-label" class="notice-label">赞</div>
-                <div id="like-bar" class="notice-bar"></div>
-            </div>
-            <a id="notice-select-a" href="./comment.html">
-                <div id="comment-select" class="notice-select">
-                    <div id="comment-label" class="notice-label">评论</div>
-                    <div id="comment-bar" class="notice-bar"></div>
+            <a id="notice-select-a" href="./notice.html">
+                <div id="like-select" class="notice-select">
+                    <div id="like-label" class="notice-label">赞</div>
+                    <div id="like-bar" class="notice-bar"></div>
                 </div>
             </a>
+            <div id="comment-select" class="notice-select notice-select-selected">
+                <div id="comment-label" class="notice-label">评论</div>
+                <div id="comment-bar" class="notice-bar"></div>
+            </div>
         </div>
         <div class="interval">
         </div>
         <div class="interval">
         </div>
 
-        <div class="like-block">
-            <img class="like-user-img" src="./pics/avatar1.jpg">
-            <div class="like-detail">
-                <div class="like-user-detail">
-                    <span id="like-user-name">Smart Enoch</span>
-                    <span id="like-user-id">@SleepingMonster</span>
-                    <span id="like-dot">.</span>
-                    <span id="like-date">6月20日</span><br />
-                    <span id="like-info">点赞了这条微博</span>
+        <div class="comment-block">
+            <img class="comment-user-img" src="./pics/avatar1.jpg">
+            <div class="comment-detail">
+                <div class="comment-user-detail">
+                    <span id="comment-user-name">Smart Enoch</span>
+                    <span id="comment-user-id">@SleepingMonster</span>
+                    <span id="comment-dot">.</span>
+                    <span id="comment-date">6月20日</span><br />
+                    <span id="comment-info">说的真对！</span>
                 </div>
-                <div class="like-content">
+                <div class="comment-content">
                     <img class="tweet-content-img" src="https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c)">
                     <div class="tweet-detail">
                         <div class="tweet-info-row">
@@ -87,22 +87,23 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             
         </div>
 
-        <div class="like-block">
-            <img class="like-user-img" src="./pics/avatar1.jpg">
+        <div class="comment-block">
+            <img class="comment-user-img" src="./pics/avatar1.jpg">
             <div class="like-detail">
-                <div class="like-user-detail">
-                    <span id="like-user-name">Smart Enoch</span>
-                    <span id="like-user-id">@SleepingMonster</span>
-                    <span id="like-dot">.</span>
-                    <span id="like-date">6月20日</span><br />
-                    <span id="like-info">点赞了这条微博</span>
+                <div class="comment-user-detail">
+                    <span id="comment-user-name">Smart Enoch</span>
+                    <span id="comment-user-id">@SleepingMonster</span>
+                    <span id="comment-dot">.</span>
+                    <span id="comment-date">6月20日</span><br />
+                    <span id="comment-info">确实！新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了</span>
                 </div>
-                <div class="like-content">
-                    
+                <div class="comment-content">
+                    <!-- <img class="tweet-content-img" src="https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c)"> -->
                     <div class="tweet-detail">
                         <div class="tweet-info-row">
                             <span id="tweet-user-name">Yes Theory</span>
