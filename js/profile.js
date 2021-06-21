@@ -20,7 +20,6 @@ function getQueryVariable(variable)
 }
 
 var userId = getQueryVariable("id");
-var currentUserId;
 var isFollowing = true;//FIXME:
 function setEditBtn(){
     editBtn.style.display = "block";
@@ -37,22 +36,27 @@ function setCancelFollowBtn(){
     followBtn.style.display = "none";
     cancelFollowBtn.style.display = "block";
 }
+function setMainbyId(Id){
+
+}
 async function initProfilePage(){
     var currentUser = await currentUserInfoPromise;
-    currentUserId = currentUser.userId;
     var returnBtn = document.getElementById("return");
     var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
      //个人主页进入
     if(!userId){ 
         setEditBtn();
+        setMainbyId(currentUser.userId);
     }
     else{ //头像进入
         returnBtn.style.display = "inline-block";
         sideBarProfile[0].classList.remove("nav-righthere");
         userIcon.classList.remove("fas");
         userIcon.classList.add("far");
-        if(userId == currentUserId){
+        setMainbyId(userId);
+        //还是个人主页
+        if(userId == currentUser.userId){
             setEditBtn();
         }
         else if(isFollowing){
