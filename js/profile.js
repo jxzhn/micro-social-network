@@ -57,9 +57,9 @@ var bannerDataURL;
 var avatarDataURL;
 edit_banner.style.backgroundImage = banner.style.backgroundImage;
 edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
+edit_name.value = username[0].innerHTML;
+edit_introduction.value = introduction.innerHTML;
 function initPopup(){
-    edit_name.value = username[0].innerHTML;
-    edit_introduction.value = introduction.innerHTML;
     showPopup('edit-popup');
 }
 
@@ -88,6 +88,12 @@ function updateEditAvatar(files){
     }
     reader.readAsDataURL(files[0]);
 }
+edit_introduction.addEventListener('keypress', (e)=>{
+    if(e.keyCode == 13){
+        e.preventDefault();
+        return false;
+    }
+})
 function updateInfo(){
     if(edit_name.value.length == 0 || edit_introduction.value.length == 0){
         edit_errormsg.innerHTML = "昵称或简介不得为空";
@@ -103,7 +109,10 @@ function saveEdit(){
     edit_errormsg.innerHTML = "";
     //TODO:updateDB
     //send bannerDataURL，avatarDataURL;
-    //send Info
+    console.log(bannerDataURL);
+    console.log(avatarDataURL);
+    console.log(edit_name.value);
+    console.log(edit_introduction.value);
     if(bannerDataURL!=null){
         banner.style.backgroundImage = `url(${bannerDataURL})`;
     }
