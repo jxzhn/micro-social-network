@@ -31,6 +31,10 @@
     background-color: var(--gray-hover-bg);
 }
 
+.tweet-detail {
+    flex-basis: 100%; /* flex 会自动收缩 */
+}
+
 .tweet-user-img {
     width: 50px;
     height: 50px;
