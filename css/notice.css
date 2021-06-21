@@ -1,36 +1,54 @@
-#title-bar {
+#notice-title-bar{
     font-size: 24px;
     font-weight: bold;
-    /* border-bottom: 1px solid var(--light-gray); */
-    padding: 0.5em 1em;
-}
-
-#title-nav{
-    font-size: 23px;
     border-bottom: 1px solid var(--light-gray);
-    /* padding:10px; */
-    position:relative;
-    width:100%;
-    height:2em;
+    padding: 0.5em 1em;
+    position: fixed;
+    background-color: var(--white);
+    box-sizing: border-box;
+    width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
+    height: 5em;
+    user-select: none;
+    z-index: 1;
 }
-
-#title-nav a{
-    text-decoration: none;
+#notice-select-a:visited{
+    color: var(--black);
+}
+.notice-select{
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    position: relative;
+    display: inline-block;
+    width: 49%;
+    transition: background-color 0.2s;
+    text-align: center;
+    box-sizing: border-box;
+}
+.notice-label{
+    margin-bottom: 0.24em;
+    transition: color 0.2s;
+}
+.notice-bar{
+    margin: 0 auto;
+    width: 3em;
+    height: 0.2em;
+    transition: background-color 0.2s;
+    background-color: transparent;
+}
+.notice-select:hover{
+    background-color: var(--primary-hover-bg);
+}
+.notice-select:hover .notice-label{
     color: var(--primary-theme);
-    border-radius: 999em;
-    position:absolute;
-    width:100%;
+}
+.notice-select-selected .notice-label{
+    color: var(--primary-theme);
+}
+.notice-select-selected .notice-bar{
+    background-color: var(--primary-theme);
 }
 
-#title-nav>a>span.tweet-like{
-    position:absolute;
-    left: 20%;
-}
-#title-nav>a>span.tweet-comment{
-    
-    position:absolute;
-    left: 70%;
-}
+
 
 
 

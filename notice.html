@@ -14,6 +14,9 @@
         </div>
         <div id="nav">
             <li>
+                <a href="./search.html"><i class="far fa-compass nav-icon"></i>探索</a>
+            </li>
+            <li>
                 <a href="./index.html"><i class="far fa-compass nav-icon"></i>首页</a>
             </li>
             <li class="nav-righthere">
@@ -38,14 +41,24 @@
         </div>
     </div>
     <div id="main">
-        <div id="title-bar">
-            我的通知
+        <div id="notice-title-bar">
+            <div style="padding: 0.23em 0.4em;">
+                <span id="noticeTitle">我的通知</span>
+            </div>
+            <div id="like-select" class="notice-select notice-select-selected">
+                <div id="like-label" class="notice-label">赞</div>
+                <div id="like-bar" class="notice-bar"></div>
+            </div>
+            <a id="notice-select-a" href="./comment.html">
+                <div id="comment-select" class="notice-select">
+                    <div id="comment-label" class="notice-label">评论</div>
+                    <div id="comment-bar" class="notice-bar"></div>
+                </div>
+            </a>
         </div>
-        <div id="title-nav">
-            <!-- far空心，fas实心 -->
-            <a href="./notice.html"><span class="tweet-like tweet-liked"><i class="fas fa-heart"></i>赞</span></a>
-            <a href="./comment.html"><span class="tweet-comment "><i class="far fa-comment"></i>评论</span></a>
-            <div></div>
+        <div class="interval">
+        </div>
+        <div class="interval">
         </div>
 
         <div class="like-block">
