@@ -30,9 +30,9 @@
             </li>
         </div>
         <div id="send-blog">
-            <button class="solid-button" onclick="showPopup('send-tweet-popup');">说点什么</button>
+            <button class="solid-button" onclick="showPopup('send-tweet-popup');" disabled>说点什么</button>
         </div>
-        <div id="side-user">
+        <div id="side-user" style="opacity: 0;">
             <img id="side-user-img">
             <div>
                 <span id="side-user-name"></span><br />
@@ -60,7 +60,7 @@
             <span class="popup-title">说点什么</span>
         </div>
         <div id="send-tweet">
-            <img class="tweet-user-img" src="https://avatars.githubusercontent.com/u/84268965?v=4">
+            <img id="send-tweet-user-img">
             <div id="send-tweet-detail">
                 <div id="send-tweet-editor" contenteditable="plaintext-only" placeholder="有什么新鲜事？"></div>
                 <div id="send-tweet-img"></div>

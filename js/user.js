@@ -1,24 +1,32 @@
-var currentUserName;
-var currentUserId;
-var currentUserImgUrl;
+// AJAX 检查登录状态
+async function loadCurrentUserInfo() {
+    // 假数据
+    var currentUserInfo = await new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({
+                userName: 'Yes Theory',
+                userId: 'YesTheory',
+                userImgUrl: 'https://avatars.githubusercontent.com/u/84268956?v=4',
+            })
+        }, 500);
+    });
+    var sideUser = document.getElementById('side-user');
+    if (sideUser) {
+        document.getElementById('side-user-img').src = currentUserInfo.userImgUrl;
+        document.getElementById('side-user-name').textContent = currentUserInfo.userName;
+        document.getElementById('side-user-id').textContent = currentUserInfo.userId;
+        sideUser.style.opacity = '';
+    }
+    var sendTweetButton = document.querySelector('#send-blog>button');
+    if (sendTweetButton) {
+        sendTweetButton.disabled = false;
+    }
+    var sendTweetUserImg = document.getElementById('send-tweet-user-img');
+    if (sendTweetUserImg) {
+        sendTweetUserImg.src = currentUserInfo.userImgUrl;
+    }
 
-var sideUserImg = document.getElementById('side-user-img');
-var sideUserName = document.getElementById('side-user-name');
-var sideUserId = document.getElementById('side-user-id');
+    return currentUserInfo;
+}
 
-// AJAX 检查登录状态，获取以下参数
-currentUserName = 'Jason Kan';
-currentUserId = 'peachoolon9';
-currentUserImgUrl = 'https://avatars.githubusercontent.com/u/84268956?v=4';
-
-sideUserImg.src = currentUserImgUrl;
-sideUserName.textContent = currentUserName;
-sideUserId.textContent = currentUserId;
-
-// function getUserInfo() {
-//     return {
-//         userName: userName,
-//         userId: userId,
-//         userImgUrl: userImgUrl
-//     }
-// }
+const currentUserInfoPromise = loadCurrentUserInfo();
