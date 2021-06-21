@@ -49,6 +49,8 @@ function selectFollowed(){
     }
      //TODO: update user blocks
 }
+
+//----------------------loading--------------------------
 Date.prototype.Format = function(fmt) {
     var o = {   
         "M+" : this.getMonth()+1,                 //月份   

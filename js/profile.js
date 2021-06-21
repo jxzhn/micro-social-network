@@ -54,6 +54,7 @@ async function initProfilePage(){
     if(!userId){ 
         setEditBtn();
         setMainbyId(currentUser.userId);
+        sideBarProfile[0].firstElementChild.href="#";
     }
     else{ //头像进入
         returnBtn.style.display = "inline-block";
