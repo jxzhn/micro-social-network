@@ -1,0 +1,62 @@
+#follow-title-bar{
+    font-size: 24px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--light-gray);
+    padding: 0.5em 1em;
+    position: fixed;
+    background-color: var(--white);
+    box-sizing: border-box;
+    width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
+    height: 5em;
+    user-select: none;
+    z-index: 1;
+}
+#return {
+    font-size: 24px;
+    color: var(--primary-theme);
+    padding: 0.35em 0.4em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+    margin-right: 1em;
+}
+#return:hover {
+    background-color: var(--primary-hover-bg);
+}
+.follow-select{
+    position: absolute;
+    top: 50%;
+    padding: 0.35em 0.4em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+}
+.follow-select:hover{
+    position: absolute;
+    top: 50%;
+    background-color: var(--primary-hover-bg);
+}
+.follow-select-selected{
+    color: var(--primary-theme);
+}
+#following-select{
+    left: 20%;
+}
+#followed-select{
+    left: 70%;
+
+}
+.follow-select-bar{
+    position: absolute;
+    top: 95%;
+    width: 2.8em;
+    height: 0.25em;
+    transition: background-color 0.2s;
+}
+.follow-select-bar-selected{
+    background-color: var(--primary-theme);
+}
+#following-select-bar{
+    left: 20%;
+}
+#followed-select-bar{
+    left: 70%;
+}
