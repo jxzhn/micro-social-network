@@ -12,6 +12,7 @@
     z-index: 1;
 }
 #return {
+    position: relative;
     font-size: 24px;
     color: var(--primary-theme);
     padding: 0.35em 0.4em;
@@ -22,41 +23,45 @@
 #return:hover {
     background-color: var(--primary-hover-bg);
 }
+
+
+
 .follow-select{
-    position: absolute;
-    top: 50%;
-    padding: 0.35em 0.4em;
-    border-radius: 999em;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    position: relative;
+    display: inline-block;
+    width: 49%;
     transition: background-color 0.2s;
+    text-align: center;
+    box-sizing: border-box;
+}
+.follow-label{
+    margin-bottom: 0.24em;
+    transition: color 0.2s;
+}
+.follow-bar{
+    margin: 0 auto;
+    width: 3em;
+    height: 0.2em;
+    transition: background-color 0.2s;
+    background-color: transparent;
 }
 .follow-select:hover{
-    position: absolute;
-    top: 50%;
     background-color: var(--primary-hover-bg);
 }
-.follow-select-selected{
+.follow-select:hover .follow-label{
     color: var(--primary-theme);
 }
-#following-select{
-    left: 20%;
+.follow-label-selected{
+    color: var(--primary-theme);
 }
-#followed-select{
-    left: 70%;
-
-}
-.follow-select-bar{
-    position: absolute;
-    top: 95%;
-    width: 2.8em;
-    height: 0.25em;
-    transition: background-color 0.2s;
-}
-.follow-select-bar-selected{
+.follow-bar-selected{
     background-color: var(--primary-theme);
 }
-#following-select-bar{
+#following-bar{
     left: 20%;
 }
-#followed-select-bar{
+#followed-bar{
     left: 70%;
 }
