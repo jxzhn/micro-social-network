@@ -1,0 +1,127 @@
+#title-bar {
+    font-size: 24px;
+    font-weight: bold;
+    /* border-bottom: 1px solid var(--light-gray); */
+    padding: 0.5em 1em;
+}
+
+#title-nav{
+    font-size: 23px;
+    border-bottom: 1px solid var(--light-gray);
+    /* padding:10px; */
+    position:relative;
+    width:100%;
+    height:2em;
+}
+
+#title-nav a{
+    text-decoration: none;
+    color: var(--primary-theme);
+    border-radius: 999em;
+    position:absolute;
+    width:100%;
+}
+
+#title-nav>a>span.tweet-like{
+    position:absolute;
+    left: 20%;
+}
+#title-nav>a>span.tweet-comment{
+    
+    position:absolute;
+    left: 70%;
+}
+
+
+
+.tweet-comment:hover, .tweet-like:hover {
+    background-color: var(--primary-hover-bg);
+    border-radius: 10px;
+    /* padding:8px; */
+}
+
+
+
+
+/*点赞框*/
+.like-block{
+    /* padding: 1em; */
+    padding: 1em 0;
+    display: flex;
+    font-size: 15px;
+    border-bottom: 1px solid var(--light-gray);
+    transition: background-color 0.2s;
+    /* width:100%; */
+}
+.like-content{
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    display:flex;
+    margin-right:12px;
+    /* width: 540px;   */
+    flex-basis: 100%;
+}
+.like-user-detail{
+    padding:10px;
+}
+
+.like-user-img{
+    margin-left:1em;
+}
+
+/*评论框*/
+
+.tweet-detail{
+    padding:10px;
+    /* margin-right:10px; */
+    flex-basis: 100%;
+}
+
+.tweet-user-img,.comment-user-img, .like-user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 999em;
+    margin-right: 12px;
+}
+
+.tweet-content-img{  /*原博的图片*/
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+
+    margin-right: 12px;
+}
+
+.tweet-content{
+    /* width:430px; */
+}
+.tweet-word{
+    width: 100%;
+    flex:1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /*行数*/
+    -webkit-box-orient: vertical;
+}
+
+
+/*字体*/
+#tweet-user-id, #like-user-id {
+    color: var(--gray);
+}
+
+#tweet-dot, #like-dot {
+    position: relative;
+    top: -0.25em;
+    color: var(--gray);
+}
+
+#tweet-date, #like-date {
+    font-size: 15px;
+    color: var(--gray);
+}
+
+#tweet-user-name, #like-user-name {
+    font-weight: bold;
+}
