@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>首页</title>
+    <title>我的通知</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./css/util.css" />
     <link rel="stylesheet" href="./css/sidebar.css" />
-    <link rel="stylesheet" href="./css/popup.css" />
-    <link rel="stylesheet" href="./css/send-tweet.css" />
+    <link rel="stylesheet" href="./css/notice.css" />
 </head>
 <body>
     <div id="sidebar">
@@ -15,10 +14,7 @@
         </div>
         <div id="nav">
             <li>
-                <a href="./search.html"><i class="far fa-compass nav-icon"></i>探索</a>
-            </li>
-            <li>
-                <a href="./index.html"><i class="far fa-sun nav-icon"></i>首页</a>
+                <a href="./index.html"><i class="far fa-compass nav-icon"></i>首页</a>
             </li>
             <li class="nav-righthere">
                 <a href="#"><i class="fas fa-bell nav-icon"></i>我的通知</a>
@@ -28,13 +24,13 @@
             </li>
         </div>
         <div id="send-blog">
-            <button class="solid-button" onclick="showPopup('send-tweet-popup');" disabled>说点什么</button>
+            <button class="solid-button">说点什么</button>
         </div>
-        <div id="side-user" style="opacity: 0;">
-            <img id="side-user-img">
+        <div id="side-user">
+            <img id="side-user-img" src="https://avatars.githubusercontent.com/u/84268956?v=4">
             <div>
-                <span id="side-user-name"></span><br />
-                <span id="side-user-id"></span>
+                <span id="side-user-name">Jason Kan</span><br />
+                <span id="side-user-id">@peachoolon9</span>
             </div>
             <div id="side-user-dots">
                 ...
@@ -42,45 +38,92 @@
         </div>
     </div>
     <div id="main">
-        <!-- 按钮CSS展示 -->
-        <button class="solid-button">实心按钮（正常）</button>
-        <button class="solid-button" disabled>实心按钮（禁用）</button>
-        <br /><br />
-        <button class="hollow-button">空心按钮</button>
-        <br /><br />
-        <!-- 超酷的输入框展示 -->
-        <div class="cool-input-box">
-            <input id="test-input" type="text" required/>
-            <label for="test-input">Test input</label>
+        <div id="title-bar">
+            我的通知
         </div>
-        <br /><br />
-        <div class="cool-input-box">
-            <textarea id="test-textarea" required></textarea>
-            <label for="test-textarea">Test input</label>
+        <div id="title-nav">
+            <!-- far空心，fas实心 -->
+            <a href="./notice.html"><span class="tweet-like tweet-liked"><i class="fas fa-heart"></i>赞</span></a>
+            <a href="./comment.html"><span class="tweet-comment "><i class="far fa-comment"></i>评论</span></a>
+            <div></div>
         </div>
-    </div>
-    <div id="send-tweet-popup" class="popup">
-        <div class="popup-title-bar">
-            <span onclick="hidePopup('send-tweet-popup');"><i class="fas fa-times popup-close"></i></span>
-            <span class="popup-title">说点什么</span>
-        </div>
-        <div id="send-tweet">
-            <img id="send-tweet-user-img">
-            <div id="send-tweet-detail">
-                <div id="send-tweet-editor" contenteditable="plaintext-only" placeholder="有什么新鲜事？"></div>
-                <div id="send-tweet-img"></div>
-                <div id="send-tweet-interact">
-                    <input type="file" id="send-tweet-img-file" accept="image/*" style="display:none" onchange="handlePhoto(this.files)" />
-                    <span onclick="clickAddPhoto();"><i class="far fa-image"></i></span>
-                    <span id="send-tweet-len">0/140</span>
-                    <button id="send-tweet-button" class="solid-button popup-top-button" onclick="sendTweet();" disabled>发布</button>
+
+        <div class="like-block">
+            <img class="like-user-img" src="./pics/avatar1.jpg">
+            <div class="like-detail">
+                <div class="like-user-detail">
+                    <span id="like-user-name">Smart Enoch</span>
+                    <span id="like-user-id">@SleepingMonster</span>
+                    <span id="like-dot">.</span>
+                    <span id="like-date">6月20日</span><br />
+                    <span id="like-info">点赞了这条微博</span>
+                </div>
+                <div class="like-content">
+                    <img class="tweet-content-img" src="https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c)">
+                    <div class="tweet-detail">
+                        <div class="tweet-info-row">
+                            <span id="tweet-user-name">Yes Theory</span>
+                            <span id="tweet-user-id">@YesTheory</span>
+                            <span id="tweet-dot">.</span>
+                            <span id="tweet-date">6 月 15 日</span>
+                        </div>
+                        <div class="tweet-content">
+                            <div class="tweet-word">
+                                Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
+
+        <div class="like-block">
+            <img class="like-user-img" src="./pics/avatar1.jpg">
+            <div class="like-detail">
+                <div class="like-user-detail">
+                    <span id="like-user-name">Smart Enoch</span>
+                    <span id="like-user-id">@SleepingMonster</span>
+                    <span id="like-dot">.</span>
+                    <span id="like-date">6月20日</span><br />
+                    <span id="like-info">点赞了这条微博</span>
+                </div>
+                <div class="like-content">
+                    
+                    <div class="tweet-detail">
+                        <div class="tweet-info-row">
+                            <span id="tweet-user-name">Yes Theory</span>
+                            <span id="tweet-user-id">@YesTheory</span>
+                            <span id="tweet-dot">.</span>
+                            <span id="tweet-date">6 月 15 日</span>
+                        </div>
+                        <div class="tweet-content">
+                            <div class="tweet-word">
+                                新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- <div class="like-block">
+            <img class="comment-user-img" src="https://avatars.githubusercontent.com/u/84268956?v=4">
+            <div class="comment-user-detail">
+                <span id="comment-user-name">Smart Enoch</span>
+                <span id="comment-user-id">Sleeping Monster</span><br />
+                <span id="comment-date">6月20日</span>
+
+            </div>
+        </div> -->
+        <!-- 按钮CSS展示 -->
+        <!-- <button class="solid-button">实心按钮（正常）</button>
+        <button class="solid-button" disabled>实心按钮（禁用）</button>
+        <br /><br />
+        <button class="hollow-button">空心按钮</button> -->
+
+
     </div>
 </body>
-<script type="text/javascript" src="./js/ajax.js"></script>
-<script type="text/javascript" src="./js/user.js"></script>
-<script type="text/javascript" src="./js/popup.js"></script>
-<script type="text/javascript" src="./js/send-tweet.js"></script>
 </html>
