@@ -7,7 +7,7 @@
     background-color: var(--white);
     box-sizing: border-box;
     width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
-    height: 5em;
+    height: 5.3em;
     user-select: none;
     z-index: 1;
 }
