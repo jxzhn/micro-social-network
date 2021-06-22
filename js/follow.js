@@ -50,6 +50,7 @@ const scrollToTop = () => {
         window.scrollTo(0, fromTopDistance - fromTopDistance/ 8);
     }
 }
+
 function selectFollowing(){
     if(curFollowType == "followed"){
         following_select.classList.add("follow-select-selected");
@@ -65,6 +66,7 @@ function selectFollowing(){
         scrollToTop();
     }
 }
+
 function selectFollowed(){
     if(curFollowType == "following"){
         following_select.classList.remove("follow-select-selected");

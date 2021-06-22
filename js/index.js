@@ -135,3 +135,13 @@ window.addEventListener('scroll', () => {
 })
 
 loadMoreTweets(5);
+
+
+
+const scrollToTop = () => {
+    const fromTopDistance = document.documentElement.scrollTop || document.body.scrollTop;
+    if (fromTopDistance > 0) {
+        window.requestAnimationFrame(scrollToTop);
+        window.scrollTo(0, fromTopDistance - fromTopDistance/ 8);
+    }
+}

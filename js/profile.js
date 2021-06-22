@@ -45,18 +45,21 @@ function setMainbyId(Id){
 async function initProfilePage(){
     var currentUser = await currentUserInfoPromise;
     var returnBtn = document.getElementById("return");
-    var sideBarProfile = document.getElementsByClassName("nav-righthere");
+    var nav = document.getElementById("nav");
+    // var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
      //个人主页进入
     if(!userId){ 
         userId = currentUser.userId;
-        setEditBtn();
+        nav.lastElementChild.classList.add("nav-righthere");
+        console.log(nav.lastElementChild.firstElementChild);
         setMainbyId(currentUser.userId);
-        sideBarProfile[0].firstElementChild.href="#";
+        setEditBtn();
     }
     else{ //头像进入
         returnBtn.style.display = "inline-block";
-        sideBarProfile[0].classList.remove("nav-righthere");
+        nav.lastElementChild.firstElementChild.href = "./profile.html";
+        nav.lastElementChild.firstElementChild.onclick = null;
         userIcon.classList.remove("fas");
         userIcon.classList.add("far");
         setMainbyId(userId);
@@ -88,7 +91,6 @@ function cancelFollow(){
     setFollowBtn();
     //TODO:updateDB
 }
-
 
 //---------------------- PopUp Related---------------------- 
 var edit_errormsg = document.getElementById("edit-errormsg");
