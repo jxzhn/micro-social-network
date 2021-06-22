@@ -70,7 +70,7 @@
     display: inline-block;
     vertical-align: super;
 }
-#followBtn, #unfollowBtn{
+.followBtn, .unfollowBtn{
     display: block;
     float: right;
     width: 9em;

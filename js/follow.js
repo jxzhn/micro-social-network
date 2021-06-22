@@ -1,3 +1,5 @@
+var AJAX_FLAG = false;
+
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var loadedTweetList = [];
@@ -19,11 +21,14 @@ var curFollowType = followType;
 //--------------------------init page-------------------------
 var following_select = document.getElementById("following-select");
 var followed_select = document.getElementById("followed-select");
+var pageTimestamp = 
 
 async function initFollowPage(){
     var currentUser = await currentUserInfoPromise;
     var following_label = document.getElementById("following-label");
     var followed_label = document.getElementById("followed-label");
+    var userName = document.getElementById("userName");
+    userName.innerHTML = currentUser.userName;
     if(userId == currentUser.userId){
         following_label.innerHTML = "我的关注";
         followed_label.innerHTML = "我的粉丝";
@@ -83,13 +88,24 @@ function selectFollowed(){
     }
 }
 //----------------------follow button related--------------------------
-function follow(obj){
-    console.log(obj.parentNode);
-    obj.parentNode.innerHTML = `<button id="unfollowBtn" class="solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)">关注中</button>\n`;
+async function follow(obj){
+    var followInfo = {
+        userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name"),
+        createTime:  new Date().getTime() / 1000
+    }
+    console.log("send to /user/follow:");
+    console.log(followInfo);
+    if(AJAX_FLAG) await ajax.post("/user/follow", followInfo);
+    obj.parentNode.innerHTML = `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)">关注中</button>\n`;
 }
-function unfollow(obj){
-    console.log(obj.parentNode);
-    obj.parentNode.innerHTML = `<button id="followBtn" class="hollow-button" onclick="follow(this)">关注</button>\n`;
+async function unfollow(obj){
+    var followInfo = {
+        userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name"),
+    }
+    console.log("send to /post/unfollow:");
+    console.log(followInfo);
+    if(AJAX_FLAG) await ajax.post("/post/unfollow", followInfo);
+    obj.parentNode.innerHTML = `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>\n`;
 }
 function unfollowBtnMouseover(obj){
     obj.innerHTML = "取消关注";
@@ -112,15 +128,15 @@ function showTweets(tweetList) {
             `<div class="tweet-leftInfo">\n` + 
                 `<div class="tweet-info-row">\n` + 
                     `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span><br>\n` + 
-                    `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
+                    `<span name="${tweet.user.userId}" class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
                 `</div>\n` + 
                 `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
                     `<span>${tweet.content.length > 30 ? tweet.content.substring(0 ,30) + '...' : tweet.content}</span>\n` + 
                 `</div>\n` +
             `</div>\n` + 
             `<div class="tweet-followBtns">\n` + 
-                `<button id="followBtn" class="hollow-button" onclick="follow(this)">关注</button>\n` + 
-                // `<button id="unfollowBtn" class="solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>\n` + 
+                `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>\n` + 
+                // `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>\n` + 
             `</div>\n` + 
         `</div>`
         loading.parentNode.insertBefore(block, loading);
@@ -178,20 +194,6 @@ async function loadMoreTweets(numTweet) {
     loadingLock = false;
 }
 
-function clickLike(likeElement, i) {
-    console.log(i);
-    var tweet = loadedTweetList[i];
-
-    // 发送 AJAX
-
-    tweet.liked = !tweet.liked;
-    likeElement.classList = `tweet-like ${tweet.liked?'tweet-liked':''}`;
-    likeElement.childNodes[0].classList = `${tweet.liked?'fas':'far'} fa-heart`;
-}
-
-function goDetail(i) {
-    window.location.href = "/detail.html?id=" + loadedTweetList[i].id;
-}
 
 function goUserProfile(i) {
     window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
