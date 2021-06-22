@@ -4,11 +4,11 @@ var errormsg = document.getElementById("errormsg");
 
 async function login() {
     //validate
-    var login_info = {
+    var loginInfo = {
         id: userId.value,
         password: password.value
     }
-    var res = await ajax.post("./jsp/user/login", login_info);
+    var res = await ajax.post("/user/login", loginInfo);
     console.log(res);
     if(res.code != 0){
         errormsg.innerHTML = res.message;
