@@ -1,7 +1,7 @@
 const baseURL = '/jsp';
 const surffix = '.jsp'
 
-async function praseErrorCode(resp, resolve, reject) {
+function praseErrorCode(resp, resolve, reject) {
     if (resp.code == 0) {
        resolve(resp.data);
     } 
@@ -24,9 +24,10 @@ const ajax = {
             xmlhttp.onload = () => {
                 if (xmlhttp.getResponseHeader('content-type').toLowerCase().includes('application/json')) {
                     const resp = JSON.parse(xmlhttp.responseText);
-                    return praseErrorCode(resp, resolve, reject);
-                } 
-                reject(Error('未知: ' + xmlhttp.responseText)); 
+                    praseErrorCode(resp, resolve, reject);
+                } else {
+                    reject(Error('未知: ' + xmlhttp.responseText)); 
+                }
             }
             xmlhttp.send(JSON.stringify(data));
         });
