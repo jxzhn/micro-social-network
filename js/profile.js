@@ -40,18 +40,16 @@ function setCancelFollowBtn(){
     cancelFollowBtn.style.display = "block";
 }
 function setMainbyId(Id){
-
+    //TODO:
 }
 async function initProfilePage(){
     var currentUser = await currentUserInfoPromise;
     var returnBtn = document.getElementById("return");
     var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
-
-    following.href = "./follow.html" + "?id=" + userId +"&followType=following";
-    followed.href = "./follow.html" + "?id=" + userId +"&followType=followed";
      //个人主页进入
     if(!userId){ 
+        userId = currentUser.userId;
         setEditBtn();
         setMainbyId(currentUser.userId);
         sideBarProfile[0].firstElementChild.href="#";
@@ -73,6 +71,8 @@ async function initProfilePage(){
             setFollowBtn();
         }
     }
+    following.href = "./follow.html" + "?id=" + userId +"&followType=following";
+    followed.href = "./follow.html" + "?id=" + userId +"&followType=followed";
 }
 initProfilePage();
 

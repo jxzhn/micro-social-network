@@ -49,11 +49,11 @@
             <span class="username">username</span>
             <br>
             <div id="following-select" class="follow-select" onclick="selectFollowing()">
-                <div id="following-label" class="follow-label">关注</div>
+                <div id="following-label" class="follow-label"></div> <!--关注-->
                 <div id="following-bar" class="follow-bar "></div>
             </div>
             <div id="followed-select" class="follow-select" onclick="selectFollowed()">
-                <div id="followed-label" class="follow-label">粉丝</div>
+                <div id="followed-label" class="follow-label"></div> <!--粉丝-->
                 <div id="followed-bar" class="follow-bar"></div>
             </div>
         </div>
@@ -61,8 +61,10 @@
         </div>
         <div class="interval">
         </div>
-        <div id="loading">
-            <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
+        <div id="loadingContainer">
+            <div id="loading">
+                <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
+            </div>
         </div>
     </div>
 

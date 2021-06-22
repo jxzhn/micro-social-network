@@ -13,7 +13,7 @@ function getQueryVariable(variable)
     return false;
 }
 
-var usedId =  getQueryVariable('id');
+var userId =  getQueryVariable('id');
 var followType = getQueryVariable('followType');
 var curFollowType = followType;
 //--------------------------init page-------------------------
@@ -21,31 +21,64 @@ var following_select = document.getElementById("following-select");
 var followed_select = document.getElementById("followed-select");
 
 async function initFollowPage(){
+    var currentUser = await currentUserInfoPromise;
+    var following_label = document.getElementById("following-label");
+    var followed_label = document.getElementById("followed-label");
+    if(userId == currentUser.userId){
+        following_label.innerHTML = "我的关注";
+        followed_label.innerHTML = "我的粉丝";
+    }
+    else{
+        following_label.innerHTML = "TA的关注";
+        followed_label.innerHTML = "TA的粉丝";
+    }
     if(followType == "following"){
         following_select.classList.add("follow-select-selected");
     }
     else{
         followed_select.classList.add("follow-select-selected");
     }
+    loadMoreTweets(10);
 }
 initFollowPage();
 
 //----------------------page function--------------------------
+const scrollToTop = () => {
+    const fromTopDistance = document.documentElement.scrollTop || document.body.scrollTop;
+    if (fromTopDistance > 0) {
+        window.requestAnimationFrame(scrollToTop);
+        window.scrollTo(0, fromTopDistance - fromTopDistance/ 8);
+    }
+}
 function selectFollowing(){
     if(curFollowType == "followed"){
         following_select.classList.add("follow-select-selected");
         followed_select.classList.remove("follow-select-selected");
         curFollowType = "following";
+        loading.parentNode.innerHTML = `<div id="loading">\n`+
+           `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
+       `</div>\n`;
+        loading = document.getElementById('loading');
+        loadMoreTweets(10);
     }
-    //TODO: update user blocks
+    else{
+        scrollToTop();
+    }
 }
 function selectFollowed(){
     if(curFollowType == "following"){
         following_select.classList.remove("follow-select-selected");
         followed_select.classList.add("follow-select-selected");
-        curFollowType = "followed";
+        curFollowType = "followed";    
+        loading.parentNode.innerHTML = `<div id="loading">\n`+
+           `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
+        `</div>\n`;
+        loading = document.getElementById('loading');
+        loadMoreTweets(10);
     }
-     //TODO: update user blocks
+    else{
+        scrollToTop();
+    }
 }
 //----------------------follow button related--------------------------
 function follow(obj){
@@ -57,24 +90,6 @@ function cancelFollow(obj){
     obj.parentNode.innerHTML = `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n`;
 }
 //----------------------loading--------------------------
-Date.prototype.Format = function(fmt) {
-    var o = {   
-        "M+" : this.getMonth()+1,                 //月份   
-        "d+" : this.getDate(),                    //日   
-        "h+" : this.getHours(),                   //小时   
-        "m+" : this.getMinutes(),                 //分   
-        "s+" : this.getSeconds(),                 //秒   
-        "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-        "S"  : this.getMilliseconds()             //毫秒   
-    };   
-    if(/(y+)/.test(fmt))   
-        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-    for(var k in o)   
-        if(new RegExp("("+ k +")").test(fmt))   
-    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-    return fmt;   
-}
-
 function showTweets(tweetList) {
     for (i in tweetList) {
         var tweet = tweetList[i];
@@ -181,8 +196,6 @@ window.addEventListener('scroll', () => {
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
-        loadMoreTweets(5);
+        loadMoreTweets(10);
     }
 })
-
-loadMoreTweets(10);
