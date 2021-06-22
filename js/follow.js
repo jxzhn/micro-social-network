@@ -6,7 +6,6 @@ function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
-    console.log(vars);
     for (var i=0;i<vars.length;i++) {
         var pair = vars[i].split("=");
         if (pair[0] == variable){ return pair[1];} 
@@ -22,7 +21,6 @@ var following_select = document.getElementById("following-select");
 var followed_select = document.getElementById("followed-select");
 
 async function initFollowPage(){
-    console.log(followType);
     if(followType == "following"){
         following_select.classList.add("follow-select-selected");
     }
@@ -49,7 +47,15 @@ function selectFollowed(){
     }
      //TODO: update user blocks
 }
-
+//----------------------follow button related--------------------------
+function follow(obj){
+    console.log(obj.parentNode);
+    obj.parentNode.innerHTML = `<button id="cancelFollowBtn" class="solid-button" onclick="cancelFollow(this);">取消关注</button>\n`;
+}
+function cancelFollow(obj){
+    console.log(obj.parentNode);
+    obj.parentNode.innerHTML = `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n`;
+}
 //----------------------loading--------------------------
 Date.prototype.Format = function(fmt) {
     var o = {   
@@ -72,29 +78,25 @@ Date.prototype.Format = function(fmt) {
 function showTweets(tweetList) {
     for (i in tweetList) {
         var tweet = tweetList[i];
-
         var block = document.createElement('div');
         block.classList.add('tweet-block');
-        
         block.innerHTML =
         `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
         `<div class="tweet-detail">\n` + 
-            `<div class="tweet-info-row">\n` + 
-                `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span>\n` + 
-                `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
-                `<span class="tweet-dot">.</span>\n` + 
-                `<span class="tweet-date">${new Date(tweet.date).Format('MM 月 dd 日')}</span>\n` + 
+            `<div class="tweet-leftInfo">\n` + 
+                `<div class="tweet-info-row">\n` + 
+                    `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span><br>\n` + 
+                    `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
+                `</div>\n` + 
+                `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
+                    `<span>${tweet.content.length > 30 ? tweet.content.substring(0 ,30) + '...' : tweet.content}</span>\n` + 
+                `</div>\n` +
             `</div>\n` + 
-            `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
-                `<span>${tweet.content}</span>\n` + 
-                `<div class="tweet-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
-            `</div>\n` + 
-            `<div class="tweet-interact-row">\n` + 
-                `<span class="tweet-comment" onclick="goDetail(${i})"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
-                `<span class="tweet-like ${tweet.liked?'tweet-liked':''}" onclick="clickLike(this, ${i});"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+            `<div class="tweet-followBtns">\n` + 
+                `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n` + 
+                // `<button id="cancelFollowBtn" class="solid-button" onclick="cancelFollow(this);">取消关注</button>\n` + 
             `</div>\n` + 
         `</div>`
-
         loading.parentNode.insertBefore(block, loading);
     }
 }
@@ -183,4 +185,4 @@ window.addEventListener('scroll', () => {
     }
 })
 
-loadMoreTweets(5);
+loadMoreTweets(10);

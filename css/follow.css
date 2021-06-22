@@ -59,3 +59,19 @@
 .follow-select-selected .follow-bar{
     background-color: var(--primary-theme);
 }
+.tweet-leftInfo{
+    width: 70%;
+    display: inline-block;
+}
+.tweet-followBtns{
+    width: 25%;
+    display: inline-block;
+    vertical-align: super;
+}
+#followBtn, #cancelFollowBtn{
+    display: block;
+    float: right;
+    width: 9em;
+    height: 3em;
+    border-radius: 3em;
+}
