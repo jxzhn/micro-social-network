@@ -85,12 +85,21 @@ function selectFollowed(){
 //----------------------follow button related--------------------------
 function follow(obj){
     console.log(obj.parentNode);
-    obj.parentNode.innerHTML = `<button id="cancelFollowBtn" class="solid-button" onclick="cancelFollow(this);">取消关注</button>\n`;
+    obj.parentNode.innerHTML = `<button id="unfollowBtn" class="solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)">关注中</button>\n`;
 }
-function cancelFollow(obj){
+function unfollow(obj){
     console.log(obj.parentNode);
-    obj.parentNode.innerHTML = `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n`;
+    obj.parentNode.innerHTML = `<button id="followBtn" class="hollow-button" onclick="follow(this)">关注</button>\n`;
 }
+function unfollowBtnMouseover(obj){
+    obj.innerHTML = "取消关注";
+    obj.style.backgroundColor = "var(--unfollow-red)";
+}
+function unfollowBtnMouseout(obj){
+    obj.innerHTML = "关注中";
+    obj.style.backgroundColor = "var(--primary-theme)";
+}
+
 //----------------------loading--------------------------
 function showTweets(tweetList) {
     for (i in tweetList) {
@@ -110,8 +119,8 @@ function showTweets(tweetList) {
                 `</div>\n` +
             `</div>\n` + 
             `<div class="tweet-followBtns">\n` + 
-                `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n` + 
-                // `<button id="cancelFollowBtn" class="solid-button" onclick="cancelFollow(this);">取消关注</button>\n` + 
+                `<button id="followBtn" class="hollow-button" onclick="follow(this)">关注</button>\n` + 
+                // `<button id="unfollowBtn" class="solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>\n` + 
             `</div>\n` + 
         `</div>`
         loading.parentNode.insertBefore(block, loading);

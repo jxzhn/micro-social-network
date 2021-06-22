@@ -28,7 +28,7 @@
     border-radius: 4.5em;
     border: 6px solid var(--white);
 }
-#editBtn, #followBtn, #cancelFollowBtn{
+#editBtn, #followBtn, #unfollowBtn{
     display: block;
     float: right;
     transform: translateX(-0.5em) translateY(15em);
@@ -36,6 +36,7 @@
     height: 3em;
     border-radius: 3em;
     display: none;
+    transition: background-color 0.2s;
 }
 #info{
     padding:0 1em;

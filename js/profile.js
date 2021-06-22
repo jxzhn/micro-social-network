@@ -6,7 +6,7 @@ var introduction = document.getElementById("introduction");
 
 var editBtn = document.getElementById('editBtn');
 var followBtn = document.getElementById('followBtn');
-var cancelFollowBtn = document.getElementById('cancelFollowBtn');
+var unfollowBtn = document.getElementById('unfollowBtn');
 
 var following =  document.getElementById('following');
 var followed =  document.getElementById('followed');
@@ -27,17 +27,17 @@ var isFollowing = true;//FIXME:
 function setEditBtn(){
     editBtn.style.display = "block";
     followBtn.style.display = "none";
-    cancelFollowBtn.style.display = "none";
+    unfollowBtn.style.display = "none";
 }
 function setFollowBtn(){
     editBtn.style.display = "none";
     followBtn.style.display = "block";
-    cancelFollowBtn.style.display = "none";
+    unfollowBtn.style.display = "none";
 }
 function setCancelFollowBtn(){
     editBtn.style.display = "none";
     followBtn.style.display = "none";
-    cancelFollowBtn.style.display = "block";
+    unfollowBtn.style.display = "block";
 }
 function setMainbyId(Id){
     //TODO:
@@ -85,11 +85,20 @@ function follow(){
     setCancelFollowBtn();
     //TODO:updateDB
 }
-function cancelFollow(){
+function unfollow(){
     console.log("test");
     isFollowing = false;
     setFollowBtn();
     //TODO:updateDB
+}
+
+function unfollowBtnMouseover(){
+    unfollowBtn.innerHTML = "取消关注";
+    unfollowBtn.style.backgroundColor = "var(--unfollow-red)";
+}
+function unfollowBtnMouseout(){
+    unfollowBtn.innerHTML = "关注中";
+    unfollowBtn.style.backgroundColor = "var(--primary-theme)";
 }
 
 //---------------------- PopUp Related---------------------- 
