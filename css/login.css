@@ -52,7 +52,7 @@ h1{
     position: relative;
     font-size: 40px;
 }
-#username, #password{
+#userId, #password{
     width: 20em;
 }
 

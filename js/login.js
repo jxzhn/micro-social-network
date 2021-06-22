@@ -1,23 +1,16 @@
-var username = document.getElementById("username");
+var userId = document.getElementById("userId");
 var password = document.getElementById("password");
 var errormsg = document.getElementById("errormsg");
 
-function login() {
+async function login() {
     //validate
-    var error_flag = validate(username.value, password.value);
-    if(error_flag){
-        errormsg.innerHTML = "用户名或密码错误";
+    var login_info = {
+        id: userId.value,
+        password: password.value
     }
-    else{
-        errormsg.innerHTML = "登陆成功";
-    }
-}
-
-function validate(username, password) {
-    if(username == password){
-        return true;
-    }
-    else{
-        return false;
+    var res = await ajax.post("./jsp/user/login", login_info);
+    console.log(res);
+    if(res.code != 0){
+        errormsg.innerHTML = res.message;
     }
 }
