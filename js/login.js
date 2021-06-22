@@ -13,4 +13,7 @@ async function login() {
     if(res.code != 0){
         errormsg.innerHTML = res.message;
     }
+    else{
+        window.location.href = "./index.html";
+    }
 }
