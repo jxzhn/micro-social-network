@@ -397,7 +397,7 @@ async function loadMoreTweets(numTweet) {
     try{
         var infoToSend = {
             userId: userId,
-            timeStamp: new Date().getTime() / 1000,
+            timeStamp: Math.round(new Date().getTime() / 1000),
             loadedNum: loadedTweetList.length,
             requestNum: numTweet
         }
