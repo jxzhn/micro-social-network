@@ -208,7 +208,7 @@ window.addEventListener('scroll', () => {
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
-        if(LOAD_FLAG)loadMoreTweets(6);
+        if(LOAD_FLAG)loadMoreTweets(5);
     }
 })
 
