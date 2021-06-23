@@ -159,6 +159,7 @@ async function loadMoreTweets(numTweet) {
     loadingLock = false;
 }
 
+
 async function clickLike(likeElement, i) {
     var tweet = loadedTweetList[i];
     var likeInfo = {
@@ -168,7 +169,8 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/dislike:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("post/dislike", likeInfo);
+            if(!TEST_FLAG)await ajax.post("/post/dislike", likeInfo);
+            likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) - 1;
         }
         catch(err){
             console.log(err);
@@ -179,6 +181,7 @@ async function clickLike(likeElement, i) {
             console.log("send to /post/like:");
             console.log(likeInfo);
             if(!TEST_FLAG)await ajax.post("/post/like", likeInfo);
+            likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) + 1;
         }
         catch(err){
             console.log(err);
