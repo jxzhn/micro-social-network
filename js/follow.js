@@ -1,4 +1,4 @@
-var AJAX_FLAG = false;
+var AJAX_FLAG = true;
 
 var loading = document.getElementById('loading');
 var loadingLock = false;
@@ -21,7 +21,6 @@ var curFollowType = followType;
 //--------------------------init page-------------------------
 var following_select = document.getElementById("following-select");
 var followed_select = document.getElementById("followed-select");
-var pageTimestamp = 
 
 async function initFollowPage(){
     var currentUser = await currentUserInfoPromise;
@@ -45,6 +44,7 @@ async function initFollowPage(){
     }
     loadMoreTweets(10);
 }
+
 initFollowPage();
 
 //----------------------page function--------------------------
@@ -196,7 +196,7 @@ async function loadMoreTweets(numTweet) {
 
 
 function goUserProfile(i) {
-    window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
+    window.location.href = "./profile.html?id=" + loadedTweetList[i].user.userId;
 }
 
 window.addEventListener('scroll', () => {
