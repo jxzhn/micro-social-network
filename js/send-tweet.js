@@ -49,17 +49,23 @@ function handlePhoto(files) {
     reader.readAsDataURL(files[0]);
 }
 
-function sendTweet() {
+async function sendTweet() {
     var content = sendTweetEditor.textContent;
 
     var data = {
-        content: content,
-        img: imgDataURL || ''
+        contents: content,
+        imageUrl: imgDataURL || ''
     }
 
     // 利用 AJAX 上传
-    console.log(data);
-
+    try{
+        console.log("send to /post:");
+        console.log(data);
+        await ajax.post("/post", data);
+    }
+    catch(err){
+        console.log(err);
+    }
     hidePopup('send-tweet-popup');
     sendTweetEditor.textContent = '';
     sendTweetLen.textContent = '0/140';
