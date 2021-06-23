@@ -97,13 +97,28 @@ async function initProfilePage(){
     catch(err){
         console.log(err);
     }
-    infoId.innerHTML = userInfo.userId;
+    infoId.innerHTML = "@" + userInfo.userId;
     for(i in userName){
         userName[i].innerHTML = userInfo.userName;
     }
     introduction.innerHTML = userInfo.introduction;
     banner.style.backgroundImage = "url(" + userInfo.backgroundImage + ")";
     avatar.style.backgroundImage = "url(" + userInfo.avatar + ")";
+    //TODO: set follow num
+    var userFollowNum = {}; 
+    try{
+        console.log("send to /user/userFollowInfo:");
+        console.log(userIdToSend);
+        if(TEST_FLAG){
+            userFollowNum = userFollowNumTest;
+        }
+        else userFollowNum = await ajax.post("/user/userFollowInfo", userIdToSend);
+    }
+    catch(err){
+        console.log(err);
+    }
+    following.innerHTML = userFollowNum.following;
+    followed.innerHTML = userFollowNum.followed;
 
     //TODO: init popup info
     edit_banner.style.backgroundImage = banner.style.backgroundImage;
@@ -254,4 +269,9 @@ var userInfoTest = {
         "createTime" : 1624269255,
         "backgroundImage" : "https://avatars.githubusercontent.com/u/84268960?v=4"
     }
+}
+
+var userFollowNumTest = {
+    "following":112,
+    "followed":134
 }
