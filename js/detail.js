@@ -165,7 +165,7 @@ function showComments(commentList, start, end) {
     }
 }
 
-function clickLike(likeElement) {
+async function clickLike(likeElement) {
     // 发送 AJAX
     var info2send = {
         postId: id
@@ -187,7 +187,7 @@ function goUserProfile(i) {
     window.location.href = "/profile.html?id=" + loadedCommentList[i].user.userId;
 }
 
-function sendComment() {
+async function sendComment() {
     var content = tweetCommentTextarea.value;
     console.log(content);
     // 向ajax服务器发送评论
