@@ -1,7 +1,8 @@
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
 var avatar = document.getElementById("avatar");
-var username = document.getElementsByClassName("username");
+var infoId = document.getElementById("userId");
+var userName = document.getElementsByClassName("userName");
 var introduction = document.getElementById("introduction");
 
 var editBtn = document.getElementById('editBtn');
@@ -23,7 +24,11 @@ function getQueryVariable(variable)
 }
 
 var userId = getQueryVariable("id");
-var isFollowing = true;//FIXME:
+var userIdToSend = {
+    userId: userId
+}
+var userInfo = {}
+var isFollowing = true;
 function setEditBtn(){
     editBtn.style.display = "block";
     followBtn.style.display = "none";
@@ -39,21 +44,16 @@ function setCancelFollowBtn(){
     followBtn.style.display = "none";
     unfollowBtn.style.display = "block";
 }
-function setMainbyId(Id){
-    //TODO:
-}
 async function initProfilePage(){
     var currentUser = await currentUserInfoPromise;
     var returnBtn = document.getElementById("return");
     var nav = document.getElementById("nav");
-    // var sideBarProfile = document.getElementsByClassName("nav-righthere");
     var userIcon = document.getElementById("userIcon");
      //个人主页进入
     if(!userId){ 
         userId = currentUser.userId;
+        userIdToSend.userId = userId;
         nav.lastElementChild.classList.add("nav-righthere");
-        console.log(nav.lastElementChild.firstElementChild);
-        setMainbyId(currentUser.userId);
         setEditBtn();
     }
     else{ //头像进入
@@ -62,34 +62,88 @@ async function initProfilePage(){
         nav.lastElementChild.firstElementChild.onclick = null;
         userIcon.classList.remove("fas");
         userIcon.classList.add("far");
-        setMainbyId(userId);
         //还是个人主页
         if(userId == currentUser.userId){
             setEditBtn();
         }
-        else if(isFollowing){
-            setCancelFollowBtn();
-        }
+        //他人的主页
         else{
-            setFollowBtn();
+            try{
+                console.log("send to /user/checkFollow:");
+                console.log(userIdToSend);
+                isFollowing = checkFollowTest.currentUserFollowing;
+                // isFollowing = await ajax.post("/user/checkFollow", userIdToSend).currentUserFollowing;
+            }
+            catch(err){
+                console.log(err);
+            }
+            if(isFollowing){
+                setCancelFollowBtn();
+            }
+            else{
+                setFollowBtn();
+            }
         }
     }
+    //TODO: set Main by userInfo
+    try{
+        console.log("send to /user/userInfo:");
+        console.log(userIdToSend);
+        // userInfo = await ajax.post("/user/userInfo", userIdToSend);
+        userInfo = userInfoTest.user;
+    }
+    catch(err){
+        console.log(err);
+    }
+    infoId.innerHTML = userInfo.userId;
+    for(i in userName){
+        userName[i].innerHTML = userInfo.userName;
+    }
+    introduction.innerHTML = userInfo.introduction;
+    banner.style.backgroundImage = "url(" + userInfo.backgroundImage + ")";
+    avatar.style.backgroundImage = "url(" + userInfo.avatar + ")";
+
+    //TODO: init popup info
+    edit_banner.style.backgroundImage = banner.style.backgroundImage;
+    edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
+    edit_name.value = userName[0].innerHTML;
+    edit_introduction.value = introduction.innerHTML;
+    bannerDataURL = userInfo.backgroundImage;
+    avatarDataURL = userInfo.avatar;
+    //TODO: init follow href
     following.href = "./follow.html" + "?id=" + userId +"&followType=following";
     followed.href = "./follow.html" + "?id=" + userId +"&followType=followed";
 }
 initProfilePage();
 
 //---------------------- Page function---------------------- 
-function follow(){
+async function follow(){
     isFollowing = true;
+    try{
+        var followInfo = {
+            userIdFollowed: userId,
+            createTime:  new Date().getTime() / 1000
+        }
+        console.log("send to /user/follow:");
+        console.log(followInfo);
+        // await ajax.post("/user/follow", followInfo);
+    }
+    catch(err){
+        console.log(err);
+    }
     setCancelFollowBtn();
-    //TODO:updateDB
 }
-function unfollow(){
-    console.log("test");
+async function unfollow(){
     isFollowing = false;
+    try{
+        console.log("send to /user/unfollow:");
+        console.log(userIdToSend);
+        // await ajax.post("/user/unfollow", userIdToSend);
+    }
+    catch(err){
+        console.log(err);
+    }
     setFollowBtn();
-    //TODO:updateDB
 }
 
 function unfollowBtnMouseover(){
@@ -109,10 +163,6 @@ var edit_banner = document.getElementById("edit-banner");
 var edit_avatar = document.getElementById("edit-avatar");
 var bannerDataURL;
 var avatarDataURL;
-edit_banner.style.backgroundImage = banner.style.backgroundImage;
-edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
-edit_name.value = username[0].innerHTML;
-edit_introduction.value = introduction.innerHTML;
 function initPopup(){
     showPopup('edit-popup');
 }
@@ -154,8 +204,8 @@ function updateInfo(){
         succ_flag = false;
         return;
     }
-    for(var i = 0; i < username.length; i++){
-        username[i].innerHTML = edit_name.value;
+    for(i in  userName){
+        userName[i].innerHTML = edit_name.value;
     }
     introduction.innerHTML = edit_introduction.value;
 }
@@ -182,4 +232,20 @@ function saveEdit(){
 function cancelEdit(){
     hidePopup('edit-popup');
     edit_errormsg.innerHTML = "";
+}
+
+
+var checkFollowTest = {
+    "currentUserFollowing": 0
+}
+
+var userInfoTest = {
+    "user" : {
+        "userId" : "111111",
+        "userName" : "hu",
+        "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+        "introduction": "this is a long long long introduction",
+        "createTime" : 1624269255,
+        "backgroundImage" : "https://avatars.githubusercontent.com/u/84268960?v=4"
+    }
 }
