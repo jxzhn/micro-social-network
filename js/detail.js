@@ -44,7 +44,21 @@ async function loadDetail(numTweet) {
         postId: id
     }
     console.log(info2send);
-    tweet = await ajax.post("jsp/post/detail", info2send);
+    //tweet = await ajax.post("jsp/post/detail", info2send);
+    tweet = {
+        postId: Math.round(Math.random() * 1000000000),
+        user: {
+            userName: "Yes Theory",
+            userId: "YesTheory1",
+            userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
+        },
+        date: Math.round(new Date().getTime() / 1000),
+        content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
+        imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
+        numComment: 20,
+        liked: true,
+        numLike: 143
+    }
     showTweetDetail();
 }
 
@@ -166,7 +180,7 @@ function showComments(commentList, start, end) {
 }
 
 async function clickLike(likeElement) {
-    // 发送 AJAX
+    // // 发送给AJAX服务器
     var info2send = {
         postId: id
     };
@@ -174,6 +188,9 @@ async function clickLike(likeElement) {
     console.log("send to "+url);
     console.log(info2send);
     _  = await ajax.post(url, info2send);
+    // 更改点赞数字
+    tweet.numLike = tweet.liked ? tweet.numLike-1: tweet.numLike+1;     //这甚至不用改！因为这不是改显示！
+    likeElement.childNodes[1].nodeValue = tweet.numLike;    //通过childNodes[1]获取到文本节点，在通过修改nodeValue修改节点包含的文本！
     // 更改样式
     tweet.liked = !tweet.liked;
     likeElement.classList = `tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}`;
@@ -184,7 +201,10 @@ function goUserProfile(i) {
     if (!i) {
         window.location.href = "/profile.html?id=" + tweet.user.userId;
     }
-    window.location.href = "/profile.html?id=" + loadedCommentList[i].user.userId;
+    else{
+        window.location.href = "/profile.html?id=" + loadedCommentList[i].user.userId;
+    }
+    
 }
 
 async function sendComment() {
@@ -198,6 +218,41 @@ async function sendComment() {
     };
     console.log(info2send);
     _ = await ajax.post("jsp/post/comment", info2send);
+    //新增评论数并更新
+    tweet.numComment += 1;
+    var commentElement = document.getElementsByClassName("tweet-detail-comment")[0];//找到显示数字的那个元素（和引起这个sendComment事件的元素不同）
+    commentElement.childNodes[1].nodeValue = tweet.numComment;
+    //获得当前用户的userName和userId
+    var currentUser = await currentUserInfoPromise;
+    var userName = currentUser.userName;
+    var userId = currentUser.userId;
+    var userAvatar = currentUser.userImgUrl;
+    var curTime = Math.round(new Date().getTime()/1000);
+    //显示新评论
+    var block = document.createElement('div');
+    block.classList.add('tweet-block');
+    block.innerHTML =
+        `<img class="tweet-user-img" onclick="goUserProfile()" src="${userAvatar}">\n` +
+        `<div class="tweet-detail">\n` + 
+            `<div class="tweet-info-row">\n` + 
+                `<span class="tweet-user-name" onclick="goUserProfile()">${userName}</span>\n` + 
+                `<span class="tweet-user-id" onclick="goUserProfile()">@${userId}</span>\n` + 
+                `<span class="tweet-dot">.</span>\n` + 
+                `<span class="tweet-date">${new Date(curTime*1000).Format('MM 月 dd 日')}</span>\n` + 
+            `</div>\n` + 
+            `<div class="tweet-content">\n` + 
+                `<span>${content}</span>\n` + 
+            `</div>\n` + 
+        `</div>`;
+    var tweet_detail_block = document.getElementsByClassName("tweet-detail-block")[0];
+    var parent = tweet_detail_block.parentNode;
+    if(parent.lastChild == loading){   //当没有评论时，直接加在帖子后面
+        parent.appendChild(block);
+    }
+    else{  //否则，将最新评论加在评论区第一条
+        parent.insertBefore(block, tweet_detail_block.nextSibling);
+    }
+
     // 重置评论框
     tweetCommentTextarea.value = '';
     tweetComentLen.textContent = '0/140';
