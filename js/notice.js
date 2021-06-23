@@ -1,6 +1,7 @@
 var loading = document.getElementById('loading');  //loading元素
 var loadingLock = false;
 var loadedTweetList = [];  //当前加载出来的列表（点赞或评论）
+var loadedCount = 0;
 
 Date.prototype.Format = function(fmt) {
     var o = {   
@@ -24,11 +25,11 @@ Date.prototype.Format = function(fmt) {
 var like_select = document.getElementById("like-select");
 var comment_select = document.getElementById("comment-select");
 
-var noticeType = "like";  //默认进来就是赞
-var curNoticeType = noticeType;  //全局变量，可以在同步函数（没有async的函数）中进行修改。
+// var noticeType = "like";  //默认进来就是赞
+var curNoticeType = "like";  //全局变量（默认进来就是赞），可以在同步函数（没有async的函数）中进行修改。
 
 async function initNoticePage(){
-    if(noticeType == "like"){
+    if(curNoticeType == "like"){
         like_select.classList.add("notice-select-selected");
     }
     else{
@@ -151,99 +152,8 @@ function showTweets(tweetList, currentUserName, currentUserId, start, end) {
     } 
 }
 
-// async function loadMoreTweets(numTweet) {
-//     if (loadingLock) {  //已经在等待就直接返回
-//         return;
-//     }
-//     loadingLock = true;
-//     loading.style.display = 'block';
-//     // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
-//     var tweetList = await new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             if(curNoticeType=="like")
-//             {
-//                 tweetList = [
-//                     {
-//                         postId: Math.round(Math.random() * 1000000000),
-//                         user: {
-//                             userName: "一位路过的靓仔",
-//                             userId: "handsomeboy",
-//                             userImgUrl: "https://avatars.githubusercontent.com/u/84268960?v=4"
-//                         },
-//                         //date: new Date().toLocaleDateString(),
-//                         content: "新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了",
-//                         imgUrl: "",
-//                         postDate: 1624269255,
-//                         likeDate: 1624269255
-//                     },
-//                     {
-//                         postId: Math.round(Math.random() * 1000000000),
-//                         user: {
-//                             userName: "Yes Theory",
-//                             userId: "YesTheory",
-//                             userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-//                         },
-//                         //date: new Date(new Date - 24*3600*1000).toLocaleDateString(),
-//                         content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-//                         imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-//                         postDate: 1624269256,
-//                         likeDate: 1624269256
-//                     }
-//                 ];
-//             }
-//             else if(curNoticeType=="comment")
-//             {
-//                 tweetList = [
-//                     {
-//                         postId: Math.round(Math.random() * 1000000000),
-//                         user: {
-//                             userName: "一位路过的靓仔",
-//                             userId: "handsomeboy",
-//                             userImgUrl: "https://avatars.githubusercontent.com/u/84268960?v=4"
-//                         },
-//                         //date: new Date().toLocaleDateString(),
-//                         content: "新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了",
-//                         imgUrl: "",
-//                         commentDate: 1624269255,
-//                         postDate: 1624269255,
-//                         comment:"确实！新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了"
-//                     },
-//                     {
-//                         postId: Math.round(Math.random() * 1000000000),
-//                         user: {
-//                             userName: "Yes Theory",
-//                             userId: "YesTheory",
-//                             userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-//                         },
-//                         //date: new Date(new Date - 24*3600*1000).toLocaleDateString(),
-//                         content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-//                         imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-//                         commentDate: 1624269256,
-//                         postDate: 1624269256,
-//                         comment:"确实！新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了"
-//                     }
-//                 ];
-//             }
-            
-//             while (tweetList.length < numTweet) {
-//                 tweetList.push(...tweetList);
-//             }
-//             resolve(tweetList.slice(0, numTweet));
-//         }, 1000);
-//     });
-//     loadedTweetList.push(...tweetList);
-//     var currentUser = await currentUserInfoPromise;
-//     var userName = currentUser.userName;
-//     var userId = currentUser.userId;
-    
-//     showTweets(tweetList, userName, userId);
-//     //showTweets(tweetList);
-//     loading.style.display = 'none';
-//     loadingLock = false;
-// }
 
-
-async function loadMoreTweets(numTweet) {
+async function loadMoreTweets(numTweet, is_same_noticeType) {
     if (loadingLock) {  //已经在等待就直接返回
         return;
     }
@@ -254,58 +164,42 @@ async function loadMoreTweets(numTweet) {
     var userName = currentUser.userName;
     var userId = currentUser.userId;
     // 向AJAX服务器请求数据
-    if(curNoticeType=="like")
+    if(is_same_noticeType==true) //当时向下scroll之后再加载数据
     {
-        var count=0;
-        loadedTweetList = [];  //初始化
         var info2send={
             timeStamp: Math.round(new Date().getTime()/1000), //这样才是unix时间(10位)
-            loadedNum: 0,
-            requestNum: 10
+            loadedNum: loadedCount,
+            requestNum: numTweet
         }
-        console.log("send to jsp/notice/like:");
+        url = "jsp/notice/"+ curNoticeType;
+        console.log("send to "+url);
         console.log(info2send);
-        likeList = await ajax.post("jsp/notice/like", info2send).data.posts;
-        while(likeList.length!=0)
-        {
-            loadedTweetList = loadedTweetList.concat(likeList);
-            showTweets(loadedTweetList, userName, userId, count, count+likeList.length());
-            count += likeList.length();
-            info2send.timeStamp = Math.round(new Date().getTime()/1000); //这样才是unix时间(10位)
-            info2send.loadedNum = count;
-            info2send.requestNum = 10;
-            console.log("send to jsp/notice/like:");
-            console.log(info2send);
-            likeList = await ajax.post("jsp/notice/like", info2send).data.posts;
+        noticeList = (await ajax.post(url, info2send)).posts;  //返回的已经是data了
+        if(noticeList.length!=0){
+            loadedTweetList = loadedTweetList.concat(noticeList);
+            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length());
+            loadedCount += noticeList.length();
         }
     }
-    else if(curNoticeType=="comment")
+    else  //当时切换noticeType来加载数据，要清空loadedCount和loadedTweetList
     {
-        var count=0;
-        loadedTweetList = [];  //初始化
+        loadedCount = 0;
+        loadedTweetList = 0;
         var info2send={
             timeStamp: Math.round(new Date().getTime()/1000), //这样才是unix时间(10位)
-            loadedNum: 0,
-            requestNum: 10
+            loadedNum: loadedCount,
+            requestNum: numTweet
         }
-        console.log("send to jsp/notice/comment:");
+        url = "jsp/notice/"+ curNoticeType;
+        console.log("send to "+url);
         console.log(info2send);
-        commentList = await ajax.post("jsp/notice/comment", info2send).data.posts;
-        while(commentList.length!=0)
-        {
-            loadedTweetList = loadedTweetList.concat(commentList);
-            showTweets(loadedTweetList, userName, userId, count, count+commentList.length());
-            count += commentList.length();
-            info2send.timeStamp = Math.round(new Date().getTime()/1000); //这样才是unix时间(10位)
-            info2send.loadedNum = count;
-            info2send.requestNum = 10;
-            console.log("send to jsp/notice/comment:");
-            console.log(info2send);
-            commentList = await ajax.post("jsp/notice/comment", info2send).data.posts;
+        noticeList = (await ajax.post(url, info2send)).posts; //返回的已经是data了
+        if(noticeList.length!=0){
+            loadedTweetList = loadedTweetList.concat(noticeList);
+            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length());
+            loadedCount += noticeList.length();
         }
     }
-    loading.style.display = 'none';
-    loadingLock = false;
 }
 
 
@@ -318,6 +212,7 @@ function goUserProfile(i) {  //得到用户个人主页（参数是id）
 }
 
 window.addEventListener('scroll', () => {
+    //当到底一次之后，怎么删除这个listener，使得不会再加载？会自动删除吗？
     // 变量scrollTop是滚动条滚动时，离顶部的距离
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     // 变量windowHeight是可视区的高度
@@ -327,6 +222,6 @@ window.addEventListener('scroll', () => {
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
-        loadMoreTweets(10);
+        loadMoreTweets(10, true);
     }
 })
