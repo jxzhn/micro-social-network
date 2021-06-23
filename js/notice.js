@@ -27,6 +27,8 @@ var comment_select = document.getElementById("comment-select");
 
 // var noticeType = "like";  //默认进来就是赞
 var curNoticeType = "like";  //全局变量（默认进来就是赞），可以在同步函数（没有async的函数）中进行修改。
+var currentUserId = "";
+var currentUserName = "";
 
 async function initNoticePage(){
     if(curNoticeType == "like"){
@@ -81,8 +83,12 @@ function selectComment(){
     }
 }
 
+
+
 //----------------------loading--------------------------
 function showTweets(tweetList, currentUserName, currentUserId, start, end) {
+    currentUserId = userId;
+    currentUserName = userName;
     if(curNoticeType=="like"){
         for (var i=start; i<end; i++) {
             var like = tweetList[i];
@@ -102,8 +108,8 @@ function showTweets(tweetList, currentUserName, currentUserId, start, end) {
                     `<img class="tweet-content-img-like" onclick="goDetail(${i})" src="${like.imgUrl}" style="display: ${like.imgUrl? 'flex':'none'}">\n` + 
                     `<div class="tweet-detail">\n` +
                         `<div class="tweet-info-row">\n` + 
-                            `<span id="tweet-user-name">${currentUserName}</span>\n` +
-                            `<span id="tweet-user-id">@${currentUserId}</span>\n` + //???ajax?
+                            `<span id="tweet-user-name" onclick="goUserProfile()">${currentUserName}</span>\n` +
+                            `<span id="tweet-user-id" onclick="goUserProfile()">@${currentUserId}</span>\n` + //???ajax?
                             `<span id="tweet-dot">.</span>\n` +
                             `<span id="tweet-date">${new Date(like.postDate*1000).Format('MM 月 dd 日')}</span>\n`+ 
                         `</div>\n` +
@@ -136,8 +142,8 @@ function showTweets(tweetList, currentUserName, currentUserId, start, end) {
                     `<img class="tweet-content-img-like" onclick="goDetail(${i})" src="${comment.imgUrl}" style="display: ${comment.imgUrl? 'flex':'none'}">\n` + 
                     `<div class="tweet-detail">\n` +
                         `<div class="tweet-info-row">\n` + 
-                            `<span id="tweet-user-name">${currentUserName}</span>\n` +
-                            `<span id="tweet-user-id">@${currentUserId}</span>\n` + //???ajax?
+                            `<span id="tweet-user-name" onclick="goUserProfile()">${currentUserName}</span>\n` +
+                            `<span id="tweet-user-id" onclick="goUserProfile()">@${currentUserId}</span>\n` + //???ajax?
                             `<span id="tweet-dot">.</span>\n` +
                             `<span id="tweet-date">${new Date(comment.postDate*1000).Format('MM 月 dd 日')}</span>\n`+ 
                         `</div>\n` +
@@ -163,6 +169,7 @@ async function loadMoreTweets(numTweet, is_same_noticeType) {
     var currentUser = await currentUserInfoPromise;
     var userName = currentUser.userName;
     var userId = currentUser.userId;
+
     // 向AJAX服务器请求数据
     if(is_same_noticeType==true) //当时向下scroll之后再加载数据
     {
@@ -208,7 +215,13 @@ function goDetail(i) {  //得到原贴的详情（参数是id）
 }
 
 function goUserProfile(i) {  //得到用户个人主页（参数是id）
-    window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
+    if(!i){     //如果i为空，即参数为空，则表示是登录用户本人
+        window.location.href = "/profile.html?id=" + currentUserId;
+    }
+    else{       //否则，表示评论、点赞用户
+        window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
+    }
+    
 }
 
 window.addEventListener('scroll', () => {
