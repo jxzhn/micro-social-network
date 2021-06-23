@@ -204,6 +204,8 @@ function updateInfo(){
         succ_flag = false;
         return;
     }
+    banner.style.backgroundImage = `url(${bannerDataURL})`;
+    avatar.style.backgroundImage = `url(${avatarDataURL})`;
     for(i in  userName){
         userName[i].innerHTML = edit_name.value;
     }
@@ -211,17 +213,20 @@ function updateInfo(){
 }
 function saveEdit(){
     edit_errormsg.innerHTML = "";
-    //TODO:updateDB
-    //send bannerDataURL，avatarDataURL;
-    console.log(bannerDataURL);
-    console.log(avatarDataURL);
-    console.log(edit_name.value);
-    console.log(edit_introduction.value);
-    if(bannerDataURL!=null){
-        banner.style.backgroundImage = `url(${bannerDataURL})`;
+    //TODO: save info
+    try{
+        var infoToSend = {
+            userName: edit_name.value,
+            avatar: avatarDataURL,
+            introduction: edit_introduction.value,
+            backgroundImage: bannerDataURL
+        }
+        console.log("send to /user/updateMyInfo:");
+        console.log(infoToSend);
+        // await ajax.post("/user/updateMyInfo", infoToSend);
     }
-    if(avatarDataURL!=null){
-        avatar.style.backgroundImage = `url(${avatarDataURL})`;
+    catch(err){
+        console.log(err);
     }
     updateInfo();
     if(edit_errormsg.innerHTML.length == 0){
@@ -233,7 +238,6 @@ function cancelEdit(){
     hidePopup('edit-popup');
     edit_errormsg.innerHTML = "";
 }
-
 
 var checkFollowTest = {
     "currentUserFollowing": 0
