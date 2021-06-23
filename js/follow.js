@@ -1,8 +1,7 @@
-var AJAX_FLAG = true;
-
 var loading = document.getElementById('loading');
 var loadingLock = false;
-var loadedTweetList = [];
+var userList = [];
+var curNo = 0; //下一次开始载入的列表下标
 
 function getQueryVariable(variable)
 {
@@ -16,6 +15,9 @@ function getQueryVariable(variable)
 }
 
 var userId =  getQueryVariable('id');
+var userIdToSend = {
+    userId: userId
+}
 var followType = getQueryVariable('followType');
 var curFollowType = followType;
 //--------------------------init page-------------------------
@@ -27,7 +29,18 @@ async function initFollowPage(){
     var following_label = document.getElementById("following-label");
     var followed_label = document.getElementById("followed-label");
     var userName = document.getElementById("userName");
-    userName.innerHTML = currentUser.userName;
+    try{
+        console.log("send to /user/userInfo:");
+        console.log(userIdToSend);
+        var userInfo = await ajax.post("/user/userInfo");
+        // var userInfo = {
+        //     userName: "tempUserName"
+        // }
+        userName.innerHTML = userInfo.userName;
+    }
+    catch(err){
+        console.log(err);
+    }
     if(userId == currentUser.userId){
         following_label.innerHTML = "我的关注";
         followed_label.innerHTML = "我的粉丝";
@@ -38,15 +51,15 @@ async function initFollowPage(){
     }
     if(followType == "following"){
         following_select.classList.add("follow-select-selected");
+        loadFollowing();
     }
     else{
         followed_select.classList.add("follow-select-selected");
+        loadFollowed();
     }
-    loadMoreTweets(10);
 }
 
 initFollowPage();
-
 //----------------------page function--------------------------
 const scrollToTop = () => {
     const fromTopDistance = document.documentElement.scrollTop || document.body.scrollTop;
@@ -65,7 +78,7 @@ function selectFollowing(){
            `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
        `</div>\n`;
         loading = document.getElementById('loading');
-        loadMoreTweets(10);
+        loadFollowing();
     }
     else{
         scrollToTop();
@@ -81,11 +94,38 @@ function selectFollowed(){
            `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
         `</div>\n`;
         loading = document.getElementById('loading');
-        loadMoreTweets(10);
+        loadFollowed();
     }
     else{
         scrollToTop();
     }
+}
+
+async function loadFollowing(){
+    // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
+    try{
+        console.log("send to /user/followList:");
+        console.log(userIdToSend);
+        userList = await ajax.post("/user/followList", userIdToSend).follows;
+        // userList = testRes.follows;
+    }
+    catch(err){
+        console.log(err);
+    }
+    loadMoreTweets();
+}
+async function loadFollowed(){
+    // userList = followedList;
+    try{
+        console.log("send to /user/fansList:");
+        console.log(userIdToSend);
+        userList = await ajax.post("/user/fansList", userIdToSend).fans;
+        // userList = testRes.follows;
+    }
+    catch(err){
+        console.log(err);
+    }
+    loadMoreTweets();
 }
 //----------------------follow button related--------------------------
 async function follow(obj){
@@ -93,18 +133,28 @@ async function follow(obj){
         userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name"),
         createTime:  new Date().getTime() / 1000
     }
-    console.log("send to /user/follow:");
-    console.log(followInfo);
-    if(AJAX_FLAG) await ajax.post("/user/follow", followInfo);
+    try{
+        console.log("send to /user/follow:");
+        console.log(followInfo);
+        await ajax.post("/user/follow", followInfo);
+    }
+    catch(err){
+        console.log(err);
+    }
     obj.parentNode.innerHTML = `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)">关注中</button>\n`;
 }
 async function unfollow(obj){
     var followInfo = {
         userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name"),
     }
-    console.log("send to /post/unfollow:");
-    console.log(followInfo);
-    if(AJAX_FLAG) await ajax.post("/post/unfollow", followInfo);
+    try{
+        console.log("send to /user/unfollow:");
+        console.log(followInfo);
+        await ajax.post("/user/unfollow", followInfo);
+    }
+    catch(err){
+        console.log(err);
+    }
     obj.parentNode.innerHTML = `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>\n`;
 }
 function unfollowBtnMouseover(obj){
@@ -117,13 +167,16 @@ function unfollowBtnMouseout(obj){
 }
 
 //----------------------loading--------------------------
-function showTweets(tweetList) {
-    for (i in tweetList) {
-        var tweet = tweetList[i];
+function showTweets() {
+    for(i in userList) {
+        var tweet = userList[i];
         var block = document.createElement('div');
         block.classList.add('tweet-block');
+        var btn = tweet.user.currentUserFollowing ? 
+                `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`:
+                `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`;
         block.innerHTML =
-        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
+        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.avatar}">\n` +
         `<div class="tweet-detail">\n` + 
             `<div class="tweet-leftInfo">\n` + 
                 `<div class="tweet-info-row">\n` + 
@@ -131,84 +184,70 @@ function showTweets(tweetList) {
                     `<span name="${tweet.user.userId}" class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
                 `</div>\n` + 
                 `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
-                    `<span>${tweet.content.length > 30 ? tweet.content.substring(0 ,30) + '...' : tweet.content}</span>\n` + 
+                    `<span>${tweet.user.introduction.length > 30 ? tweet.user.introduction.substring(0 ,30) + '...' : tweet.user.introduction}</span>\n` + 
                 `</div>\n` +
             `</div>\n` + 
             `<div class="tweet-followBtns">\n` + 
-                `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>\n` + 
-                // `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>\n` + 
+                btn + `\n` + 
             `</div>\n` + 
         `</div>`
         loading.parentNode.insertBefore(block, loading);
     }
 }
 
-async function loadMoreTweets(numTweet) {
+function loadMoreTweets() {
     if (loadingLock) {
         return;
     }
     loadingLock = true;
     loading.style.display = 'block';
-    // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
-    var tweetList = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            tweetList = [
-                {
-                    id: Math.round(Math.random() * 1000000000),
-                    user: {
-                        userName: "一位路过的靓仔",
-                        userId: "handsomeboy",
-                        userImgUrl: "https://avatars.githubusercontent.com/u/84268960?v=4"
-                    },
-                    date: new Date().toLocaleDateString(),
-                    content: "新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了",
-                    imgUrl: "",
-                    numComment: 8,
-                    liked: false,
-                    numLike: 20 
-                },
-                {
-                    id: Math.round(Math.random() * 1000000000),
-                    user: {
-                        userName: "Yes Theory",
-                        userId: "YesTheory",
-                        userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-                    },
-                    date: new Date(new Date - 24*3600*1000).toLocaleDateString(),
-                    content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-                    imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-                    numComment: 20,
-                    liked: true,
-                    numLike: 143
-                }
-            ];
-            while (tweetList.length < numTweet) {
-                tweetList.push(...tweetList);
-            }
-            resolve(tweetList.slice(0, numTweet));
-        }, 1000);
-    });
-    loadedTweetList.push(...tweetList);
-    showTweets(tweetList);
+    showTweets();
     loading.style.display = 'none';
     loadingLock = false;
 }
 
-
 function goUserProfile(i) {
-    window.location.href = "./profile.html?id=" + loadedTweetList[i].user.userId;
+    window.location.href = "./profile.html?id=" + userList[i].user.userId;
 }
 
-window.addEventListener('scroll', () => {
-    // 变量scrollTop是滚动条滚动时，离顶部的距离
-    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    // 变量windowHeight是可视区的高度
-    var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-    // 变量scrollHeight是滚动条的总高度
-    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-    // 判断滚动条是否到底部
-    if(scrollTop + windowHeight >= scrollHeight - 10){
-        //写后台加载数据的函数
-        loadMoreTweets(10);
-    }
-})
+var testRes = {
+    "length" : 2,
+    "follows" : [
+        {
+            "user" : {
+                "userId" : "12345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 1
+            }
+        },
+        {
+            "user" : {
+                "userId" : "22345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 0
+            }
+        },
+        {
+            "user" : {
+                "userId" : "32345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 0
+            }
+        },
+        {
+            "user" : {
+                "userId" : "42345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 1
+            }
+        }
+    ]
+}
