@@ -106,7 +106,7 @@ async function loadFollowing(){
     try{
         console.log("send to /user/followList:");
         console.log(userIdToSend);
-        userList = await ajax.post("/user/followList", userIdToSend).follows;
+        userList = (await ajax.post("/user/followList", userIdToSend)).follows;
         // userList = testRes.follows;
     }
     catch(err){
@@ -119,7 +119,7 @@ async function loadFollowed(){
     try{
         console.log("send to /user/fansList:");
         console.log(userIdToSend);
-        userList = await ajax.post("/user/fansList", userIdToSend).fans;
+        userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
         // userList = testRes.follows;
     }
     catch(err){
