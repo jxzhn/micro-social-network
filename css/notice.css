@@ -1,5 +1,5 @@
 #notice-title-bar{
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     border-bottom: 1px solid var(--light-gray);
     padding: 0.5em 1em;
@@ -7,9 +7,13 @@
     background-color: var(--white);
     box-sizing: border-box;
     width: max(50%, 40 * 16px); /* 这个要跟 sidebar 里面 main 的宽度保持一致，main 里面 1em 是 16px */
-    height: 5.3em;
+    height: 6.2em;
     user-select: none;
     z-index: 1;
+}
+
+#noticeTitle{
+    font-size:24px;
 }
 #notice-select-a:visited{
     color: var(--black);
@@ -48,72 +52,76 @@
     background-color: var(--primary-theme);
 }
 
-
-
-
-
 .tweet-comment:hover, .tweet-like:hover {
     background-color: var(--primary-hover-bg);
     border-radius: 10px;
     /* padding:8px; */
 }
 
-
-
-
 /*点赞框*/
-.like-block{
-    /* padding: 1em; */
+.like-block, .comment-block{
     padding: 1em 0;
     display: flex;
     font-size: 15px;
     border-bottom: 1px solid var(--light-gray);
     transition: background-color 0.2s;
-    /* width:100%; */
+    width:100%;
 }
-.like-content{
+.like-block:hover, .comment-block:hover{
+    background-color: var(--gray-hover-bg);
+}
+.like-user-img, .comment-user-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 999em;
+    margin-left:1em;
+    border: 1px solid var(--light-gray);
+}
+.like-user-detail,.comment-user-detail{
+    padding:10px;
+    width:100%;
+}
+
+
+.like-content,.comment-content{
     border: 1px solid var(--light-gray);
     border-radius: 10px;
     display:flex;
-    margin-right:12px;
-    /* width: 540px;   */
+    margin-right: 1em;
     flex-basis: 100%;
 }
-.like-user-detail{
-    padding:10px;
+/* .like-content:hover {
+    background-color: var(--gray-hover-bg);
+} */
+.like-detail, .comment-detail{
+    flex-basis: 100%;
+    /* width:100%; */
 }
 
-.like-user-img{
-    margin-left:1em;
-}
 
-/*评论框*/
-
+/*具体框*/
 .tweet-detail{
     padding:10px;
     /* margin-right:10px; */
     flex-basis: 100%;
 }
 
-.tweet-user-img,.comment-user-img, .like-user-img {
+.tweet-user-img {
     width: 50px;
     height: 50px;
     border-radius: 999em;
     margin-right: 12px;
 }
 
-.tweet-content-img{  /*原博的图片*/
+.tweet-content-img-like{  /*原博的图片*/
     width: 120px;
     height: 120px;
-    border-radius: 10px;
-
+    border-radius: 10px;/*和边框的10px对应*/
     margin-right: 12px;
 }
 
-.tweet-content{
-    /* width:430px; */
-}
-.tweet-word{
+.tweet-content, #comment-info-notice{
+    display:flex;
     width: 100%;
     flex:1;
     overflow: hidden;
@@ -121,25 +129,36 @@
     display: -webkit-box;
     -webkit-line-clamp: 3; /*行数*/
     -webkit-box-orient: vertical;
+    /* padding-right:10px; */
+}
+
+#comment-info-notice{
+    width: 94%;
+    flex:1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /*行数*/
+    -webkit-box-orient: vertical;
 }
 
 
 /*字体*/
-#tweet-user-id, #like-user-id {
+#tweet-user-id, #like-user-id, #comment-user-id {
     color: var(--gray);
 }
 
-#tweet-dot, #like-dot {
+#tweet-dot, #like-dot, #comment-dot {
     position: relative;
     top: -0.25em;
     color: var(--gray);
 }
 
-#tweet-date, #like-date {
+#tweet-date, #like-date, #comment-date {
     font-size: 15px;
     color: var(--gray);
 }
 
-#tweet-user-name, #like-user-name {
+#tweet-user-name, #like-user-name, #comment-user-name {
     font-weight: bold;
 }
