@@ -2,6 +2,7 @@ var loading = document.getElementById('loading');
 var loadingLock = false;
 var tweet;
 var loadedCommentList = [];
+var loadedCommentNum = 0;
 
 function getQueryVariable(variable)
 {
@@ -14,7 +15,7 @@ function getQueryVariable(variable)
     return false;
 }
 
-var id = getQueryVariable('id');
+var id = getQueryVariable('id');  //postId
 
 Date.prototype.Format = function(fmt) {
     var o = {   
@@ -37,25 +38,13 @@ Date.prototype.Format = function(fmt) {
 
 async function loadDetail(numTweet) {
     console.log(id);
-    // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
-    tweet = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            tweet = {
-                user: {
-                    userName: "一位路过的靓仔",
-                    userId: "handsomeboy",
-                    userImgUrl: "https://avatars.githubusercontent.com/u/84268960?v=4"
-                },
-                date: new Date().toLocaleDateString(),
-                content: "新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了",
-                imgUrl: "",
-                numComment: 8,
-                liked: false,
-                numLike: 20,
-            }
-            resolve(tweet);
-        }, 1000);
-    });
+    // 用 AJAX 向服务器请求 numTweet 条数据
+    console.log("send to jsp/post/detail");
+    var info2send={
+        postId: id
+    }
+    console.log(info2send);
+    tweet = await ajax.post("jsp/post/detail", info2send);
     showTweetDetail();
 }
 
@@ -81,9 +70,9 @@ function showTweetDetail() {
         `<div class="tweet-detail-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
     `</div>\n` + 
     `<div class="tweet-detail-date-row">\n` + 
-        `<span class="tweet-detail-date">${new Date(tweet.date).Format('hh:dd')}</span>\n` + 
+        `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('hh:mm')}</span>\n` + 
         `<span class="tweet-detail-dot">.</span>\n` + 
-        `<span class="tweet-detail-date">${new Date(tweet.date).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
+        `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
     `</div>\n` +
     `<div class="tweet-detail-interact-row">\n` + 
         `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
@@ -123,8 +112,8 @@ function showTweetDetail() {
             tweetSendCommentButton.disabled = false;
         }
     });
-    
-
+    loadedCommentNum = 0;  //初始化评论数为0，然后再加载。
+    loadedCommentList = [];  //初始化列表为空
     loadMoreComments(8);
 }
 
@@ -134,45 +123,25 @@ async function loadMoreComments(numComment) {
     }
     loadingLock = true;
     loading.style.display = 'block';
-    // 用 AJAX 向服务器请求 numTweet 条数据，这里先弄点假数据
-    commentList = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            commentList = [
-                {
-                    commentId: Math.round(Math.random() * 1000000000),
-                    user: {
-                        userName: "一位路过的靓仔",
-                        userId: "handsomeboy",
-                        userImgUrl: "https://avatars.githubusercontent.com/u/84268960?v=4"
-                    },
-                    date: new Date().toLocaleDateString(),
-                    content: "哈哈哈写的真好！哈哈哈写的真好！哈哈哈写的真好！哈哈哈写的真好！哈哈哈写的真好！哈哈哈写的真好！",
-                },
-                {
-                    commentId: Math.round(Math.random() * 1000000000),
-                    user: {
-                        userName: "Yes Theory",
-                        userId: "YesTheory",
-                        userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-                    },
-                    date: new Date(new Date - 24*3600*1000).toLocaleDateString(),
-                    content: "good ⚡⚡⚡",
-                }
-            ];
-            while (commentList.length < numComment) {
-                commentList.push(...commentList);
-            }
-            resolve(commentList.slice(0, numComment));
-        }, 1000);
-    });
-    loadedCommentList.push(...commentList);
-    showComments(commentList);
+    // 用 AJAX 向服务器请求 numTweet 条数据
+    console.log("send to jsp/post/getComment");
+    info2send = {
+        postId: id,
+        timeStamp: Math.round(new Date().getTime()/1000), //这样才是unix时间(10位)
+        loadedNum: loadedCommentNum,
+        requestNum: numComment
+    };
+    console.log(info2send);
+    commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
+    loadedCommentList = loadedCommentList.concat(commentList);
+    showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length());
+    loadedCommentNum += commentList.length; //？可以修改
     loading.style.display = 'none';
     loadingLock = false;
 }
 
-function showComments(commentList) {
-    for (i in commentList) {
+function showComments(commentList, start, end) {
+    for (var i=start; i<end; i++) {
         var comment = commentList[i];
 
         var block = document.createElement('div');
@@ -185,7 +154,7 @@ function showComments(commentList) {
                 `<span class="tweet-user-name" onclick="goUserProfile(${i})">${comment.user.userName}</span>\n` + 
                 `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${comment.user.userId}</span>\n` + 
                 `<span class="tweet-dot">.</span>\n` + 
-                `<span class="tweet-date">${new Date(comment.date).Format('MM 月 dd 日')}</span>\n` + 
+                `<span class="tweet-date">${new Date(comment.date*1000).Format('MM 月 dd 日')}</span>\n` + 
             `</div>\n` + 
             `<div class="tweet-content">\n` + 
                 `<span>${comment.content}</span>\n` + 
@@ -198,7 +167,14 @@ function showComments(commentList) {
 
 function clickLike(likeElement) {
     // 发送 AJAX
-
+    var info2send = {
+        postId: id
+    };
+    var url = tweet.liked?"jsp/post/like":"jsp/post/dislike";
+    console.log("send to "+url);
+    console.log(info2send);
+    _  = await ajax.post(url, info2send);
+    // 更改样式
     tweet.liked = !tweet.liked;
     likeElement.classList = `tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}`;
     likeElement.childNodes[0].classList = `${tweet.liked?'fas':'far'} fa-heart`;
@@ -213,10 +189,16 @@ function goUserProfile(i) {
 
 function sendComment() {
     var content = tweetCommentTextarea.value;
-
     console.log(content);
-
-    // 重置
+    // 向ajax服务器发送评论
+    console.log('send to jsp/post/comment');
+    var info2send = {
+        postId: id,
+        content: content
+    };
+    console.log(info2send);
+    _ = await ajax.post("jsp/post/comment", info2send);
+    // 重置评论框
     tweetCommentTextarea.value = '';
     tweetComentLen.textContent = '0/140';
     tweetComentLen.style.color = 'var(--red)';
@@ -241,6 +223,6 @@ window.addEventListener('scroll', () => {
 
 loadDetail();
 
-function showCommentBox() {
+function showCommentBox() { // 评论框的显示和折叠
     tweetCommentBox.style.display = tweetCommentBox.style.display == 'block'?'none':'block';
 }
