@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="./css/send-tweet.css" />
     <link rel="stylesheet" type="text/css" href="./css/notice.css" />
 </head>
+
 <body>
     <div id="sidebar">
         <div id="logo">
@@ -23,7 +24,7 @@
                 <a href="./index.html"><i class="far fa-sun nav-icon"></i>首页</a>
             </li>
             <li class="nav-righthere">
-                <a href="#"><i class="far fa-bell nav-icon"></i>我的通知</a>
+                <a href="./notice.html" onclick="scrollToTop()" id="#"><i class="far fa-bell nav-icon"></i>我的通知</a>
             </li>
             <li>
                 <a href="./profile.html"><i class="far fa-user-circle nav-icon"></i>个人</a>
@@ -48,25 +49,27 @@
             <div style="padding: 0.23em 0.4em;">
                 <span id="noticeTitle">我的通知</span>
             </div>
-            <div id="like-select" class="notice-select notice-select-selected">
+            <div id="like-select" class="notice-select" onclick="selectLike()">
                 <div id="like-label" class="notice-label">赞</div>
                 <div id="like-bar" class="notice-bar"></div>
             </div>
-            <a id="notice-select-a" href="./comment.html">
-                <div id="comment-select" class="notice-select">
-                    <div id="comment-label" class="notice-label">评论</div>
-                    <div id="comment-bar" class="notice-bar"></div>
-                </div>
-            </a>
+            <div id="comment-select" class="notice-select" onclick="selectComment()">
+                <div id="comment-label" class="notice-label">评论</div>
+                <div id="comment-bar" class="notice-bar"></div>
+            </div>
         </div>
         <div class="interval">
         </div>
         <div class="interval">
         </div>
-        <div id="loading">
-            <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
+        <div id="loadingContainer">
+            <div id="loading">
+                <span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>
+            </div>
         </div>
+        
     </div>
+
 
     <!-- 发送推特弹窗 -->
     <div id="send-tweet-popup" class="popup">
@@ -93,6 +96,6 @@
 <script type="text/javascript" src="./js/ajax.js"></script>
 <script type="text/javascript" src="./js/user.js"></script>
 <script type="text/javascript" src="./js/popup.js"></script>
-<!-- <script type="text/javascript" src="./js/follow.js"></script> -->
+<script type="text/javascript" src="./js/notice.js"></script>
 <script type="text/javascript" src="./js/send-tweet.js"></script>
 </html>
