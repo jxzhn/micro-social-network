@@ -30,8 +30,6 @@ function getQueryVariable(variable)
     }
     return false;
 }
-
-
 //--------------------------init page-------------------------
 var like_select = document.getElementById("like-select");
 var comment_select = document.getElementById("comment-select");
@@ -42,9 +40,7 @@ var curUserId;
 async function initNoticePage(){
     var currentUser = await currentUserInfoPromise;  //当前登录用户
     userId = currentUser.userName;
-    //alert(curUserId);
     curUserId=userId;
-    //alert(curUserId);
     var like_label = document.getElementById("like-label");
     var comment_label = document.getElementById("comment-label");
     if(noticeType == "like"){
@@ -98,17 +94,7 @@ function selectComment(){
         scrollToTop();
     }
 }
-//alert(curUserId);
-// alert(curNoticeType);
-//----------------------follow button related--------------------------
-// function follow(obj){
-//     console.log(obj.parentNode);
-//     obj.parentNode.innerHTML = `<button id="cancelFollowBtn" class="solid-button" onclick="cancelFollow(this);">取消关注</button>\n`;
-// }
-// function cancelFollow(obj){
-//     console.log(obj.parentNode);
-//     obj.parentNode.innerHTML = `<button id="followBtn" class="solid-button" onclick="follow(this);">关注</button>\n`;
-// }
+
 //----------------------loading--------------------------
 function showTweets(tweetList, currentUserName, currentUserId) {
     if(curNoticeType=="like"){
@@ -126,11 +112,9 @@ function showTweets(tweetList, currentUserName, currentUserId) {
                     `<span id="like-user-id" onclick="goUserProfile(${i})">@${like.user.userId}</span>\n` +
                     `<span id="like-dot">.</span>\n` +
                     `<span id="like-date">${new Date(like.likeDate*1000).Format('MM 月 dd 日')}</span><br />\n` + //likeDate是unixtime，需要乘1000
-                    `<span id="like-info">点赞了这条微博</span>\n` +
+                    `<span id="like-info" onclick="goDetail(${i})">点赞了这条微博</span>\n` +
                 `</div>\n`+
                 `<div class="like-content">\n` +
-                    //`<div class="tweet-content-img" onclick="goDetail(${i})" style="display: ${like.imgUrl?'block':'none'}; background-image: url(${like.imgUrl})"\n` + 
-                    //`<img class="tweet-content-img" onclick="goDetail(${i})" src="${like.imgUrl}" οnerrοr=“this.style.display=‘none’”>\n` + 
                     `<img class="tweet-content-img-like" onclick="goDetail(${i})" src="${like.imgUrl}" style="display: ${like.imgUrl? 'flex':'none'}">\n` + 
                     `<div class="tweet-detail">\n` +
                         `<div class="tweet-info-row">\n` + 
@@ -139,13 +123,12 @@ function showTweets(tweetList, currentUserName, currentUserId) {
                             `<span id="tweet-dot">.</span>\n` +
                             `<span id="tweet-date">${new Date(like.postDate*1000).Format('MM 月 dd 日')}</span>\n`+ 
                         `</div>\n` +
-                        `<div class="tweet-content">\n` +
+                        `<div class="tweet-content" onclick="goDetail(${i})">\n` +
                             `${like.content}\n` +
                         `</div>\n` +
                     `</div>\n` +
                 `</div>\n` +
             `</div>`;
-            // alert(block.innerHTML);
             loading.parentNode.insertBefore(block, loading);  //在loading元素的parantNode中，loading的前面加入block
         }
     }
@@ -163,7 +146,7 @@ function showTweets(tweetList, currentUserName, currentUserId) {
                     `<span id="comment-user-id" onclick="goUserProfile(${i})">@${comment.user.userId}</span>\n` +
                     `<span id="comment-dot">.</span>\n` +
                     `<span id="comment-date">${new Date(comment.commentDate*1000).Format('MM 月 dd 日')}</span><br />\n` + //likeDate是unixtime，需要乘1000
-                    `<span id="comment-info-notice">${comment.comment}</span>\n` +
+                    `<span id="comment-info-notice" onclick="goDetail(${i})">${comment.comment}</span>\n` +
                 `</div>\n`+
                 `<div class="comment-content">\n` +
                     `<img class="tweet-content-img-like" onclick="goDetail(${i})" src="${comment.imgUrl}" style="display: ${comment.imgUrl? 'flex':'none'}">\n` + 
@@ -174,13 +157,12 @@ function showTweets(tweetList, currentUserName, currentUserId) {
                             `<span id="tweet-dot">.</span>\n` +
                             `<span id="tweet-date">${new Date(comment.postDate*1000).Format('MM 月 dd 日')}</span>\n`+ 
                         `</div>\n` +
-                        `<div class="tweet-content">\n` +
+                        `<div class="tweet-content" onclick="goDetail(${i})">\n` +
                             `${comment.content}\n` +
                         `</div>\n` +
                     `</div>\n` +
                 `</div>\n` +
             `</div>`;
-            // alert(block.innerHTML);
             loading.parentNode.insertBefore(block, loading);  //在loading元素的parantNode中，loading的前面加入block
         }
     }
@@ -209,7 +191,7 @@ async function loadMoreTweets(numTweet) {
                         //date: new Date().toLocaleDateString(),
                         content: "新买的ThinkPad，刚刚开封，系统自带win10，没有安装其他任何第三方软件。第一个安装的是搜狗输入法，刚装上就发了个弹窗：检测到系统存在9个垃圾软件，建议清理巴拉巴拉。嗯，系统里除了你，我还没有安装任何其他东西呢，你到还是真直觉，这么快就把自己归入垃圾软件了",
                         imgUrl: "",
-                        commentDate: 1624269255,
+                        postDate: 1624269255,
                         likeDate: 1624269255
                     },
                     {
@@ -222,7 +204,7 @@ async function loadMoreTweets(numTweet) {
                         //date: new Date(new Date - 24*3600*1000).toLocaleDateString(),
                         content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
                         imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-                        commentDate: 1624269256,
+                        postDate: 1624269256,
                         likeDate: 1624269256
                     }
                 ];
@@ -278,16 +260,6 @@ async function loadMoreTweets(numTweet) {
     loadingLock = false;
 }
 
-// function clickLike(likeElement, i) {
-//     console.log(i);
-//     var tweet = loadedTweetList[i];
-
-//     // 发送 AJAX
-
-//     tweet.liked = !tweet.liked;
-//     likeElement.classList = `tweet-like ${tweet.liked?'tweet-liked':''}`;
-//     likeElement.childNodes[0].classList = `${tweet.liked?'fas':'far'} fa-heart`;
-// }
 
 function goDetail(i) {  //得到原贴的详情（参数是id）
     window.location.href = "/detail.html?id=" + loadedTweetList[i].postId;
