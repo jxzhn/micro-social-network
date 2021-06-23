@@ -1,7 +1,6 @@
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var userList = [];
-var curNo = 0; //下一次开始载入的列表下标
 
 function getQueryVariable(variable)
 {
