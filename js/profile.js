@@ -1,3 +1,5 @@
+var TEST_FLAG = true;
+
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
 var avatar = document.getElementById("avatar");
@@ -71,8 +73,8 @@ async function initProfilePage(){
             try{
                 console.log("send to /user/checkFollow:");
                 console.log(userIdToSend);
-                isFollowing = checkFollowTest.currentUserFollowing;
-                // isFollowing = await ajax.post("/user/checkFollow", userIdToSend).currentUserFollowing;
+                if(TEST_FLAG) isFollowing = checkFollowTest.currentUserFollowing;
+                else isFollowing = await ajax.post("/user/checkFollow", userIdToSend).currentUserFollowing;
             }
             catch(err){
                 console.log(err);
@@ -89,8 +91,8 @@ async function initProfilePage(){
     try{
         console.log("send to /user/userInfo:");
         console.log(userIdToSend);
-        // userInfo = await ajax.post("/user/userInfo", userIdToSend);
-        userInfo = userInfoTest.user;
+        if(TEST_FLAG)userInfo = userInfoTest.user;
+        else userInfo = await ajax.post("/user/userInfo", userIdToSend);
     }
     catch(err){
         console.log(err);
@@ -126,7 +128,7 @@ async function follow(){
         }
         console.log("send to /user/follow:");
         console.log(followInfo);
-        // await ajax.post("/user/follow", followInfo);
+        if(!TEST_FLAG)await ajax.post("/user/follow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -138,7 +140,7 @@ async function unfollow(){
     try{
         console.log("send to /user/unfollow:");
         console.log(userIdToSend);
-        // await ajax.post("/user/unfollow", userIdToSend);
+        if(!TEST_FLAG)await ajax.post("/user/unfollow", userIdToSend);
     }
     catch(err){
         console.log(err);
@@ -211,7 +213,7 @@ function updateInfo(){
     }
     introduction.innerHTML = edit_introduction.value;
 }
-function saveEdit(){
+async function saveEdit(){
     edit_errormsg.innerHTML = "";
     //TODO: save info
     try{
@@ -223,7 +225,7 @@ function saveEdit(){
         }
         console.log("send to /user/updateMyInfo:");
         console.log(infoToSend);
-        // await ajax.post("/user/updateMyInfo", infoToSend);
+        if(!TEST_FLAG) await ajax.post("/user/updateMyInfo", infoToSend);
     }
     catch(err){
         console.log(err);
