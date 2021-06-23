@@ -263,9 +263,9 @@ async function loadMoreTweets(numTweet) {
             loadedNum: 0,
             requestNum: 10
         }
-        console.log("send to /user/Likes:");
+        console.log("send to jsp/notice/like:");
         console.log(info2send);
-        likeList = await ajax.post("/user/Likes", info2send).data.posts;
+        likeList = await ajax.post("jsp/notice/like", info2send).data.posts;
         while(likeList.length!=0)
         {
             loadedTweetList = loadedTweetList.concat(likeList);
@@ -274,9 +274,9 @@ async function loadMoreTweets(numTweet) {
             info2send.timeStamp = Math.round(new Date().getTime()/1000); //这样才是unix时间(10位)
             info2send.loadedNum = count;
             info2send.requestNum = 10;
-            console.log("send to /user/Likes:");
+            console.log("send to jsp/notice/like:");
             console.log(info2send);
-            likeList = await ajax.post("/user/Likes", info2send).data.posts;
+            likeList = await ajax.post("jsp/notice/like", info2send).data.posts;
         }
     }
     else if(curNoticeType=="comment")
@@ -288,9 +288,9 @@ async function loadMoreTweets(numTweet) {
             loadedNum: 0,
             requestNum: 10
         }
-        console.log("send to /user/comment:");
+        console.log("send to jsp/notice/comment:");
         console.log(info2send);
-        commentList = await ajax.post("/user/comment", info2send).data.posts;
+        commentList = await ajax.post("jsp/notice/comment", info2send).data.posts;
         while(commentList.length!=0)
         {
             loadedTweetList = loadedTweetList.concat(commentList);
@@ -299,9 +299,9 @@ async function loadMoreTweets(numTweet) {
             info2send.timeStamp = Math.round(new Date().getTime()/1000); //这样才是unix时间(10位)
             info2send.loadedNum = count;
             info2send.requestNum = 10;
-            console.log("send to /user/comment:");
+            console.log("send to jsp/notice/comment:");
             console.log(info2send);
-            commentList = await ajax.post("/user/comment", info2send).data.posts;
+            commentList = await ajax.post("jsp/notice/comment", info2send).data.posts;
         }
     }
     loading.style.display = 'none';
