@@ -117,6 +117,10 @@ function showTweetDetail() {
     loadMoreComments(8);
 }
 
+//now version: 一直有loading，且新评论会出现在最后和最初
+//这里是不是要当loadedCommentList.length=0时，将loadingLock=true。（这样可以保证到底之后，loading消失）
+//但这样的话，就无法在加载完全部评论后添加新评论来显示出来。->可以通过出现在最初实现
+//但就可能出现加载到中途然后插入新评论，最终新评论出现在最开始和最后。
 async function loadMoreComments(numComment) {
     if (loadingLock) {
         return;
