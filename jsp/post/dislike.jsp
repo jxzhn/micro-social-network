@@ -29,71 +29,76 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
     String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
     JSONObject postData = new JSONObject(postbody);
-
-    //String contents = "yuyyyyyyyyyyyyyyyyyyyyy";
-    //String postId = "p_1";
-    //session.setAttribute("id","1");
-
-    String contents = (String)postData.get("contents");
+    
     String postId = (String)postData.get("postId");
     String currentUserId = (String)session.getAttribute("id");
-    String commentId = "";
+    int likes = 0;
+
     //连接数据库
     String connectString = "jdbc:mysql://localhost:3306/wwb?autoReconnect=true" + 
         "&useUnicode=true&characterEncoding=UTF-8";
     //String connectString = "jdbc:mysql://localhost:3306/wwb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
+
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(connectString, "root", "root");
-        PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
-        stmt.setString(1, currentUserId);
         
-        //判断用户是否存在
+        //查询帖子是否存在
+        PreparedStatement stmt = conn.prepareStatement("select * from postings where ID like ?");
+        stmt.setString(1, postId);
+        
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
-            code = 1001;
-            msg = "The user does not exist！";
+            code = 1003;
+            msg = "The posting does not exist！";
         } else {
+            likes = rs.getInt("likes");
 
-            //判断帖子是否存在
-            stmt = conn.prepareStatement("select * from postings where ID like ?");
-            stmt.setString(1, postId);
-        
+            //查询点赞用户
+            stmt = conn.prepareStatement("select * from users where ID like ?");
+            stmt.setString(1,currentUserId);
+
             rs = stmt.executeQuery();
             if (!rs.next()) {
-                code = 1003;
-                msg = "The posting does not exist！";
+                code = 1001;
+                msg = "The user does not exist！";
             } else {
-                //更新评论数
-                int comment = rs.getInt("comments");
-                stmt = conn.prepareStatement("update postings set comments=? where ID=?");
-                stmt.setInt(1,comment+1);
-                stmt.setString(2,postId);
-                cnt = stmt.executeUpdate();
 
+                //查询当前用户是否点赞该条post
+                stmt = conn.prepareStatement("select * from likes where userId like ? and postId like ?");
+                stmt.setString(1, currentUserId);
+                stmt.setString(2, postId);
 
-                long date = System.currentTimeMillis()/1000L;
-                Random r = new Random();
-                int rand = r.nextInt(89)+10;
-                commentId = "c_" + Long.toString(date) + Integer.toString(rand);
-                stmt = conn.prepareStatement("insert into comments (ID,userId,postId,contents,createTime) values (?,?,?,?,?)");
-                stmt.setString(1,commentId);
-                stmt.setString(2,currentUserId);
-                stmt.setString(3,postId);
-                stmt.setString(4,contents);
-                stmt.setLong(5,date);
-                
-                int cnt = stmt.executeUpdate();
-                if (cnt <= 0) {
-                    code = -1;
-                    msg = "fail!";
+                rs = stmt.executeQuery();
+                if(!rs.next()) {
+                    code = 1008;
+                    msg = "like does not exist!";
                 } else {
-                    msg = "success";
+
+                    //更新点赞表
+                    long date = System.currentTimeMillis()/1000L;
+                    stmt = conn.prepareStatement("delete from likes where userId=? and postId=?");
+                    stmt.setString(1,currentUserId);
+                    stmt.setString(2,postId);
+                    int cnt = stmt.executeUpdate();
+                    if (cnt <= 0) {
+                        code = -1;
+                        msg = "fail";
+                    } else {
+
+                        //更新帖子点赞数
+                        stmt = conn.prepareStatement("update postings set likes=? where ID=?");
+                        stmt.setInt(1,likes-1);
+                        stmt.setString(2,postId);
+                        cnt = stmt.executeUpdate();
+                        msg = "success";
+                    }
                 }
             }
         }
-        
+
+
         rs.close();
         stmt.close();
         conn.close();

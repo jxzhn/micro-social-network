@@ -2,7 +2,6 @@
 <%@ page import="java.util.*, java.io.*" %>
 <%@ page import="org.json.*" %>
 <%@ page import="java.sql.*" %>
-<%-- <%@ page import="com.alibaba.fastjson.*" %> --%>
 
 <%!
 String getPostData(InputStream in, int size, String charset) {
@@ -28,19 +27,11 @@ String msg = "";
 int code = 0;
 if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
-    String postbody = getPostData(request.getInputStream(), request.getContentLength(), "utf-8");
-    //int imgIndex = postbody.indexOf("imageUrl");
-    //int contentIndex = postbody.indexOf(":");
-
-
-    //JSONObject postData = JSON.parseObject(postbody);
-
-    JSONObject postData = new JSONObject(postbody);
-
-    String contents = (String)postData.get("contents");
-    String imageUrl = (String)postData.get("imageUrl");
+    session.setAttribute("id","1");
     String currentUserId = (String)session.getAttribute("id");
-    String postId = "";
+    String userName = "";
+    String userImgUrl = "";
+
     //连接数据库
     String connectString = "jdbc:mysql://localhost:3306/wwb?autoReconnect=true" + 
         "&useUnicode=true&characterEncoding=UTF-8";
@@ -52,30 +43,14 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
         stmt.setString(1, currentUserId);
         
-        //判断用户是否存在
+        //返回的表格
         ResultSet rs = stmt.executeQuery();
-        if (!rs.next()) {
+        if (rs.next()) {
+           userName = rs.getString("name");
+           userImgUrl = rs.getString("avatar");
+        } else {
             code = 1001;
             msg = "The user does not exist！";
-        } else {
-            long date = System.currentTimeMillis()/1000L;
-            Random r = new Random();
-            int rand = r.nextInt(89)+10;
-            postId = "p_" + Long.toString(date) + Integer.toString(rand);
-            stmt = conn.prepareStatement("insert into postings (ID,userId,createTime,contents,image) values (?,?,?,?,?)");
-            stmt.setString(1,postId);
-            stmt.setString(2,currentUserId);
-            stmt.setLong(3,date);
-            stmt.setString(4,contents);
-            stmt.setString(5,imageUrl);
-
-            int cnt = stmt.executeUpdate();
-            if (cnt <= 0) {
-                code = -1;
-                msg = "fail!";
-            } else {
-                msg = "success";
-            }
         }
 
         rs.close();
@@ -86,14 +61,17 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         msg = e.getMessage();
     }
 
+
+    long date = System.currentTimeMillis()/1000L;
     JSONObject retval = new JSONObject();
     retval.put("code",code);
     retval.put("msg",msg);
     JSONObject data = new JSONObject();
- //   data.put("number",number);
+    data.put("userId",currentUserId);
+    data.put("userName",userName);
+    data.put("userImgUrl",userImgUrl);
     retval.put("data",data);
     out.print(retval.toString());
-
 }
 
 %>
