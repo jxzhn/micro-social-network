@@ -74,7 +74,7 @@ button.hollow-button:hover {
 
 .cool-input-box>input+label, .cool-input-box>textarea+label {
     position: absolute;
-    top: 0.75em;
+    top: 1em;
     left: 0.5em;
     font-size: 16px;
     color: var(--gray);
