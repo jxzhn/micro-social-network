@@ -1,3 +1,5 @@
+var TEST_FLAG = true;
+
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var userList = [];
@@ -31,10 +33,14 @@ async function initFollowPage(){
     try{
         console.log("send to /user/userInfo:");
         console.log(userIdToSend);
-        var userInfo = await ajax.post("/user/userInfo");
-        // var userInfo = {
-        //     userName: "tempUserName"
-        // }
+        if(TEST_FLAG){
+            var userInfo = {
+                userName: "tempUserName"
+            }
+        }
+        else{
+            var userInfo = await ajax.post("/user/userInfo");
+        }
         userName.innerHTML = userInfo.userName;
     }
     catch(err){
@@ -105,8 +111,8 @@ async function loadFollowing(){
     try{
         console.log("send to /user/followList:");
         console.log(userIdToSend);
-        userList = (await ajax.post("/user/followList", userIdToSend)).follows;
-        // userList = testRes.follows;
+        if(TEST_FLAG) userList = testRes.follows;
+        else userList = (await ajax.post("/user/followList", userIdToSend)).follows;
     }
     catch(err){
         console.log(err);
@@ -118,8 +124,8 @@ async function loadFollowed(){
     try{
         console.log("send to /user/fansList:");
         console.log(userIdToSend);
-        userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
-        // userList = testRes.follows;
+        if(TEST_FLAG)userList = testRes.follows;
+        else userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
     }
     catch(err){
         console.log(err);
@@ -135,7 +141,7 @@ async function follow(obj){
     try{
         console.log("send to /user/follow:");
         console.log(followInfo);
-        await ajax.post("/user/follow", followInfo);
+        if(!TEST_FLAG) await ajax.post("/user/follow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -149,7 +155,7 @@ async function unfollow(obj){
     try{
         console.log("send to /user/unfollow:");
         console.log(followInfo);
-        await ajax.post("/user/unfollow", followInfo);
+        if(!TEST_FLAG) await ajax.post("/user/unfollow", followInfo);
     }
     catch(err){
         console.log(err);
