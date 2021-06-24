@@ -223,7 +223,7 @@ edit_introduction.addEventListener('keypress', (e)=>{
 
 function hasIllegalChar(str) {
     console.log(str);
-    return new RegExp(".*[<>].*").test(str);
+    return new RegExp("<.*?>").test(str);
 }
 function updateInfo(){
     if(hasIllegalChar(edit_name.value)==true)

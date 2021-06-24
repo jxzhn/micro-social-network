@@ -5,7 +5,7 @@ var errormsg = document.getElementById("errormsg");
 
 
 function hasIllegalChar(str) {
-    return new RegExp(".*[<>].*").test(str);
+    return new RegExp("<.*?>").test(str);
 }
 async function login() {
     //test validate or not
