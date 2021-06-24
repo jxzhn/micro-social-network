@@ -31,7 +31,7 @@
         <div id="send-blog">
             <button class="solid-button" onclick="showPopup('send-tweet-popup');" disabled>说点什么</button>
         </div>
-        <div id="side-user" style="opacity: 0;">
+        <div id="side-user" style="opacity: 0;" onclick="showSideUserMenu();">
             <img id="side-user-img">
             <div>
                 <span id="side-user-name"></span><br />
@@ -39,6 +39,9 @@
             </div>
             <div id="side-user-dots">
                 ...
+            </div>
+            <div id="side-user-menu" style="display: none;" in-side-user-menu="true">
+                <li onclick="logOut();" in-side-user-menu="true">登出</li>
             </div>
         </div>
     </div>
@@ -74,6 +77,7 @@
 </body>
 <script type="text/javascript" src="./js/ajax.js"></script>
 <script type="text/javascript" src="./js/user.js"></script>
+<script type="text/javascript" src="./js/sidebar.js"></script>
 <script type="text/javascript" src="./js/search.js"></script>
 <script type="text/javascript" src="./js/popup.js"></script>
 <script type="text/javascript" src="./js/send-tweet.js"></script>
