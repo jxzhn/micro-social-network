@@ -128,8 +128,10 @@ async function initProfilePage(){
     bannerDataURL = userInfo.backgroundImage;
     avatarDataURL = userInfo.avatar;
     //TODO: init follow href
-    following.href = "./follow.html" + "?id=" + userId +"&followType=following";
-    followed.href = "./follow.html" + "?id=" + userId +"&followType=followed";
+    var following_href = document.getElementById("following-href");
+    var followed_href = document.getElementById("followed-href");
+    following_href.href = "./follow.html" + "?id=" + userId +"&followType=following";
+    followed_href.href = "./follow.html" + "?id=" + userId +"&followType=followed";
     //TODO: load tweets
     loadMoreTweets(5);
 }

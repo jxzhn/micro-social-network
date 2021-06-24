@@ -47,12 +47,16 @@
     margin-top: 1em;
     font-size: 15px;
 }
-#followed, #following, #followed:link, #following:link, #followed:visited, #following:visited, #followed:hover, #following:hover, #followed:active, #following:active{
+#followed-href, #following-href, #followed-href:link, #following-href:link, #followed-href:visited, #following-href:visited, #followed-href:hover, #following-href:hover, #followed-href:active, #following-href:active{
     color: var(--black);
     text-decoration: none;
+}
+#followed-href{
+    margin-left: 1em;
+}
+#following, #followed{
     font-weight: bold;
 }
-
 .userName{
     font-weight: bold;
     font-size: 24px;
