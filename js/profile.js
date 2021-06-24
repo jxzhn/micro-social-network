@@ -217,7 +217,25 @@ edit_introduction.addEventListener('keypress', (e)=>{
         return false;
     }
 })
+
+
+//使用正则表达式过滤js特殊字符(e.g. < >)。即当用户硬是要输入的时候，将<script>的符号去掉，不会被解析。
+
+function hasIllegalChar(str) {
+    console.log(str);
+    return new RegExp(".*[<>].*").test(str);
+}
 function updateInfo(){
+    if(hasIllegalChar(edit_name.value)==true)
+    {
+        edit_errormsg.innerHTML = "昵称中含有非法字符";
+        return;
+    }
+    if(hasIllegalChar(edit_introduction.value)==true)
+    {
+        edit_errormsg.innerHTML = "简介中含有非法字符";
+        return;
+    }
     if(edit_name.value.length == 0 || edit_introduction.value.length == 0){
         edit_errormsg.innerHTML = "昵称或简介不得为空";
         succ_flag = false;
@@ -230,6 +248,8 @@ function updateInfo(){
     }
     introduction.innerHTML = edit_introduction.value;
 }
+
+
 async function saveEdit(){
     edit_errormsg.innerHTML = "";
     //TODO: save info
