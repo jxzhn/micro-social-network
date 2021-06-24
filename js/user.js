@@ -10,6 +10,7 @@ async function loadCurrentUserInfo() {
             })
         }, 500);
     });
+    // var currentUserInfo = await async.post('/user/currentUserInfo', {})
     var sideUser = document.getElementById('side-user');
     if (sideUser) {
         document.getElementById('side-user-img').src = currentUserInfo.userImgUrl;
