@@ -1,4 +1,4 @@
-var TEST_FLAG = true;
+var TEST_FLAG = false;
 
 var loading = document.getElementById('loading');
 var loadingLock = false;
@@ -41,12 +41,12 @@ Date.prototype.Format = function(fmt) {
 async function loadDetail(numTweet) {
     console.log(id);
     // 用 AJAX 向服务器请求 numTweet 条数据
-    console.log("send to jsp/post/detail");
+    console.log("send to /post/detail");
     var info2send={
         postId: id
     }
     console.log(info2send);
-    if(!TEST_FLAG)tweet = await ajax.post("jsp/post/detail", info2send);
+    if(!TEST_FLAG) tweet = await ajax.post("/post/detail", info2send);
     else tweet = tweetTest;
     showTweetDetail();
 }
@@ -86,9 +86,9 @@ async function cancelDetail(){
         var postIdtoSend = {
             postId: id
         }
-        console.log("send to /post/delMyPost:");
+        console.log("send to /user/delMyPost:");
         console.log(postIdtoSend);
-        if(!TEST_FLAG) await ajax.post("/post/delMyPost", postIdtoSend);
+        if(!TEST_FLAG) await ajax.post("/user/delMyPost", postIdtoSend);
         history.back();
     }
     catch(err){
@@ -99,7 +99,7 @@ var tweetCommentBox;
 var tweetCommentTextarea;
 var tweetComentLen;
 var tweetSendCommentButton;
-
+var LOAD_FLAG=true;
 function showTweetDetail() {
     var block = document.createElement('div');
     block.classList.add('tweet-detail-block');
@@ -189,12 +189,19 @@ async function loadMoreComments(numComment) {
         requestNum: numComment
     };
     console.log(info2send);
-    if(!TEST_FLAG) commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
+    var commentList= [];
+    if(!TEST_FLAG){
+        commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
+    } 
     loadedCommentList = loadedCommentList.concat(commentList);
-    showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length());
+    showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length);
     loadedCommentNum += commentList.length; //？可以修改
     loading.style.display = 'none';
     loadingLock = false;
+    if(commentList.length<numComment)
+    {
+        LOAD_FLAG=false;
+    }
 }
 
 function showComments(commentList, start, end) {
@@ -314,7 +321,7 @@ window.addEventListener('scroll', () => {
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
-        loadMoreComments(8);
+        if(LOAD_FLAG) loadMoreComments(8);
     }
 })
 
