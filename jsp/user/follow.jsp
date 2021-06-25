@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%@ page import="org.json.*" %>
+<%--@ page import="org.json.*" --%>
+<%@ page import="org.json.simple.*"%>
 
 <%!
 
@@ -39,13 +40,15 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
 	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
-	JSONObject postData = new JSONObject(postBody);  //得到传入的数据格式
+	//JSONObject postData = new JSONObject(postBody);  //得到传入的数据格式
+	Object obj = JSONValue.parse(postBody);
+	JSONObject postData =  (JSONObject)obj;
 	int code = 0;
 	String msg = "success";
 	
 	try{
 		
-		String id = request.getSession().getId();  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userIdFollowed = (String)postData.get("userIdFollowed");
 		long createTime = (long)postData.get("createTime");
 		
@@ -81,17 +84,20 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			}
 		}
 		
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);
-		JSONObject data = new JSONObject();
-		retval.put("data",data);
-		out.print(retval.toString());
+		rs1.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);
+	JSONObject data = new JSONObject();
+	retval.put("data",data);
+	out.print(retval.toString());
 }
 
 %>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%@ page import="org.json.*" %>
+<%--@ page import="org.json.*" --%>
+<%@ page import="org.json.simple.*"%>
 
 <%!
 
@@ -25,7 +26,7 @@ String getPostData(InputStream in,int size,String charset){
 
 <%
 
-request.setCharacterEncoding("utf-8");
+//request.setCharacterEncoding("utf-8");
 
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
@@ -39,19 +40,22 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
 	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
-	JSONObject postData = new JSONObject(postBody);
+	Object obj = JSONValue.parse(postBody);
+	JSONObject postData =  (JSONObject)obj;
+	//JSONObject postData = new JSONObject(postBody);
 	int code = 0;
-		String msg = "success";
+	String msg = "success";
+	JSONObject data = new JSONObject();
+
 	try{
-		String id = request.getSession().getId();  //当前登录用户id
+		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
-		if(userId == "") userId = id;
+		//if(userId == "false") userId = id;
 		
 		//数据库处理，访问
 		Statement stmt = con.createStatement();
 		String sql = String.format("select * from Users where ID  = '%s'",userId);
 		ResultSet rs = stmt.executeQuery(sql);
-		JSONObject data = new JSONObject();
 
 		if(rs.next()){     //用户存在
 			JSONObject temp = new JSONObject();        //返回用户信息
@@ -75,18 +79,21 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			code = 1001;
 			msg = "User not found";
 		}
-		//传回结果
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);		
-		retval.put("data",data);
-			
-		out.print(retval.toString());
+		rs.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	//传回结果
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);		
+	retval.put("data",data);
+			
+	out.print(retval.toString());
 }
 
 %>

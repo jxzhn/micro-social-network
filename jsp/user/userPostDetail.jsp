@@ -42,10 +42,12 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject postData = new JSONObject(postBody);
 	int code = 0;
 	String msg = "success";
-	
+	JSONObject data = new JSONObject();
+
 	try{
-		String id = request.getSession().getId();  //当前登录用户id
+		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
+		if(userId == null) userId = id;
 		int loadedNum = (int)postData.get("loadedNum");
 		int requestNum = (int)postData.get("requestNum");
 		long timeStamp = (int)postData.get("timeStamp");
@@ -53,8 +55,6 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		//数据库处理，访问
 		Statement stmt = con.createStatement();
 		
-		JSONObject data = new JSONObject();
-
 		//查找该用户是否存在
 		String sql1 = String.format("select * from Users where ID = '%s'",userId);
 		ResultSet rs1 = stmt.executeQuery(sql1);
@@ -109,23 +109,27 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			}
 
 			data.put("posts",posts);
+			rs.close();
 		}
 		else{
 			code = 1001;
 			msg = "该用户不存在";
 		}
 		
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);
-		retval.put("data",data);
-		
-		out.print(retval.toString());
+		rs1.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);
+	retval.put("data",data);
+		
+	out.print(retval.toString());
 }
 
 %>

@@ -266,7 +266,7 @@ async function sendComment() {
     var commentElement = document.getElementsByClassName("tweet-detail-comment")[0];//找到显示数字的那个元素（和引起这个sendComment事件的元素不同）
     commentElement.childNodes[1].nodeValue = tweet.numComment;
     //获得当前用户的userName和userId
-    var currentUser = await currentUserInfoPromise;
+    var currentUser = await currentUserInfoPromise;
     var userName = currentUser.userName;
     var userId = currentUser.userId;
     var userAvatar = currentUser.userImgUrl;

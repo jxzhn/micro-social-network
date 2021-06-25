@@ -1,4 +1,4 @@
-var TEST_FLAG = true;
+var TEST_FLAG = false;
 
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
@@ -97,13 +97,16 @@ async function initProfilePage(){
     catch(err){
         console.log(err);
     }
-    infoId.innerHTML = "@" + userInfo.userId;
+    infoId.innerHTML = "@" + userInfo.user.userId;
+    //console.log("aaa");
     for(i in userName){
-        userName[i].innerHTML = userInfo.userName;
+        userName[i].innerHTML = userInfo.user.userName;
     }
-    introduction.innerHTML = userInfo.introduction;
-    banner.style.backgroundImage = "url(" + userInfo.backgroundImage + ")";
-    avatar.style.backgroundImage = "url(" + userInfo.avatar + ")";
+    //console.log("aaa");
+    introduction.innerHTML = userInfo.user.introduction;
+    banner.style.backgroundImage = "url(" + userInfo.user.backgroundImage + ")";
+    //console.log(userInfo.backgroundImage);
+    avatar.style.backgroundImage = "url(" + userInfo.user.avatar + ")";
     //TODO: set follow num
     var userFollowNum = {}; 
     try{

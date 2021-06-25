@@ -45,7 +45,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "root");
+        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546);
         PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
         stmt.setString(1, currentUserId);
         

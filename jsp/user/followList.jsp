@@ -44,7 +44,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	String msg = "success";
 	
 	try{
-		String id = request.getSession().getId();  //当前登录用户id
+		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		
 		//数据库处理，访问

@@ -42,7 +42,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "root");
+        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
         
         //查询帖子是否存在
         PreparedStatement stmt = conn.prepareStatement("select * from postings where ID like ?");

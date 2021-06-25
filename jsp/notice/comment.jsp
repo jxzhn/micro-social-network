@@ -30,7 +30,7 @@ int code = 0;
     //String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
     //JSONObject postData = new JSONObject(postbody);
 
-    session.setAttribute("id","1");
+    //session.setAttribute("id","1");
 
     long timeStamp = 1624468204;
     int loadedNum = 0;
@@ -49,7 +49,7 @@ int code = 0;
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "root");
+        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
         PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
         stmt.setString(1, currentUserId);
         

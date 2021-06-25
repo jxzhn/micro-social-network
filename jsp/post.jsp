@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="application/json" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.io.*" %>
-<%@ page import="org.json.*" %>
+<%--@ page import="org.json.*" --%>
 <%@ page import="java.sql.*" %>
+<%@ page import="org.json.simple.*"%>
 <%-- <%@ page import="com.alibaba.fastjson.*" %> --%>
 
 <%!
@@ -35,7 +36,8 @@ if (request.getMethod().equalsIgnoreCase("post")) {
 
     //JSONObject postData = JSON.parseObject(postbody);
 
-    JSONObject postData = new JSONObject(postbody);
+    Object obj = JSONValue.parse(postbody);
+	JSONObject postData = (JSONObject) obj;
 
     String contents = (String)postData.get("contents");
     String imageUrl = (String)postData.get("imageUrl");
@@ -48,7 +50,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "root");
+        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
         PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
         stmt.setString(1, currentUserId);
         

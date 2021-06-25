@@ -10,7 +10,7 @@ function praseErrorCode(resp, resolve, reject) {
         reject(Error('未登录'));
     } 
     if (resp.code == -1) { //模板
-        reject(Error(''))
+        reject(Error(''));
     }
     reject(resp.msg);
 }

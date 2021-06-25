@@ -1,4 +1,4 @@
-var TEST_FLAG = true;
+var TEST_FLAG = false;
 
 var loading = document.getElementById('loading');
 var loadingLock = false;

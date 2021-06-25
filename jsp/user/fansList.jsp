@@ -42,9 +42,10 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject postData = new JSONObject(postBody);
 	int code = 0;
 	String msg = "success";
-	
+	JSONObject data = new JSONObject();
+
 	try{
-		String id = request.getSession().getId();  //当前登录用户id
+		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		
 		//数据库处理，访问
@@ -83,9 +84,10 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			JSONObject temp = follows.get(i);
 			temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
 			follows.set(i,temp);
+
+			rs2.close();
 		}
 		
-		JSONObject data = new JSONObject();
 		//查看用户是否存在
 		sql = String.format("select * from Users where ID = '%s'",userId);
 		rs = stmt.executeQuery(sql);
@@ -99,17 +101,20 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			data.put("fans",follows);
 		}
 
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);
-		retval.put("data",data);
-
-		out.print(retval.toString());
+		rs.close();
+		stmt.close();
+		con.close();	
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);
+	retval.put("data",data);
+
+	out.print(retval.toString());
 }
 
 %>

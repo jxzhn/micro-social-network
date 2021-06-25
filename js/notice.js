@@ -37,7 +37,7 @@ async function initNoticePage(){
     else{
         comment_select.classList.add("notice-select-selected");
     }
-    loadMoreTweets(10);
+    loadMoreTweets(10, true);
 }
 initNoticePage();
 
@@ -60,7 +60,7 @@ function selectLike(){
            `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
        `</div>\n`;  //恢复这个loading
         loading = document.getElementById('loading');
-        loadMoreTweets(10);
+        loadMoreTweets(10, false);
     }
     else{
         scrollToTop();
@@ -76,7 +76,8 @@ function selectComment(){
            `<span><i class="fas fa-circle-notch fa-spin"></i>正在加载...</span>\n`+
         `</div>\n`;
         loading = document.getElementById('loading');
-        loadMoreTweets(10);
+        //console.log(curNoticeType);
+        loadMoreTweets(10, false);
     }
     else{
         scrollToTop();
@@ -86,9 +87,10 @@ function selectComment(){
 
 
 //----------------------loading--------------------------
+var LOAD_FLAG = true;
 function showTweets(tweetList, currentUserName, currentUserId, start, end) {
-    currentUserId = userId;
-    currentUserName = userName;
+    //currentUserId = userId;
+    //currentUserName = userName;
     if(curNoticeType=="like"){
         for (var i=start; i<end; i++) {
             var like = tweetList[i];
@@ -160,6 +162,7 @@ function showTweets(tweetList, currentUserName, currentUserId, start, end) {
 
 
 async function loadMoreTweets(numTweet, is_same_noticeType) {
+    
     if (loadingLock) {  //已经在等待就直接返回
         return;
     }
@@ -178,35 +181,42 @@ async function loadMoreTweets(numTweet, is_same_noticeType) {
             loadedNum: loadedCount,
             requestNum: numTweet
         }
-        url = "jsp/notice/"+ curNoticeType;
+        url = "/notice/"+ curNoticeType;
         console.log("send to "+url);
         console.log(info2send);
         noticeList = (await ajax.post(url, info2send)).posts;  //返回的已经是data了
         if(noticeList.length!=0){
             loadedTweetList = loadedTweetList.concat(noticeList);
-            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length());
-            loadedCount += noticeList.length();
+            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length);
+            loadedCount += noticeList.length;
         }
     }
     else  //当时切换noticeType来加载数据，要清空loadedCount和loadedTweetList
     {
+        //console.log("hhhhhh");
         loadedCount = 0;
-        loadedTweetList = 0;
+        loadedTweetList = [];
         var info2send={
             timeStamp: Math.round(new Date().getTime()/1000), //这样才是unix时间(10位)
             loadedNum: loadedCount,
             requestNum: numTweet
         }
-        url = "jsp/notice/"+ curNoticeType;
+        url = "/notice/"+ curNoticeType;
         console.log("send to "+url);
         console.log(info2send);
         noticeList = (await ajax.post(url, info2send)).posts; //返回的已经是data了
         if(noticeList.length!=0){
             loadedTweetList = loadedTweetList.concat(noticeList);
-            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length());
-            loadedCount += noticeList.length();
+            showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length);
+            loadedCount += noticeList.length;
+        }
+        if(noticeList.length < numTweet)
+        {
+            LOAD_FLAG=false;//加上这个变量，当取得数小于numtweet，表示将数据库取尽，此时可不再loading。
         }
     }
+    loading.style.display = 'none';
+    loadingLock = false;
 }
 
 
@@ -235,6 +245,8 @@ window.addEventListener('scroll', () => {
     // 判断滚动条是否到底部
     if(scrollTop + windowHeight >= scrollHeight - 10){
         //写后台加载数据的函数
-        loadMoreTweets(10, true);
+        if(LOAD_FLAG){
+            loadMoreTweets(10, true);
+        }
     }
 })

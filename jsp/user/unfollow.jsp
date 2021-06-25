@@ -44,8 +44,8 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	String msg = "success";
 	
 	try{
-		String id = request.getSession().getId();  //当前登录用户id
-		String userIdFollowed = (String)postData.get("userId");
+		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String userIdFollowed = (String)postData.get("userIdFollowed");
 		
 		//String id = "YesTheory1";  //当前登录用户id
 		//String userIdFollowed = "YesTheory1";
@@ -77,17 +77,20 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			}
 		}
 		
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);
-		JSONObject data = new JSONObject();
-		retval.put("data",data);
-		out.print(retval.toString());
+		rs1.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);
+	JSONObject data = new JSONObject();
+	retval.put("data",data);
+	out.print(retval.toString());
 }
 
 %>

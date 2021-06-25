@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%--@ page import="org.json.*" --%>
-<%@ page import="org.json.simple.*"%>
+<%@ page import="org.json.*" %>
 
 <%!
-
 String getPostData(InputStream in,int size,String charset){
 	if(in != null && size > 0){
 		byte[] buf = new byte[size];
@@ -21,35 +19,27 @@ String getPostData(InputStream in,int size,String charset){
 	}
 	return null;
 }
-
 %>
 
 <%
-
 request.setCharacterEncoding("utf-8");
 
 //访问数据库
-String connectString="jdbc:mysql://localhost:3306/wwb"
+String connectString="jdbc:mysql://127.0.0.1:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
 String user="root";
 String pwd="ye1397546";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 
-
-//获取request中的内容
-if(request.getMethod().equalsIgnoreCase("post")){
-	String postBody = getPostData(request.getInputStream(),request.getContentLength(),"utf-8");
-	Object obj = JSONValue.parse(postBody);
-	JSONObject postData = (JSONObject) obj;
-	int code = 0;
+int code = 0;
 	String msg = "success";
 	
 	try{
-		String id = (String)session.getAttribute("id");                 //当前登录用户id
-		String avatar = (String)postData.get("avatar");
-		String introduction = (String)postData.get("introduction");
-		String bkgImage = (String)postData.get("backgroundImage");
+		String id = "111111";                 //当前登录用户id
+		String avatar = "";
+		String introduction = "like";
+		String bkgImage = "http://localhost:8080";
 		
 		//数据库修改，修改User表信息
 		Statement stmt = con.createStatement();
@@ -63,22 +53,20 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		else{
 			sql = String.format("update Users set avatar='%s',introduction='%s',bkgImage='%s' where ID='%s'",avatar,introduction,bkgImage,id);
 			int rs = stmt.executeUpdate(sql);
-		}	
-		
-		rs1.close();
-		stmt.close();
-		con.close();
+			
+			if(rs > 0){
+				JSONObject retval = new JSONObject();
+				retval.put("code",code);
+				retval.put("msg",msg);
+				JSONObject data = new JSONObject();
+				retval.put("data",data);
+				out.print(retval.toString());
+			}
+		}		
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		code = -1;
+		out.print(msg);
 	}
-	JSONObject retval = new JSONObject();
-	retval.put("code",code);
-	retval.put("msg",msg);
-	JSONObject data = new JSONObject();
-	retval.put("data",data);
-	out.print(retval.toString());
-}
 
 %>
