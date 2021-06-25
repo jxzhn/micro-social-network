@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%@ page import="org.json.simple.*" %>
+<%@ page import="org.json.*" %>
 
 <%!
 
@@ -39,15 +39,15 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
 	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
-	//JSONObject postData = new JSONObject(postBody);
-	Object obj = JSONValue.parse(postBody);
-	JSONObject postData = (JSONObject) obj;
+	JSONObject postData = new JSONObject(postBody);
+	//Object obj = JSONValue.parse(postBody);
+	//JSONObject postData = (JSONObject) obj;
 	int code = 0;
 	String msg = "success";
 	
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
-		String postId = (String)postData.get("userIdFollowed");
+		String id = (String)session.getAttribute("id");  //当前登录用户id
+		String postId = (String)postData.get("postId");
 		
 		//数据库修改，followers表删除记录
 		Statement stmt = con.createStatement();
@@ -60,11 +60,20 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			msg = "该贴不存在";
 		}
 		else{
-			sql = String.format("delete from Postings where ID='%s'and userId='%s'",postId,id);
+			//要先把对应Likes和comments表里的记录删掉
+			sql = String.format("delete from likes where postId='%s'",postId);
 			int rs = stmt.executeUpdate(sql);
+			sql = String.format("delete from comments where postId='%s'",postId);
+			rs = stmt.executeUpdate(sql);
+
+			//删除帖子
+			sql = String.format("delete from Postings where ID='%s'and userId='%s'",postId,id);
+			rs = stmt.executeUpdate(sql);
 		}
 
-		
+		rs1.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
