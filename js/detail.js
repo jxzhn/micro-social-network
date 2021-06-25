@@ -181,7 +181,7 @@ async function loadMoreComments(numComment) {
     loadingLock = true;
     loading.style.display = 'block';
     // 用 AJAX 向服务器请求 numTweet 条数据
-    console.log("send to jsp/post/getComment");
+    console.log("send to /post/getComment");
     info2send = {
         postId: id,
         timeStamp: Math.round(new Date().getTime()/1000), //这样才是unix时间(10位)
@@ -191,7 +191,7 @@ async function loadMoreComments(numComment) {
     console.log(info2send);
     var commentList= [];
     if(!TEST_FLAG){
-        commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
+        commentList = (await ajax.post("/post/getComment", info2send)).commentList;//得到返回的commentList
     } 
     loadedCommentList = loadedCommentList.concat(commentList);
     showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length);
@@ -234,7 +234,7 @@ async function clickLike(likeElement) {
     var info2send = {
         postId: id
     };
-    var url = tweet.liked?"jsp/post/like":"jsp/post/dislike";
+    var url = tweet.liked?"/post/like":"/post/dislike";
     console.log("send to "+url);
     console.log(info2send);
     if(!TEST_FLAG) await ajax.post(url, info2send);
@@ -261,13 +261,13 @@ async function sendComment() {
     var content = tweetCommentTextarea.value;
     console.log(content);
     // 向ajax服务器发送评论
-    console.log('send to jsp/post/comment');
+    console.log('send to /post/comment');
     var info2send = {
         postId: id,
         content: content
     };
     console.log(info2send);
-    if(!TEST_FLAG)  await ajax.post("jsp/post/comment", info2send);
+    if(!TEST_FLAG)  await ajax.post("/post/comment", info2send);
     //新增评论数并更新
     tweet.numComment += 1;
     var commentElement = document.getElementsByClassName("tweet-detail-comment")[0];//找到显示数字的那个元素（和引起这个sendComment事件的元素不同）
