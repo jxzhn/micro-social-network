@@ -30,18 +30,18 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
     JSONObject postData = new JSONObject(postbody);
 
-    //String contents = "yuyyyyyyyyyyyyyyyyyyyyy";
-    //String postId = "p_1";
-    //session.setAttribute("id","1");
-
-    String contents = (String)postData.get("contents");
     String postId = (String)postData.get("postId");
+    int itimeStamp = (int)postData.get("timeStamp");
+    long timeStamp = Long.valueOf(itimeStamp);
+    int loadedNum = (int)postData.get("loadedNum");
+    int requestNum = (int)postData.get("requestNum");
     String currentUserId = (String)session.getAttribute("id");
-    String commentId = "";
+
     //连接数据库
     String connectString = "jdbc:mysql://localhost:3306/wwb?autoReconnect=true" + 
         "&useUnicode=true&characterEncoding=UTF-8";
     //String connectString = "jdbc:mysql://localhost:3306/wwb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8";
+    List<JSONObject> jsonArray = new ArrayList<>();
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
@@ -56,42 +56,49 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             msg = "The user does not exist！";
         } else {
 
-            //判断帖子是否存在
-            stmt = conn.prepareStatement("select * from postings where ID like ?");
+            stmt = conn.prepareStatement("select * from Comments where postId=? and createTime<? order by createTime limit ? offset ?");
             stmt.setString(1, postId);
+            stmt.setLong(2,timeStamp);
+            stmt.setInt(3,requestNum);
+            stmt.setInt(4,loadedNum);
         
             rs = stmt.executeQuery();
-            if (!rs.next()) {
-                code = 1003;
-                msg = "The posting does not exist！";
-            } else {
-                //更新评论数
-                int comment = rs.getInt("comments");
-                stmt = conn.prepareStatement("update postings set comments=? where ID=?");
-                stmt.setInt(1,comment+1);
-                stmt.setString(2,postId);
-                cnt = stmt.executeUpdate();
 
+            while(rs.next()) {
 
-                long date = System.currentTimeMillis()/1000L;
-                Random r = new Random();
-                int rand = r.nextInt(89)+10;
-                commentId = "c_" + Long.toString(date) + Integer.toString(rand);
-                stmt = conn.prepareStatement("insert into comments (ID,userId,postId,contents,createTime) values (?,?,?,?,?)");
-                stmt.setString(1,commentId);
-                stmt.setString(2,currentUserId);
-                stmt.setString(3,postId);
-                stmt.setString(4,contents);
-                stmt.setLong(5,date);
-                
-                int cnt = stmt.executeUpdate();
-                if (cnt <= 0) {
-                    code = -1;
-                    msg = "fail!";
+                String userId = rs.getString("userId");
+                long date = rs.getLong("createTime");
+                String content = rs.getString("contents");
+
+                //-----------------------------------------------
+                //查询发帖用户个人信息
+                stmt = conn.prepareStatement("select * from users where ID=?");
+                stmt.setString(1,userId);
+
+                ResultSet userInfo = stmt.executeQuery();
+                String userName = "";
+                String userImgUrl = "";
+                if (userInfo.next()) {
+                    userName = userInfo.getString("name");
+                    userImgUrl = userInfo.getString("avatar");
                 } else {
-                    msg = "success";
+                    code = -1;
+                    msg = "fail to get the user info";
                 }
+
+                JSONObject user = new JSONObject();
+                user.put("userName",userName);
+                user.put("userId",userId);
+                user.put("userImgUrl",userImgUrl);
+
+                JSONObject comment = new JSONObject();
+                comment.put("user",user);
+                comment.put("date",date);
+                comment.put("content",content);
+
+                jsonArray.add(comment); 
             }
+            
         }
         
         rs.close();
@@ -106,6 +113,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     retval.put("code",code);
     retval.put("msg",msg);
     JSONObject data = new JSONObject();
+    data.put("commentList",jsonArray);
     retval.put("data",data);
     out.print(retval.toString());
 }
