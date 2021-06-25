@@ -79,3 +79,14 @@
     margin-right: 12px;
     border: 1px solid var(--light-gray);
 }
+#sent-tweet-errormsg{
+    color: var(--gray);
+    font-size: 14px;
+    user-select: none;
+}
+#sent-tweet-errormsg-container{
+    width: 100%;
+    height: 10%;
+    transform: translateY(-3.15em);
+    text-align: center;
+}
