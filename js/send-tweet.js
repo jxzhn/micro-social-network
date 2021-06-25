@@ -49,9 +49,19 @@ function handlePhoto(files) {
     reader.readAsDataURL(files[0]);
 }
 
+function hasIllegalChar(str) {
+    return new RegExp("<.*?>").test(str);
+}
+
 async function sendTweet() {
     var content = sendTweetEditor.textContent;
-
+    var ele = document.getElementById("sent-tweet-errormsg");
+    if(hasIllegalChar(content))
+    {
+        ele.innerHTML = "您输入的内容中含有非法字符";
+        return;
+    }
+    ele.innerHTML = "";
     var data = {
         contents: content,
         imageUrl: imgDataURL || ''
