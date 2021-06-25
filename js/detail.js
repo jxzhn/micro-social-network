@@ -1,4 +1,4 @@
-var TEST_FLAG = false;
+var TEST_FLAG = true;
 
 var loading = document.getElementById('loading');
 var loadingLock = false;
@@ -48,7 +48,10 @@ async function loadDetail(numTweet) {
     console.log(info2send);
     if(!TEST_FLAG) tweet = await ajax.post("/post/detail", info2send);
     else tweet = tweetTest;
-    showTweetDetail();
+    //获得当前用户的userName和userId
+    var currentUser = await currentUserInfoPromise;
+    var currentUserId = currentUser.userId;
+    showTweetDetail(currentUserId);
 }
 var tweetTest =  {
     "user" : {
@@ -100,41 +103,75 @@ var tweetCommentTextarea;
 var tweetComentLen;
 var tweetSendCommentButton;
 var LOAD_FLAG=true;
-function showTweetDetail() {
+function showTweetDetail(currentUserId) {
     var block = document.createElement('div');
     block.classList.add('tweet-detail-block');
-    
-    block.innerHTML =
-    `<div class="tweet-detail-user-row" onclick="goUserProfile()">\n` + 
-        `<img class="tweet-detail-user-img" src="${tweet.user.userImgUrl}">\n` +
-        `<div class="tweet-detail-info-row">\n` + 
-            `<span class="tweet-detail-user-name">${tweet.user.userName}</span><br />\n` + 
-            `<span class="tweet-detail-user-id">@${tweet.user.userId}</span>\n` + 
+    var commentUserId = tweet.user.userId;
+    if(currentUserId == commentUserId)  //本人：可以删除帖子
+    {
+        block.innerHTML =
+        `<div class="tweet-detail-user-row" onclick="goUserProfile()">\n` + 
+            `<img class="tweet-detail-user-img" src="${tweet.user.userImgUrl}">\n` +
+            `<div class="tweet-detail-info-row">\n` + 
+                `<span class="tweet-detail-user-name">${tweet.user.userName}</span><br />\n` + 
+                `<span class="tweet-detail-user-id">@${tweet.user.userId}</span>\n` + 
+            `</div>\n` + 
         `</div>\n` + 
-    `</div>\n` + 
-    `<div class="tweet-detail-content">\n` + 
-        `<span>${tweet.content}</span>\n` + 
-        `<div class="tweet-detail-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
-    `</div>\n` + 
-    `<div class="tweet-detail-date-row">\n` + 
-        `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('hh:mm')}</span>\n` + 
-        `<span class="tweet-detail-dot">.</span>\n` + 
-        `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
-    `</div>\n` +
-    `<div class="tweet-detail-interact-row">\n` + 
-        `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
-        `<span class="tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}" onclick="clickLike(this)"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
-        `<div id="cancel-dots" onclick="showCancelMenu()">...</div>\n` +
-        `<div id="cancel-menu" style="display: none;" in-cancel-menu="true">\n`+
-            `<li onclick="cancelDetail();" in-cancel-menu="true">删除帖子</li>\n`+
-        `</div>\n`+
-    `</div>\n` +
-    `<div id="tweet-comment-box" class="cool-input-box">\n` + 
-        `<textarea id="tweet-comment-textarea" required></textarea>\n` + 
-        `<label for="test-textarea">评论</label>\n` +
-        `<span id="tweet-comment-len">0/140</span>` +
-        `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
-    `</div>\n`
+        `<div class="tweet-detail-content">\n` + 
+            `<span>${tweet.content}</span>\n` + 
+            `<div class="tweet-detail-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
+        `</div>\n` + 
+        `<div class="tweet-detail-date-row">\n` + 
+            `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('hh:mm')}</span>\n` + 
+            `<span class="tweet-detail-dot">.</span>\n` + 
+            `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
+        `</div>\n` +
+        `<div class="tweet-detail-interact-row">\n` + 
+            `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+            `<span class="tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}" onclick="clickLike(this)"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+            `<div id="cancel-dots" onclick="showCancelMenu()">...</div>\n` +
+            `<div id="cancel-menu" style="display: none;" in-cancel-menu="true">\n`+
+                `<li onclick="cancelDetail();" in-cancel-menu="true">删除帖子</li>\n`+
+            `</div>\n`+
+        `</div>\n` +
+        `<div id="tweet-comment-box" class="cool-input-box">\n` + 
+            `<textarea id="tweet-comment-textarea" required></textarea>\n` + 
+            `<label for="test-textarea">评论</label>\n` +
+            `<span id="tweet-comment-len">0/140</span>` +
+            `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
+        `</div>\n`
+    }
+    else    //非本人：不可删除帖子（三个点消失）
+    {
+        block.innerHTML =
+        `<div class="tweet-detail-user-row" onclick="goUserProfile()">\n` + 
+            `<img class="tweet-detail-user-img" src="${tweet.user.userImgUrl}">\n` +
+            `<div class="tweet-detail-info-row">\n` + 
+                `<span class="tweet-detail-user-name">${tweet.user.userName}</span><br />\n` + 
+                `<span class="tweet-detail-user-id">@${tweet.user.userId}</span>\n` + 
+            `</div>\n` + 
+        `</div>\n` + 
+        `<div class="tweet-detail-content">\n` + 
+            `<span>${tweet.content}</span>\n` + 
+            `<div class="tweet-detail-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
+        `</div>\n` + 
+        `<div class="tweet-detail-date-row">\n` + 
+            `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('hh:mm')}</span>\n` + 
+            `<span class="tweet-detail-dot">.</span>\n` + 
+            `<span class="tweet-detail-date">${new Date(tweet.date*1000).Format('yyyy 年 MM 月 dd 日')}</span>\n` + 
+        `</div>\n` +
+        `<div class="tweet-detail-interact-row">\n` + 
+            `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+            `<span class="tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}" onclick="clickLike(this)"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+        `</div>\n` +
+        `<div id="tweet-comment-box" class="cool-input-box">\n` + 
+            `<textarea id="tweet-comment-textarea" required></textarea>\n` + 
+            `<label for="test-textarea">评论</label>\n` +
+            `<span id="tweet-comment-len">0/140</span>` +
+            `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
+        `</div>\n`
+    }
+    
     loading.parentNode.insertBefore(block, loading);
 
     tweetCommentBox = document.getElementById('tweet-comment-box');
