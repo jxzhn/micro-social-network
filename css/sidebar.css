@@ -8,6 +8,8 @@
     padding: 8px;
     border-right: solid 1px var(--light-gray);
     user-select: none;
+    z-index: 1;
+    background-color: var(--white);
 }
 
 #sidebar>* {
