@@ -178,3 +178,10 @@
 #cancel-menu:hover {
     background-color: var(--gray-hover-bg);
 }
+
+#tweet-comment-errmsg{
+    padding-left:1em;
+    color: var(--gray);
+    font-size: 14px;
+    user-select: none;
+}
