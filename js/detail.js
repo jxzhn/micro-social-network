@@ -1,3 +1,5 @@
+var TEST_FLAG = true;
+
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var tweet;
@@ -15,7 +17,7 @@ function getQueryVariable(variable)
     return false;
 }
 
-var id = getQueryVariable('id');  //postId
+var id = getQueryVariable('postId');  //postId
 
 Date.prototype.Format = function(fmt) {
     var o = {   
@@ -44,10 +46,55 @@ async function loadDetail(numTweet) {
         postId: id
     }
     console.log(info2send);
-    tweet = await ajax.post("jsp/post/detail", info2send);
+    if(!TEST_FLAG)tweet = await ajax.post("jsp/post/detail", info2send);
+    else tweet = tweetTest;
     showTweetDetail();
 }
+var tweetTest =  {
+    "user" : {
+        "userId" : "111111",
+        "name" : "hu",
+        "avater" : "data:image/gif;base64,R0lGODlhAwADAIAAAP///8zMzCH5BAAAAAAALAAAAAADAAMAAAIEBHIJBQA7",
+    },
+    "date" : 1624269255,
+    "contents" : "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "imgUrl" : "data:image/gif;base64,R0lGODlhAwADAIAAAP///8zMzCH5BAAAAAAALAAAAAADAAMAAAIEBHIJBQA7",
+    "numComment" : 1,
+    "liked" : false,
+    "numLike" : 0
+}
+var cancelMenu;
+function hideCancelMenu() {
+    cancelMenu.style.display = 'none';
+    document.removeEventListener('click', checkCancelMenu);
+}
 
+function checkCancelMenu(e) {
+    if (!e.target.getAttribute('in-cancel-menu')) {
+        console.log(e.target);
+        hideCancelMenu();
+    }
+}
+function showCancelMenu() {
+    cancelMenu.style.display = '';
+    setTimeout(() => {
+        document.addEventListener('click', checkCancelMenu);
+    }, 0);
+}
+async function cancelDetail(){
+    try{
+        var postIdtoSend = {
+            postId: id
+        }
+        console.log("send to /post/delMyPost:");
+        console.log(postIdtoSend);
+        if(!TEST_FLAG) await ajax.post("/post/delMyPost", postIdtoSend);
+        history.back();
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 var tweetCommentBox;
 var tweetCommentTextarea;
 var tweetComentLen;
@@ -77,6 +124,10 @@ function showTweetDetail() {
     `<div class="tweet-detail-interact-row">\n` + 
         `<span class="tweet-detail-comment" onclick="showCommentBox()"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
         `<span class="tweet-detail-like ${tweet.liked?'tweet-detail-liked':''}" onclick="clickLike(this)"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+        `<div id="cancel-dots" onclick="showCancelMenu()">...</div>\n` +
+        `<div id="cancel-menu" style="display: none;" in-cancel-menu="true">\n`+
+            `<li onclick="cancelDetail();" in-cancel-menu="true">删除帖子</li>\n`+
+        `</div>\n`+
     `</div>\n` +
     `<div id="tweet-comment-box" class="cool-input-box">\n` + 
         `<textarea id="tweet-comment-textarea" required></textarea>\n` + 
@@ -84,7 +135,6 @@ function showTweetDetail() {
         `<span id="tweet-comment-len">0/140</span>` +
         `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
     `</div>\n`
-
     loading.parentNode.insertBefore(block, loading);
 
     tweetCommentBox = document.getElementById('tweet-comment-box');
@@ -115,7 +165,10 @@ function showTweetDetail() {
     loadedCommentNum = 0;  //初始化评论数为0，然后再加载。
     loadedCommentList = [];  //初始化列表为空
     loadMoreComments(8);
+
+    cancelMenu = document.getElementById('cancel-menu');
 }
+
 
 //now version: 一直有loading，且新评论会出现在最后和最初
 //这里是不是要当loadedCommentList.length=0时，将loadingLock=true。（这样可以保证到底之后，loading消失）
@@ -136,7 +189,7 @@ async function loadMoreComments(numComment) {
         requestNum: numComment
     };
     console.log(info2send);
-    commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
+    if(!TEST_FLAG) commentList = (await ajax.post("jsp/post/getComment", info2send)).commentList;//得到返回的commentList
     loadedCommentList = loadedCommentList.concat(commentList);
     showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length());
     loadedCommentNum += commentList.length; //？可以修改
@@ -177,7 +230,7 @@ async function clickLike(likeElement) {
     var url = tweet.liked?"jsp/post/like":"jsp/post/dislike";
     console.log("send to "+url);
     console.log(info2send);
-    _  = await ajax.post(url, info2send);
+    if(!TEST_FLAG) await ajax.post(url, info2send);
     // 更改点赞数字
     tweet.numLike = tweet.liked ? tweet.numLike-1: tweet.numLike+1;     //这甚至不用改！因为这不是改显示！
     likeElement.childNodes[1].nodeValue = tweet.numLike;    //通过childNodes[1]获取到文本节点，在通过修改nodeValue修改节点包含的文本！
@@ -207,7 +260,7 @@ async function sendComment() {
         content: content
     };
     console.log(info2send);
-    _ = await ajax.post("jsp/post/comment", info2send);
+    if(!TEST_FLAG)  await ajax.post("jsp/post/comment", info2send);
     //新增评论数并更新
     tweet.numComment += 1;
     var commentElement = document.getElementsByClassName("tweet-detail-comment")[0];//找到显示数字的那个元素（和引起这个sendComment事件的元素不同）

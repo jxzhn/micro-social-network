@@ -144,3 +144,38 @@
     bottom: 2.5em;
     width: 18%;
 }
+
+#cancel-dots {
+    position: absolute;
+    display: inline-block;
+    font-size: 24px;
+    left: 92%;
+    user-select: none;
+    padding: 0em 0.6em 0.45em 0.6em;
+    border-radius: 999em;
+    transition: background-color 0.2s;
+}
+#cancel-dots:hover{
+    background-color: var(--primary-hover-bg);
+}
+
+#cancel-menu {
+    list-style-type:none;
+    position: absolute;
+    left: 79%;
+    top: -4em;
+    z-index: 3;
+    width: 20%;
+    padding: 1em;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0px 0px 12px var(--light-gray);
+    background-color: var(--white);
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+#cancel-menu:hover {
+    background-color: var(--gray-hover-bg);
+}
