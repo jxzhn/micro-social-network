@@ -96,16 +96,18 @@
                 <input id="edit-avatar-input" type="file" accept="image/*" onchange="updateEditAvatar(this.files)"/>
             </label>
         </div>
-        <div id="edit-input">
-            <br>
-            <div class="cool-input-box">
-                <input id="edit-name" type="text" maxlength="20" required/>
-                <label for="edit-name">昵称</label>
-            </div>
-            <br>
-            <div class="cool-input-box">
-                <textarea id="edit-introduction" maxlength="100" required></textarea>
-                <label for="edit-introduction">简介</label>
+        <div id="edit-inputContainer">
+            <div id="edit-input">
+                <br>
+                <div class="cool-input-box">
+                    <input id="edit-name" type="text" maxlength="20" required/>
+                    <label for="edit-name">昵称</label>
+                </div>
+                <br>
+                <div class="cool-input-box">
+                    <textarea id="edit-introduction" maxlength="100" required></textarea>
+                    <label for="edit-introduction">简介</label>
+                </div>
             </div>
         </div>
         <div id="edit-error">
