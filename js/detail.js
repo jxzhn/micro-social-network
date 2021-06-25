@@ -139,7 +139,8 @@ function showTweetDetail(currentUserId) {
             `<label for="test-textarea">评论</label>\n` +
             `<span id="tweet-comment-len">0/140</span>` +
             `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
-        `</div>\n`
+        `</div>\n`+ 
+        `<div id="tweet-comment-errmsg"></div>\n`
     }
     else    //非本人：不可删除帖子（三个点消失）
     {
@@ -169,7 +170,8 @@ function showTweetDetail(currentUserId) {
             `<label for="test-textarea">评论</label>\n` +
             `<span id="tweet-comment-len">0/140</span>` +
             `<button id="tweet-send-comment-button" class="solid-button" onclick="sendComment()" disabled>发布</button>\n` + 
-        `</div>\n`
+        `</div>\n` + 
+        `<div id="tweet-comment-errmsg"></div>\n`
     }
     
     loading.parentNode.insertBefore(block, loading);
@@ -296,6 +298,13 @@ function goUserProfile(i) {
 
 async function sendComment() {
     var content = tweetCommentTextarea.value;
+    var ele=document.getElementById("tweet-comment-errmsg");
+    if(hasIllegalChar(content))
+    {
+        ele.innerHTML = "您输入的评论中含有非法字符";
+        return;
+    }
+    ele.innerHTML="";   //清空错误提示信息
     console.log(content);
     // 向ajax服务器发送评论
     console.log('send to /post/comment');
