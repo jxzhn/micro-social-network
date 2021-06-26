@@ -61,10 +61,9 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		JSONObject userInfo = new JSONObject();
 		if(rs1.next()){
 			String userName = rs1.getString("name");      //发布帖子的用户信息
-			String userID = userId;
 			String userImgUrl = rs1.getString("avatar");
 			userInfo.put("userName",userName);
-			userInfo.put("userID",userID);
+			userInfo.put("userId",userId);
 			userInfo.put("userImgUrl",userImgUrl);
 
 			//查询用户发布的帖子，且帖子发布时间早于进入页面的时间戳

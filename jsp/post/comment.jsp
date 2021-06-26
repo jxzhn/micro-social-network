@@ -34,7 +34,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     //String postId = "p_1";
     //session.setAttribute("id","1");
 
-    String contents = (String)postData.get("contents");
+    String contents = (String)postData.get("content");
     String postId = (String)postData.get("postId");
     String currentUserId = (String)session.getAttribute("id");
     String commentId = "";
@@ -65,14 +65,6 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                 code = 1003;
                 msg = "The posting does not exist！";
             } else {
-                //更新评论数
-                int comment = rs.getInt("comments");
-                stmt = conn.prepareStatement("update Postings set comments=? where ID=?");
-                stmt.setInt(1,comment+1);
-                stmt.setString(2,postId);
-                cnt = stmt.executeUpdate();
-
-
                 long date = System.currentTimeMillis()/1000L;
                 Random r = new Random();
                 int rand = r.nextInt(89)+10;
@@ -90,6 +82,12 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                     msg = "fail!";
                 } else {
                     msg = "success";
+                    //更新评论数
+                    int comment = rs.getInt("comments");
+                    stmt = conn.prepareStatement("update Postings set comments=? where ID=?");
+                    stmt.setInt(1,comment+1);
+                    stmt.setString(2,postId);
+                    stmt.executeUpdate();
                 }
             }
         }

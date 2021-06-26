@@ -47,21 +47,33 @@ if(request.getMethod().equalsIgnoreCase("post")){
 
 	try{
 		String id = (String)session.getAttribute("id");;  //当前登录用户id
-		String userIdFollowed = (String)postData.get("userId");
+		String userFollowedId = (String)postData.get("userId");
 		
-		//数据库处理，访问
-		Statement stmt = con.createStatement();
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
+			code = 1001;
+			msg = "The user does not exist！";
+		} else {
 		
 		//确定用户是否存在
-		String sql = String.format("select * from Users where ID='%s'",userIdFollowed);
-		ResultSet rs1 = stmt.executeQuery(sql);
+		String sql = "select * from Users where ID=?";
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1,userFollowedId);
+
+		ResultSet rs1 = stmt.executeQuery();
 		if(rs1.next()==false){
 			code = 1001;
 			msg = "该用户不存在";
 		}
 		else{    //用户存在，查找关注表，看登录用户是否关注该用户
-			sql = String.format("select * from Followers where userId = '%s'and userFollowedId='%s'",id,userIdFollowed);
-			ResultSet rs = stmt.executeQuery(sql);
+			sql = "select * from Followers where userId =? and userFollowedId=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,id);
+			stmt.setString(2,userFollowedId);
+			rs = stmt.executeQuery();
 			int currentUserFollowing = 0;
 			if(rs.next()){
 				currentUserFollowing = 1;
@@ -70,8 +82,8 @@ if(request.getMethod().equalsIgnoreCase("post")){
 
 			rs.close();
 		}
-		
-		rs1.close();
+		}
+		rs.close();
 		stmt.close();
 		con.close();
 	}

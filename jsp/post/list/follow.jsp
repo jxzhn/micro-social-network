@@ -76,7 +76,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                     for (int i = 1; i < n; i++) {
                         sql += " or userId=?";
                     }
-                    sql += " and createTime<? order by createTime limit ? offset ?";
+                    sql += " and createTime<? order by createTime desc limit ? offset ?";
 
                     stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                     int index = 1;

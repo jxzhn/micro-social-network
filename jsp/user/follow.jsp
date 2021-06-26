@@ -50,7 +50,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		
 		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userIdFollowed = (String)postData.get("userIdFollowed");
-		long createTime = (long)postData.get("createTime");
+		long createTime = System.currentTimeMillis()/1000L;
 		
 		//String id = "YesTheory1";
 		//String userIdFollowed = "YesTheory1";

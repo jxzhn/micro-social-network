@@ -25,20 +25,20 @@ String getPostData(InputStream in, int size, String charset) {
 <%
 String msg = "";
 int code = 0;
-//if (request.getMethod().equalsIgnoreCase("post")) {
+if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
-    //String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
-    //JSONObject postData = new JSONObject(postbody);
+    String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
+    JSONObject postData = new JSONObject(postbody);
 
     //session.setAttribute("id","1");
 
-    long timeStamp = 1624468204;
-    int loadedNum = 0;
-    int requestNum = 2;
+    //long timeStamp = 1624468204;
+    //int loadedNum = 0;
+    //int requestNum = 2;
 
-    //long timeStamp = (long)postData.get("timeStamp");
-    //int loadedNum = (int)postData.get("loadedNum");
-    //int requestNum = (int)postData.get("requestNum");
+    long timeStamp = postData.getLong("timeStamp");
+    int loadedNum = (int)postData.get("loadedNum");
+    int requestNum = (int)postData.get("requestNum");
     String currentUserId = (String)session.getAttribute("id");
 
     //连接数据库
@@ -60,7 +60,7 @@ int code = 0;
             msg = "The user does not exist！";
         } else {
 
-            stmt = conn.prepareStatement("select * from Comments as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Comments as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime desc limit ? offset ?");
             stmt.setString(1, currentUserId);
             stmt.setLong(2,timeStamp);
             stmt.setInt(3,requestNum);
@@ -69,7 +69,7 @@ int code = 0;
             rs = stmt.executeQuery();
             
             while(rs.next()) {
-                String userId = rs.getString("b.userId");
+                String userId = rs.getString("a.userId");
                 String postId = rs.getString("b.ID");
                 long commentDate = rs.getLong("a.createTime");
                 long postDate = rs.getLong("b.createTime");
@@ -77,7 +77,7 @@ int code = 0;
                 String imgUrl = rs.getString("b.image");
                 String comment = rs.getString("a.contents");
                 //-----------------------------------------------
-                //查询发帖用户个人信息
+                //查询评论用户个人信息
                 stmt = conn.prepareStatement("select * from Users where ID=?");
                 stmt.setString(1,userId);
 
@@ -126,6 +126,6 @@ int code = 0;
     data.put("posts",jsonArray);
     retval.put("data",data);
     out.print(retval.toString());
-//}
+}
 
 %>
