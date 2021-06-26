@@ -85,8 +85,9 @@
     user-select: none;
 }
 #sent-tweet-errormsg-container{
-    width: 100%;
+    width: 50%;
     height: 10%;
-    transform: translateY(-3.15em);
+    transform: translateY(-2.9em);
     text-align: center;
+    margin: 0 auto;
 }
