@@ -45,6 +45,7 @@ function handlePhoto(files) {
         imgDataURL = e.target.result;
         sendTweetImg.style.display = 'block';
         sendTweetImg.style.backgroundImage = `url(${imgDataURL})`;
+        document.getElementById('send-tweet-img-file').value = null;
     }
     reader.readAsDataURL(files[0]);
 }

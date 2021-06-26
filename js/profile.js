@@ -200,7 +200,6 @@ function initPopup(){
 }
 
 function updateEditBanner(files){
-    console.log("new");
     var imageType = /^image\//;
     if (!files.length || !imageType.test(files[0].type)) {
         return;
@@ -209,6 +208,7 @@ function updateEditBanner(files){
     reader.onload = (e) => {
         bannerDataURL = e.target.result;
         edit_banner.style.backgroundImage = `url(${bannerDataURL})`;
+        document.getElementById('edit-banner-input').value = null;
     }
     reader.readAsDataURL(files[0]);
 }
@@ -221,6 +221,7 @@ function updateEditAvatar(files){
     reader.onload = (e) => {
         avatarDataURL = e.target.result;
         edit_avatar.style.backgroundImage = `url(${avatarDataURL})`;
+        document.getElementById('edit-avatar-input').value = null;
     }
     reader.readAsDataURL(files[0]);
 }
