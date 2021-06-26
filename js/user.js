@@ -1,15 +1,5 @@
 // AJAX 检查登录状态
 async function loadCurrentUserInfo() {
-    // 假数据
-    /*var currentUserInfo = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve({
-                userName: 'Yes Theory',
-                userId: 'YesTheory',
-                userImgUrl: 'https://avatars.githubusercontent.com/u/84268956?v=4',
-            })
-        }, 500);
-    });*/
     var currentUserInfo = await ajax.post('/user/currentUserInfo', {})
     var sideUser = document.getElementById('side-user');
     if (sideUser) {

@@ -23,6 +23,6 @@ function showSideUserMenu() {
 }
 
 async function logOut() {
-    // await ajax.post('/user/logout', {});
-    window.location.href = '/login.html';
+    await ajax.post('/user/logout', {});
+    window.location.href = './login.html';
 }

@@ -49,7 +49,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String postId = (String)postData.get("postId");
 
-		PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, id);
         
         //判断用户是否存在
@@ -58,44 +58,45 @@ if(request.getMethod().equalsIgnoreCase("post")){
             code = 1001;
             msg = "The user does not exist！";
         } else {
-		
-		//数据库修改，followers表删除记录
+			
+			//数据库修改，followers表删除记录
 
-		//查询帖子是否存在
-		String sql = "select * from Postings where ID=? and userId=?";
-		stmt = con.prepareStatement(sql);
-		stmt.setString(1,postId);
-		stmt.setString(2,id);
-
-		ResultSet rs1 = stmt.executeQuery();
-		if(rs1.next() == false){
-			code = 1003;
-			msg = "该贴不存在";
-		}
-		else{
-			//要先把对应Likes和comments表里的记录删掉
-			sql = "delete from Likes where postId=?";
+			//查询帖子是否存在
+			String sql = "select * from Postings where ID=? and userId=?";
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1,postId);
-			stmt.executeUpdate();
+			stmt.setString(2,id);
+
+			ResultSet rs1 = stmt.executeQuery();
+			if(rs1.next() == false){
+				code = 1003;
+				msg = "该贴不存在";
+			}
+			else{
+				//要先把对应Likes和comments表里的记录删掉
+				sql = "delete from Likes where postId=?";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,postId);
+				stmt.executeUpdate();
 
 
-			sql = "delete from Comments where postId=?";
-			stmt = con.prepareStatement(sql);
-			stmt.setString(1,postId);
-			stmt.executeUpdate();
+				sql = "delete from Comments where postId=?";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,postId);
+				stmt.executeUpdate();
 
 
-			//删除帖子
-			sql = "delete from Postings where ID=? and userId=?";
-			stmt = con.prepareStatement(sql);
-			stmt.setString(1,id);
-			stmt.setString(2,postId);
-			stmt.executeUpdate();
+				//删除帖子
+				sql = "delete from Postings where ID=? and userId=?";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,postId);
+				stmt.setString(2,id);
+				stmt.executeUpdate();
+			}
+			rs1.close();
 		}
-		}
 
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}

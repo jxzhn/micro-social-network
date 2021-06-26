@@ -288,10 +288,10 @@ async function clickLike(likeElement) {
 
 function goUserProfile(i) {
     if (!i) {
-        window.location.href = "/profile.html?id=" + tweet.user.userId;
+        window.location.href = "./profile.html?id=" + tweet.user.userId;
     }
     else{
-        window.location.href = "/profile.html?id=" + loadedCommentList[i].user.userId;
+        window.location.href = "./profile.html?id=" + loadedCommentList[i].user.userId;
     }
     
 }

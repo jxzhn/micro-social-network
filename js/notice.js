@@ -221,15 +221,15 @@ async function loadMoreTweets(numTweet, is_same_noticeType) {
 
 
 function goDetail(i) {  //得到原贴的详情（参数是postId）
-    window.location.href = "/detail.html?postId=" + loadedTweetList[i].postId;
+    window.location.href = "./detail.html?postId=" + loadedTweetList[i].postId;
 }
 
 function goUserProfile(i) {  //得到用户个人主页（参数是id）
-    if(!i){     //如果i为空，即参数为空，则表示是登录用户本人
-        window.location.href = "/profile.html?id=" + currentUserId;
+    if(i == undefined){     //如果i为空，即参数为空，则表示是登录用户本人
+        window.location.href = "./profile.html?id=" + currentUserId;
     }
     else{       //否则，表示评论、点赞用户
-        window.location.href = "/profile.html?id=" + loadedTweetList[i].user.userId;
+        window.location.href = "./profile.html?id=" + loadedTweetList[i].user.userId;
     }
     
 }

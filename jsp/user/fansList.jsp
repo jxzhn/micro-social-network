@@ -48,7 +48,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId"); //查看的用户id
 		
-		PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, id);
         
         //判断用户是否存在

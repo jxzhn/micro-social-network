@@ -5,14 +5,14 @@ function praseErrorCode(resp, resolve, reject) {
     if (resp.code == 0) {
        resolve(resp.data);
     } 
-    if (resp.code == 999) { // 未登录
-        window.location.href = '/login.html';
-        reject(Error(rep.msg));
+    if (resp.code == 1001) { // 未登录
+        window.location.href = './login.html';
+        reject(Error('未登录'));
     } 
     if (resp.code == -1) { //模板
-        reject(Error(resp.msg));
+        reject(Error(JSON.stringify(resp)));
     }
-    reject(resp.msg);
+    reject(Error(JSON.stringify(resp)));
 }
 
 const ajax = {
