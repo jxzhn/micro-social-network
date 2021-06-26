@@ -147,7 +147,7 @@ async function follow(){
     try{
         var followInfo = {
             userIdFollowed: userId,
-            createTime:  new Date().getTime() / 1000
+            createTime:  Math.round(new Date().getTime() / 1000)
         }
         console.log("send to /user/follow:");
         console.log(followInfo);
@@ -163,7 +163,7 @@ async function unfollow(){
     try{
         console.log("send to /user/unfollow:");
         var followInfo = {
-            userIdFollowed: userId,
+            userIdFollowed: userId
         }
         console.log(followInfo);
         if(!TEST_FLAG)await ajax.post("/user/unfollow", followInfo);
