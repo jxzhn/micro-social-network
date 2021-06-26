@@ -273,7 +273,7 @@ async function clickLike(likeElement) {
     var info2send = {
         postId: id
     };
-    var url = tweet.liked?"/post/like":"/post/dislike";
+    var url = tweet.liked?"/post/dislike":"/post/like";
     console.log("send to "+url);
     console.log(info2send);
     if(!TEST_FLAG) await ajax.post(url, info2send);
