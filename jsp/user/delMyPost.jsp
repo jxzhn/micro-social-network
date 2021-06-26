@@ -85,6 +85,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			stmt.setString(1,postId);
 			stmt.executeUpdate();
 
+
 			//删除帖子
 			sql = "delete from Postings where ID=? and userId=?";
 			stmt = con.prepareStatement(sql);

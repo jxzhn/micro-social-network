@@ -146,8 +146,7 @@ async function follow(){
     isFollowing = true;
     try{
         var followInfo = {
-            userIdFollowed: userId,
-            createTime:  new Date().getTime() / 1000
+            userIdFollowed: userId
         }
         console.log("send to /user/follow:");
         console.log(followInfo);
@@ -162,8 +161,11 @@ async function unfollow(){
     isFollowing = false;
     try{
         console.log("send to /user/unfollow:");
-        console.log(userIdToSend);
-        if(!TEST_FLAG)await ajax.post("/user/unfollow", userIdToSend);
+        var followInfo = {
+            userIdFollowed: userId
+        }
+        console.log(followInfo);
+        if(!TEST_FLAG)await ajax.post("/user/unfollow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -323,11 +325,11 @@ function showTweets(tweetList) {
         block.classList.add('tweet-block');
         
         block.innerHTML =
-        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
+        `<img class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
         `<div class="tweet-detail">\n` + 
             `<div class="tweet-info-row">\n` + 
-                `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span>\n` + 
-                `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
+                `<span class="tweet-user-name">${tweet.user.userName}</span>\n` + 
+                `<span class="tweet-user-id">@${tweet.user.userId}</span>\n` + 
                 `<span class="tweet-dot">.</span>\n` + 
                 `<span class="tweet-date">${new Date(tweet.date*1000).Format('MM 月 dd 日')}</span>\n` + 
             `</div>\n` + 
@@ -462,7 +464,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/dislike:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("/post/dislike", likeInfo);
+            if(!TEST_FLAG) await ajax.post("/post/dislike", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) - 1;
         }
         catch(err){
@@ -487,10 +489,6 @@ async function clickLike(likeElement, i) {
 
 function goDetail(i) {
     window.location.href = "./detail.html?postId=" + loadedTweetList[i].postId;
-}
-
-function goUserProfile(i) {
-    window.location.href = "./profile.html?id=" + loadedTweetList[i].user.userId;
 }
 
 window.addEventListener('scroll', () => {
