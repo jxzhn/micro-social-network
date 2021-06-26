@@ -323,11 +323,11 @@ function showTweets(tweetList) {
         block.classList.add('tweet-block');
         
         block.innerHTML =
-        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
+        `<img class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
         `<div class="tweet-detail">\n` + 
             `<div class="tweet-info-row">\n` + 
-                `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span>\n` + 
-                `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
+                `<span class="tweet-user-name">${tweet.user.userName}</span>\n` + 
+                `<span class="tweet-user-id">@${tweet.user.userId}</span>\n` + 
                 `<span class="tweet-dot">.</span>\n` + 
                 `<span class="tweet-date">${new Date(tweet.date*1000).Format('MM 月 dd 日')}</span>\n` + 
             `</div>\n` + 
@@ -487,10 +487,6 @@ async function clickLike(likeElement, i) {
 
 function goDetail(i) {
     window.location.href = "./detail.html?postId=" + loadedTweetList[i].postId;
-}
-
-function goUserProfile(i) {
-    window.location.href = "./profile.html?id=" + loadedTweetList[i].user.userId;
 }
 
 window.addEventListener('scroll', () => {
