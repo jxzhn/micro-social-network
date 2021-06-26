@@ -108,11 +108,11 @@ async function initProfilePage(){
         console.log(err);
     }
     console.log(userInfoTest)
-    infoId.innerHTML = "@" + userInfo.user.userId;
+    infoId.textContent = "@" + userInfo.user.userId;
     for(i in userName){
-        userName[i].innerHTML = userInfo.user.userName;
+        userName[i].textContent = userInfo.user.userName;
     }
-    introduction.innerHTML = userInfo.user.introduction;
+    introduction.textContent = userInfo.user.introduction;
     banner.style.backgroundImage = `url("` + userInfo.user.backgroundImage + `")`;
     avatar.style.backgroundImage = `url("` + userInfo.user.avatar + `")`;
     //TODO: set follow num
@@ -128,8 +128,8 @@ async function initProfilePage(){
     catch(err){
         console.log(err);
     }
-    following.innerHTML = userFollowNum.following;
-    followed.innerHTML = userFollowNum.followed;
+    following.textContent = userFollowNum.following;
+    followed.textContent = userFollowNum.followed;
 
     //TODO: init follow href
     var following_href = document.getElementById("following-href");
@@ -174,11 +174,11 @@ async function unfollow(){
 }
 
 function unfollowBtnMouseover(){
-    unfollowBtn.innerHTML = "取消关注";
+    unfollowBtn.textContent = "取消关注";
     unfollowBtn.style.backgroundColor = "var(--unfollow-red)";
 }
 function unfollowBtnMouseout(){
-    unfollowBtn.innerHTML = "关注中";
+    unfollowBtn.textContent = "关注中";
     unfollowBtn.style.backgroundColor = "var(--primary-theme)";
 }
 
@@ -194,8 +194,8 @@ function initPopup(){
     //TODO: init popup info
     edit_banner.style.backgroundImage = banner.style.backgroundImage;
     edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
-    edit_name.value = userName[0].innerHTML;
-    edit_introduction.value = introduction.innerHTML;
+    edit_name.value = userName[0].textContent;
+    edit_introduction.value = introduction.textContent;
     bannerDataURL = banner.style.backgroundImage.slice(5,-2);
     avatarDataURL = avatar.style.backgroundImage.slice(5,-2);
     showPopup('edit-popup');
@@ -244,30 +244,30 @@ function hasIllegalChar(str) {
 function updateInfo(){
     if(hasIllegalChar(edit_name.value)==true)
     {
-        edit_errormsg.innerHTML = "昵称中含有非法字符";
+        edit_errormsg.textContent = "昵称中含有非法字符";
         return;
     }
     if(hasIllegalChar(edit_introduction.value)==true)
     {
-        edit_errormsg.innerHTML = "简介中含有非法字符";
+        edit_errormsg.textContent = "简介中含有非法字符";
         return;
     }
     if(edit_name.value.length == 0 || edit_introduction.value.length == 0){
-        edit_errormsg.innerHTML = "昵称或简介不得为空";
+        edit_errormsg.textContent = "昵称或简介不得为空";
         succ_flag = false;
         return;
     }
     banner.style.backgroundImage = `url("${bannerDataURL}")`;
     avatar.style.backgroundImage = `url("${avatarDataURL}")`;
     for(i in  userName){
-        userName[i].innerHTML = edit_name.value;
+        userName[i].textContent = edit_name.value;
     }
-    introduction.innerHTML = edit_introduction.value;
+    introduction.textContent = edit_introduction.value;
 }
 
 
 async function saveEdit(){
-    edit_errormsg.innerHTML = "";
+    edit_errormsg.textContent = "";
     //TODO: save info
     try{
         var infoToSend = {
@@ -284,14 +284,14 @@ async function saveEdit(){
         console.log(err);
     }
     updateInfo();
-    if(edit_errormsg.innerHTML.length == 0){
+    if(edit_errormsg.textContent.length == 0){
         hidePopup('edit-popup');
     }
 }
 
 function cancelEdit(){
     hidePopup('edit-popup');
-    edit_errormsg.innerHTML = "";
+    edit_errormsg.textContent = "";
 }
 
 //--------------------------loading related-----------------------------

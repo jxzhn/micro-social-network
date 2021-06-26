@@ -41,18 +41,18 @@ async function initFollowPage(){
         else{
             var userInfo = await ajax.post("/user/userInfo");
         }
-        userName.innerHTML = userInfo.userName;
+        userName.textContent = userInfo.userName;
     }
     catch(err){
         console.log(err);
     }
     if(userId == currentUser.userId){
-        following_label.innerHTML = "我的关注";
-        followed_label.innerHTML = "我的粉丝";
+        following_label.textContent = "我的关注";
+        followed_label.textContent = "我的粉丝";
     }
     else{
-        following_label.innerHTML = "TA的关注";
-        followed_label.innerHTML = "TA的粉丝";
+        following_label.textContent = "TA的关注";
+        followed_label.textContent = "TA的粉丝";
     }
     if(followType == "following"){
         following_select.classList.add("follow-select-selected");
@@ -162,11 +162,11 @@ async function unfollow(obj){
     obj.parentNode.innerHTML = `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>\n`;
 }
 function unfollowBtnMouseover(obj){
-    obj.innerHTML = "取消关注";
+    obj.textContent = "取消关注";
     obj.style.backgroundColor = "var(--unfollow-red)";
 }
 function unfollowBtnMouseout(obj){
-    obj.innerHTML = "关注中";
+    obj.textContent = "关注中";
     obj.style.backgroundColor = "var(--primary-theme)";
 }
 

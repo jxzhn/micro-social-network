@@ -59,10 +59,10 @@ async function sendTweet() {
     var ele = document.getElementById("sent-tweet-errormsg");
     if(hasIllegalChar(content))
     {
-        ele.innerHTML = "您输入的内容中含有非法字符";
+        ele.textContent = "您输入的内容中含有非法字符";
         return;
     }
-    ele.innerHTML = "";
+    ele.textContent = "";
     var data = {
         contents: content,
         imageUrl: imgDataURL || ''

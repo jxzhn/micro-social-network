@@ -59,7 +59,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                 msg = "password is wrong!";
             }
         } else {
-            code = 1001;
+            code = 1000;
             msg = "The user does not exist！";
         }
 

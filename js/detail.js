@@ -301,10 +301,10 @@ async function sendComment() {
     var ele=document.getElementById("tweet-comment-errmsg");
     if(hasIllegalChar(content))
     {
-        ele.innerHTML = "您输入的评论中含有非法字符";
+        ele.textContent = "您输入的评论中含有非法字符";
         return;
     }
-    ele.innerHTML="";   //清空错误提示信息
+    ele.textContent="";   //清空错误提示信息
     console.log(content);
     // 向ajax服务器发送评论
     console.log('send to /post/comment');

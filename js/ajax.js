@@ -7,12 +7,12 @@ function praseErrorCode(resp, resolve, reject) {
     } 
     if (resp.code == 1001) { // 未登录
         window.location.href = './login.html';
-        reject(Error('未登录'));
+        reject('未登录');
     } 
     if (resp.code == -1) { //模板
-        reject(Error(JSON.stringify(resp)));
+        reject(resp);
     }
-    reject(Error(JSON.stringify(resp)));
+    reject(resp);
 }
 
 const ajax = {
