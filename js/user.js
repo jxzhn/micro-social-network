@@ -15,7 +15,7 @@ async function loadCurrentUserInfo() {
     if (sideUser) {
         document.getElementById('side-user-img').src = currentUserInfo.userImgUrl;
         document.getElementById('side-user-name').textContent = currentUserInfo.userName;
-        document.getElementById('side-user-id').textContent = currentUserInfo.userId;
+        document.getElementById('side-user-id').textContent = '@' + currentUserInfo.userId;
         sideUser.style.opacity = '';
     }
     var sendTweetButton = document.querySelector('#send-blog>button');
