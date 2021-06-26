@@ -1,5 +1,3 @@
-var TEST_FLAG = false;
-
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var userList = [];
@@ -34,14 +32,7 @@ async function initFollowPage(){
     try{
         console.log("send to /user/userInfo:");
         console.log(userIdToSend);
-        if(TEST_FLAG){
-            var userInfo = {
-                userName: "tempUserName"
-            }
-        }
-        else{
-            var userInfo = await ajax.post("/user/userInfo", userIdToSend);
-        }
+        var userInfo = await ajax.post("/user/userInfo", userIdToSend);
         userName.textContent = userInfo.user.userName;
     }
     catch(err){
@@ -112,8 +103,7 @@ async function loadFollowing(){
     try{
         console.log("send to /user/followList:");
         console.log(userIdToSend);
-        if(TEST_FLAG) userList = testRes.follows;
-        else userList = (await ajax.post("/user/followList", userIdToSend)).follows;
+        userList = (await ajax.post("/user/followList", userIdToSend)).follows;
     }
     catch(err){
         console.log(err);
@@ -125,8 +115,7 @@ async function loadFollowed(){
     try{
         console.log("send to /user/fansList:");
         console.log(userIdToSend);
-        if(TEST_FLAG)userList = testRes1.follows;
-        else userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
+        userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
     }
     catch(err){
         console.log(err);
@@ -141,7 +130,7 @@ async function follow(obj){
     try{
         console.log("send to /user/follow:");
         console.log(followInfo);
-        if(!TEST_FLAG) await ajax.post("/user/follow", followInfo);
+        await ajax.post("/user/follow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -155,7 +144,7 @@ async function unfollow(obj){
     try{
         console.log("send to /user/unfollow:");
         console.log(followInfo);
-        if(!TEST_FLAG) await ajax.post("/user/unfollow", followInfo);
+        await ajax.post("/user/unfollow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -213,75 +202,4 @@ function loadMoreTweets() {
 
 function goUserProfile(i) {
     window.location.href = "./profile.html?id=" + userList[i].user.userId;
-}
-
-var testRes = {
-    "length" : 2,
-    "follows" : [
-        {
-            "user" : {
-                "userId" : "12345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test"
-            }
-        },
-        {
-            "user" : {
-                "userId" : "22345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test"
-            }
-        },
-        {
-            "user" : {
-                "userId" : "32345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test"
-            }
-        },
-        {
-            "user" : {
-                "userId" : "42345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test"
-            }
-        }
-    ]
-}
-
-var testRes1 = {
-    "length" : 2,
-    "follows" : [
-        {
-            "user" : {
-                "userId" : "12345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 1
-            }
-        },
-        {
-            "user" : {
-                "userId" : "32345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 0
-            }
-        },
-        {
-            "user" : {
-                "userId" : "42345",
-                "userName" : "hu",
-                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 1
-            }
-        }
-    ]
 }

@@ -1,5 +1,3 @@
-var TEST_FLAG = false;
-
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
 var avatar = document.getElementById("avatar");
@@ -74,8 +72,7 @@ async function initProfilePage(){
             try{
                 console.log("send to /user/checkFollow:");
                 console.log(userIdToSend);
-                if(TEST_FLAG) isFollowing = checkFollowTest.currentUserFollowing;
-                else isFollowing = (await ajax.post("/user/checkFollow", userIdToSend)).currentUserFollowing;
+                isFollowing = (await ajax.post("/user/checkFollow", userIdToSend)).currentUserFollowing;
             }
             catch(err){
                 console.log(err);
@@ -89,26 +86,14 @@ async function initProfilePage(){
         }
     }
     //TODO: set Main by userInfo
-    var userInfoTest = {
-        "user" : {
-            "userId" : "111111",
-            "userName" : "hu",
-            "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-            "introduction": "this is a long long long introduction",
-            "createTime" : 1624269255,
-            "backgroundImage" : "https://avatars.githubusercontent.com/u/84268960?v=4"
-        }
-    }
     try{
         console.log("send to /user/userInfo:");
         console.log(userIdToSend);
-        if(TEST_FLAG) userInfo = userInfoTest;
-        else userInfo = await ajax.post("/user/userInfo", userIdToSend);
+        userInfo = await ajax.post("/user/userInfo", userIdToSend);
     }
     catch(err){
         console.log(err);
     }
-    console.log(userInfoTest)
     infoId.textContent = "@" + userInfo.user.userId;
     for(i in userName){
         userName[i].textContent = userInfo.user.userName;
@@ -121,10 +106,7 @@ async function initProfilePage(){
     try{
         console.log("send to /user/userFollowInfo:");
         console.log(userIdToSend);
-        if(TEST_FLAG){
-            userFollowNum = userFollowNumTest;
-        }
-        else userFollowNum = await ajax.post("/user/userFollowInfo", userIdToSend);
+        userFollowNum = await ajax.post("/user/userFollowInfo", userIdToSend);
     }
     catch(err){
         console.log(err);
@@ -348,80 +330,6 @@ function showTweets(tweetList) {
     }
 }
 var LOAD_FLAG = true;
-var tweetListTest = {
-    "posts" : [
-        {
-            postId: Math.round(Math.random() * 1000000000),
-            user: {
-                userName: "Yes Theory",
-                userId: "YesTheory1",
-                userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-            },
-            date: Math.round(new Date().getTime() / 1000),
-            content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-            imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-            numComment: 20,
-            liked: true,
-            numLike: 143
-        },
-        {
-            postId: Math.round(Math.random() * 1000000000),
-            user: {
-                userName: "Yes Theory",
-                userId: "YesTheory1",
-                userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-            },
-            date:  Math.round(new Date().getTime() / 1000),
-            content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-            imgUrl: "",
-            numComment: 20,
-            liked: true,
-            numLike: 143
-        },
-        {
-            postId: Math.round(Math.random() * 1000000000),
-            user: {
-                userName: "Yes Theory",
-                userId: "YesTheory2",
-                userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-            },
-            date:  Math.round(new Date().getTime() / 1000),
-            content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-            imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-            numComment: 20,
-            liked: true,
-            numLike: 143
-        },
-        {
-            postId: Math.round(Math.random() * 1000000000),
-            user: {
-                userName: "Yes Theory",
-                userId: "YesTheory3",
-                userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-            },
-            date:  Math.round(new Date().getTime() / 1000),
-            content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-            imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-            numComment: 20,
-            liked: true,
-            numLike: 143
-        },
-        {
-            postId: Math.round(Math.random() * 1000000000),
-            user: {
-                userName: "Yes Theory",
-                userId: "YesTheory4",
-                userImgUrl: "https://avatars.githubusercontent.com/u/84268956?v=4"
-            },
-            date:  Math.round(new Date().getTime() / 1000),
-            content: "Don't wait for the opportunity of an adventure to present itself to you. Go seek it for yourself wherever you are ⚡⚡⚡",
-            imgUrl: "https://pic2.zhimg.com/50/v2-a8971875ffbcabefe0eb4bc9f478d126_hd.jpg?source=1940ef5c",
-            numComment: 20,
-            liked: true,
-            numLike: 143
-        }
-    ]
-}
 
 async function loadMoreTweets(numTweet) {
     if (loadingLock) {
@@ -440,8 +348,7 @@ async function loadMoreTweets(numTweet) {
         }
         console.log("send to /user/userPostDetail:");
         console.log(infoToSend);
-        if(TEST_FLAG) tweetList = tweetListTest.posts;
-        else tweetList = (await ajax.post("/user/userPostDetail", infoToSend)).posts;
+        tweetList = (await ajax.post("/user/userPostDetail", infoToSend)).posts;
     }
     catch(err){
         console.log(err);
@@ -505,15 +412,3 @@ window.addEventListener('scroll', () => {
         if(LOAD_FLAG)loadMoreTweets(5);
     }
 })
-
-
-//----------------------------for test---------------------------------
-var checkFollowTest = {
-    "currentUserFollowing": 0
-}
-
-var userFollowNumTest = {
-    "following":112,
-    "followed":134
-}
-

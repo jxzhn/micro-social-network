@@ -1,5 +1,3 @@
-var TEST_FLAG = false;
-
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var tweet;
@@ -46,26 +44,13 @@ async function loadDetail(numTweet) {
         postId: id
     }
     console.log(info2send);
-    if(!TEST_FLAG) tweet = await ajax.post("/post/detail", info2send);
-    else tweet = tweetTest;
+    tweet = await ajax.post("/post/detail", info2send);
     //获得当前用户的userName和userId
     var currentUser = await currentUserInfoPromise;
     var currentUserId = currentUser.userId;
     showTweetDetail(currentUserId);
 }
-var tweetTest =  {
-    "user" : {
-        "userId" : "111111",
-        "name" : "hu",
-        "avater" : "data:image/gif;base64,R0lGODlhAwADAIAAAP///8zMzCH5BAAAAAAALAAAAAADAAMAAAIEBHIJBQA7",
-    },
-    "date" : 1624269255,
-    "contents" : "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "imgUrl" : "data:image/gif;base64,R0lGODlhAwADAIAAAP///8zMzCH5BAAAAAAALAAAAAADAAMAAAIEBHIJBQA7",
-    "numComment" : 1,
-    "liked" : false,
-    "numLike" : 0
-}
+
 var cancelMenu;
 function hideCancelMenu() {
     cancelMenu.style.display = 'none';
@@ -91,7 +76,7 @@ async function cancelDetail(){
         }
         console.log("send to /user/delMyPost:");
         console.log(postIdtoSend);
-        if(!TEST_FLAG) await ajax.post("/user/delMyPost", postIdtoSend);
+        await ajax.post("/user/delMyPost", postIdtoSend);
         history.back();
     }
     catch(err){
@@ -229,9 +214,7 @@ async function loadMoreComments(numComment) {
     };
     console.log(info2send);
     var commentList= [];
-    if(!TEST_FLAG){
-        commentList = (await ajax.post("/post/getComment", info2send)).commentList;//得到返回的commentList
-    } 
+    commentList = (await ajax.post("/post/getComment", info2send)).commentList;//得到返回的commentList
     loadedCommentList = loadedCommentList.concat(commentList);
     showComments(loadedCommentList, loadedCommentNum, loadedCommentNum+commentList.length);
     loadedCommentNum += commentList.length; //？可以修改
@@ -276,7 +259,7 @@ async function clickLike(likeElement) {
     var url = tweet.liked?"/post/dislike":"/post/like";
     console.log("send to "+url);
     console.log(info2send);
-    if(!TEST_FLAG) await ajax.post(url, info2send);
+    await ajax.post(url, info2send);
     // 更改点赞数字
     tweet.numLike = tweet.liked ? tweet.numLike-1: tweet.numLike+1;     //这甚至不用改！因为这不是改显示！
     likeElement.childNodes[1].nodeValue = tweet.numLike;    //通过childNodes[1]获取到文本节点，在通过修改nodeValue修改节点包含的文本！
@@ -313,7 +296,7 @@ async function sendComment() {
         content: content
     };
     console.log(info2send);
-    if(!TEST_FLAG)  await ajax.post("/post/comment", info2send);
+    await ajax.post("/post/comment", info2send);
     //新增评论数并更新
     tweet.numComment += 1;
     var commentElement = document.getElementsByClassName("tweet-detail-comment")[0];//找到显示数字的那个元素（和引起这个sendComment事件的元素不同）
