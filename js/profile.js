@@ -1,4 +1,4 @@
-var TEST_FLAG = false;
+var TEST_FLAG = true;
 
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
@@ -88,24 +88,32 @@ async function initProfilePage(){
         }
     }
     //TODO: set Main by userInfo
+    var userInfoTest = {
+        "user" : {
+            "userId" : "111111",
+            "userName" : "hu",
+            "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+            "introduction": "this is a long long long introduction",
+            "createTime" : 1624269255,
+            "backgroundImage" : "https://avatars.githubusercontent.com/u/84268960?v=4"
+        }
+    }
     try{
         console.log("send to /user/userInfo:");
         console.log(userIdToSend);
-        if(TEST_FLAG)userInfo = userInfoTest.user;
+        if(TEST_FLAG) userInfo = userInfoTest;
         else userInfo = await ajax.post("/user/userInfo", userIdToSend);
     }
     catch(err){
         console.log(err);
     }
+    console.log(userInfoTest)
     infoId.innerHTML = "@" + userInfo.user.userId;
-    //console.log("aaa");
     for(i in userName){
         userName[i].innerHTML = userInfo.user.userName;
     }
-    //console.log("aaa");
     introduction.innerHTML = userInfo.user.introduction;
     banner.style.backgroundImage = "url(" + userInfo.user.backgroundImage + ")";
-    //console.log(userInfo.backgroundImage);
     avatar.style.backgroundImage = "url(" + userInfo.user.avatar + ")";
     //TODO: set follow num
     var userFollowNum = {}; 
@@ -128,8 +136,8 @@ async function initProfilePage(){
     edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
     edit_name.value = userName[0].innerHTML;
     edit_introduction.value = introduction.innerHTML;
-    bannerDataURL = userInfo.backgroundImage;
-    avatarDataURL = userInfo.avatar;
+    bannerDataURL = userInfo.user.backgroundImage;
+    avatarDataURL = userInfo.user.avatar;
     //TODO: init follow href
     var following_href = document.getElementById("following-href");
     var followed_href = document.getElementById("followed-href");
@@ -502,17 +510,6 @@ window.addEventListener('scroll', () => {
 //----------------------------for test---------------------------------
 var checkFollowTest = {
     "currentUserFollowing": 0
-}
-
-var userInfoTest = {
-    "user" : {
-        "userId" : "111111",
-        "userName" : "hu",
-        "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-        "introduction": "this is a long long long introduction",
-        "createTime" : 1624269255,
-        "backgroundImage" : "https://avatars.githubusercontent.com/u/84268960?v=4"
-    }
 }
 
 var userFollowNumTest = {
