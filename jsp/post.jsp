@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="application/json" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.io.*" %>
-<%--@ page import="org.json.*" --%>
+<%@ page import="org.json.*" %>
 <%@ page import="java.sql.*" %>
-<%@ page import="org.json.simple.*"%>
-<%-- <%@ page import="com.alibaba.fastjson.*" %> --%>
 
 <%!
 String getPostData(InputStream in, int size, String charset) {
@@ -22,10 +20,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     //int contentIndex = postbody.indexOf(":");
 
 
-    //JSONObject postData = JSON.parseObject(postbody);
-
-    Object obj = JSONValue.parse(postbody);
-	JSONObject postData = (JSONObject) obj;
+	JSONObject postData = new JSONObject(postBody);
 
     String contents = (String)postData.get("contents");
     String imageUrl = (String)postData.get("imageUrl");

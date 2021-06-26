@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%--@ page import="org.json.*" --%>
-<%@ page import="org.json.simple.*"%>
+<%@ page import="org.json.*" %>
 
 <%!
 
@@ -40,9 +39,8 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
 	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
-	Object obj = JSONValue.parse(postBody);
-	JSONObject postData =  (JSONObject)obj;
-	//JSONObject postData = new JSONObject(postBody);
+	JSONObject postData = new JSONObject(postBody);
+
 	int code = 0;
 	String msg = "success";
 	JSONObject data = new JSONObject();
@@ -51,6 +49,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		//if(userId == "false") userId = id;
+		Boolean full = postData.getBoolean("full");
 		
 		//数据库处理，访问
 		Statement stmt = con.createStatement();
@@ -68,10 +67,11 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			
 			temp.put("userId",ID);
 			temp.put("userName",name);
-			temp.put("avatar",avatar);
-			temp.put("introduction",introduction);
-			temp.put("createTime",createTime);
-			temp.put("backgroundImage",bkgImage);
+			if (full) {
+				temp.put("avatar",avatar);
+				temp.put("introduction",introduction);
+				temp.put("backgroundImage",bkgImage);
+			}
 
 			data.put("user",temp);
 		}
