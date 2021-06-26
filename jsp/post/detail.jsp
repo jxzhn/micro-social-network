@@ -117,6 +117,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         data.put("imgUrl",imgUrl);
         data.put("numComment",numComment);
         data.put("numLike",numLike);
+        data.put("liked", liked);
     retval.put("data",data);
     out.print(retval.toString());
 }
