@@ -28,8 +28,8 @@ request.setCharacterEncoding("utf-8");
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
-String user="root";
-String pwd="ye1397546";
+String user="user";
+String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 

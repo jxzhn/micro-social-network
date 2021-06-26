@@ -53,10 +53,10 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
+        Connection conn = DriverManager.getConnection(connectString, "user", "123");
         
         //查询帖子是否存在
-        PreparedStatement stmt = conn.prepareStatement("select * from postings where ID like ?");
+        PreparedStatement stmt = conn.prepareStatement("select * from Postings where ID like ?");
         stmt.setString(1, postId);
         
         ResultSet rs = stmt.executeQuery();
@@ -73,7 +73,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         }
 
         //查询发帖用户
-        stmt = conn.prepareStatement("select * from users where ID like ?");
+        stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1,userId);
 
         rs = stmt.executeQuery();
@@ -86,7 +86,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         }
 
         //查询当前用户是否点赞该条post
-        stmt = conn.prepareStatement("select * from likes where userId like ? and postId like ?");
+        stmt = conn.prepareStatement("select * from Likes where userId like ? and postId like ?");
         stmt.setString(1, currentUserId);
         stmt.setString(2, postId);
 

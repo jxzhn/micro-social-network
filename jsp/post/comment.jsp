@@ -45,8 +45,8 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
-        PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
+        Connection conn = DriverManager.getConnection(connectString, "user", "123");
+        PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, currentUserId);
         
         //判断用户是否存在
@@ -57,7 +57,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         } else {
 
             //判断帖子是否存在
-            stmt = conn.prepareStatement("select * from postings where ID like ?");
+            stmt = conn.prepareStatement("select * from Postings where ID like ?");
             stmt.setString(1, postId);
         
             rs = stmt.executeQuery();

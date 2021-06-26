@@ -7,10 +7,10 @@ function praseErrorCode(resp, resolve, reject) {
     } 
     if (resp.code == 999) { // 未登录
         window.location.href = '/login.html';
-        reject(Error('未登录'));
+        reject(Error(rep.msg));
     } 
     if (resp.code == -1) { //模板
-        reject(Error(''));
+        reject(Error(resp.msg));
     }
     reject(resp.msg);
 }
