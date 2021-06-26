@@ -176,7 +176,7 @@ function showTweets() {
         var tweet = userList[i];
         var block = document.createElement('div');
         block.classList.add('tweet-block');
-        var btn = tweet.user.currentUserFollowing ? 
+        var btn = (curFollowType == "following" || tweet.user.currentUserFollowing)? 
                 `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`:
                 `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`;
         block.innerHTML =
@@ -222,8 +222,7 @@ var testRes = {
                 "userId" : "12345",
                 "userName" : "hu",
                 "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 1
+                "introduction": "just test just test just test just test just test just test just test"
             }
         },
         {
@@ -231,8 +230,7 @@ var testRes = {
                 "userId" : "22345",
                 "userName" : "hu",
                 "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 0
+                "introduction": "just test just test just test just test just test just test just test"
             }
         },
         {
@@ -240,8 +238,7 @@ var testRes = {
                 "userId" : "32345",
                 "userName" : "hu",
                 "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 0
+                "introduction": "just test just test just test just test just test just test just test"
             }
         },
         {
@@ -249,8 +246,7 @@ var testRes = {
                 "userId" : "42345",
                 "userName" : "hu",
                 "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
-                "introduction": "just test just test just test just test just test just test just test",
-                "currentUserFollowing": 1
+                "introduction": "just test just test just test just test just test just test just test"
             }
         }
     ]
