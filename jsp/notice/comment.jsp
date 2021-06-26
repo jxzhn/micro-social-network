@@ -60,7 +60,7 @@ int code = 0;
             msg = "The user does not exist！";
         } else {
 
-            stmt = conn.prepareStatement("select * from Comments as a left join postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Comments as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
             stmt.setString(1, currentUserId);
             stmt.setLong(2,timeStamp);
             stmt.setInt(3,requestNum);
