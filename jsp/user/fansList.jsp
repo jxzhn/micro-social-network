@@ -90,7 +90,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			int currentUserFollowing = 0;
 			String ID = ids.get(i);
 
-			String sql2 = "select * from Followers where userId=? and userFollowedId=?",id,ID);
+			String sql2 = "select * from Followers where userId=? and userFollowedId=?";
 			stmt = con.prepareStatement(sql2);
 			stmt.setString(1,id);
 			stmt.setString(2,ID);
@@ -104,8 +104,10 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		}
 		
 		//查看用户是否存在
-		sql = String.format("select * from Users where ID = '%s'",userId);
-		rs = stmt.executeQuery(sql);
+		sql = "select * from Users where ID = '%s'",userId);
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1,userId);
+		rs = stmt.executeQuery();
 		if(rs.next() == false){
 			code = 1001;
 			msg = "该用户不存在";
