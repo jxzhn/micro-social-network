@@ -27,7 +27,8 @@ function getQueryVariable(variable)
 
 var userId = getQueryVariable("id");
 var userIdToSend = {
-    userId: userId
+    userId: userId,
+    full: true
 }
 var userInfo = {}
 var isFollowing = true;

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%@ page import="org.json.simple.*"%>
+<%@ page import="org.json.*"%>
 
 <%!
 String getPostData(InputStream in,int size,String charset){
@@ -38,9 +38,7 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
 	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
-	//JSONObject postData = new JSONObject(postBody);
-	Object obj = JSONValue.parse(postBody);
-	JSONObject postData = (JSONObject) obj;
+	JSONObject postData = new JSONObject(postBody);
 	int code = 0;
 	String msg = "success";
 	JSONObject data = new JSONObject();

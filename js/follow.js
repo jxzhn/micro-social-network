@@ -17,7 +17,8 @@ function getQueryVariable(variable)
 
 var userId =  getQueryVariable('id');
 var userIdToSend = {
-    userId: userId
+    userId: userId,
+    full: false
 }
 var followType = getQueryVariable('followType');
 var curFollowType = followType;
@@ -39,7 +40,7 @@ async function initFollowPage(){
             }
         }
         else{
-            var userInfo = await ajax.post("/user/userInfo");
+            var userInfo = await ajax.post("/user/userInfo", userIdToSend);
         }
         userName.textContent = userInfo.userName;
     }
