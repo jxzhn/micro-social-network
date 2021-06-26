@@ -215,7 +215,7 @@ window.addEventListener('scroll', () => {
     }
 })
 
-loadMoreTweets(5);
+loadMoreTweets(10);
 
 
 
