@@ -60,7 +60,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             msg = "The user does not exist！";
         } else {
         
-            stmt = conn.prepareStatement("select * from Likes as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Likes as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime desc limit ? offset ?");
 
             stmt.setString(1, currentUserId);
             stmt.setLong(2,timeStamp);
@@ -70,14 +70,14 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             rs = stmt.executeQuery();
             
             while(rs.next()) {
-                String userId = rs.getString("b.userId");
+                String userId = rs.getString("a.userId");
                 String postId = rs.getString("b.ID");
                 long likeDate = rs.getLong("a.createTime");
                 long postDate = rs.getLong("b.createTime");
                 String content = rs.getString("b.contents");
                 String imgUrl = rs.getString("b.image");
                 //-----------------------------------------------
-                //查询发帖用户个人信息
+                //查询点赞用户个人信息
                 stmt = conn.prepareStatement("select * from Users where ID=?");
                 stmt.setString(1,userId);
 
