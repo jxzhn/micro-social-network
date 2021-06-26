@@ -78,7 +78,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
 
                     //更新点赞表
                     long date = System.currentTimeMillis()/1000L;
-                    stmt = conn.prepareStatement("delete from likes where userId=? and postId=?");
+                    stmt = conn.prepareStatement("delete from Likes where userId=? and postId=?");
                     stmt.setString(1,currentUserId);
                     stmt.setString(2,postId);
                     int cnt = stmt.executeUpdate();
@@ -88,7 +88,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                     } else {
 
                         //更新帖子点赞数
-                        stmt = conn.prepareStatement("update postings set likes=? where ID=?");
+                        stmt = conn.prepareStatement("update Postings set likes=? where ID=?");
                         stmt.setInt(1,likes-1);
                         stmt.setString(2,postId);
                         cnt = stmt.executeUpdate();

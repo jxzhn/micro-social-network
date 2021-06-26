@@ -67,7 +67,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             } else {
                 //更新评论数
                 int comment = rs.getInt("comments");
-                stmt = conn.prepareStatement("update postings set comments=? where ID=?");
+                stmt = conn.prepareStatement("update Postings set comments=? where ID=?");
                 stmt.setInt(1,comment+1);
                 stmt.setString(2,postId);
                 cnt = stmt.executeUpdate();
@@ -77,7 +77,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                 Random r = new Random();
                 int rand = r.nextInt(89)+10;
                 commentId = "c_" + Long.toString(date) + Integer.toString(rand);
-                stmt = conn.prepareStatement("insert into comments (ID,userId,postId,contents,createTime) values (?,?,?,?,?)");
+                stmt = conn.prepareStatement("insert into Comments (ID,userId,postId,contents,createTime) values (?,?,?,?,?)");
                 stmt.setString(1,commentId);
                 stmt.setString(2,currentUserId);
                 stmt.setString(3,postId);
