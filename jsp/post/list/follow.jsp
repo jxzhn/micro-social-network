@@ -44,8 +44,8 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
-        PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
+        Connection conn = DriverManager.getConnection(connectString, "user", "123");
+        PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, currentUserId);
         
         //判断用户是否存在
@@ -72,7 +72,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                     msg = "no one post new postings!";
                 } else {
 
-                    String sql = "select * from postings where userId=?";
+                    String sql = "select * from Postings where userId=?";
                     for (int i = 1; i < n; i++) {
                         sql += " or userId=?";
                     }
@@ -101,7 +101,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                         int numLike = rs.getInt("likes");
 
                         //查询是否点赞------------------------------------
-                        stmt = conn.prepareStatement("select * from likes where userId=? and postId=?");
+                        stmt = conn.prepareStatement("select * from Likes where userId=? and postId=?");
                         stmt.setString(1,currentUserId);
                         stmt.setString(2,postId);
 
@@ -112,7 +112,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                         }
                         //-----------------------------------------------
                         //查询发帖用户个人信息
-                        stmt = conn.prepareStatement("select * from users where ID=?");
+                        stmt = conn.prepareStatement("select * from Users where ID=?");
                         stmt.setString(1,userId);
 
                         ResultSet userInfo = stmt.executeQuery();

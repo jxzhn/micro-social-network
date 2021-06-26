@@ -30,8 +30,8 @@ request.setCharacterEncoding("utf-8");
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
-String user="root";
-String pwd="ye1397546";
+String user="user";
+String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 
@@ -59,11 +59,11 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		if(rs.next()){    //查找Follwer表
 			//int following = Integer.parseInt(rs.getString("following"));
 			//int followed = Integer.parseInt(rs.getString("followed"));
-			sql = String.format("select * from followers where userId = '%s'",userId);
+			sql = String.format("select * from Followers where userId = '%s'",userId);
 			rs = stmt.executeQuery(sql);
 			int following = 0;
 			while(rs.next()) following += 1;
-			sql = String.format("select * from followers where userFollowedId = '%s'",userId);
+			sql = String.format("select * from Followers where userFollowedId = '%s'",userId);
 			rs = stmt.executeQuery(sql);
 			int followed = 0;
 			while(rs.next()) followed += 1;

@@ -30,8 +30,8 @@ request.setCharacterEncoding("utf-8");
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
-String user="root";
-String pwd="ye1397546";
+String user="user";
+String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 
@@ -61,9 +61,9 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		}
 		else{
 			//要先把对应Likes和comments表里的记录删掉
-			sql = String.format("delete from likes where postId='%s'",postId);
+			sql = String.format("delete from Likes where postId='%s'",postId);
 			int rs = stmt.executeUpdate(sql);
-			sql = String.format("delete from comments where postId='%s'",postId);
+			sql = String.format("delete from Comments where postId='%s'",postId);
 			rs = stmt.executeUpdate(sql);
 
 			//删除帖子

@@ -50,8 +50,8 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
-        PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
+        Connection conn = DriverManager.getConnection(connectString, "user", "123");
+        PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, currentUserId);
         
         //判断用户是否存在
@@ -64,7 +64,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             Random r = new Random();
             int rand = r.nextInt(89)+10;
             postId = "p_" + Long.toString(date) + Integer.toString(rand);
-            stmt = conn.prepareStatement("insert into postings (ID,userId,createTime,contents,image) values (?,?,?,?,?)");
+            stmt = conn.prepareStatement("insert into Postings (ID,userId,createTime,contents,image) values (?,?,?,?,?)");
             stmt.setString(1,postId);
             stmt.setString(2,currentUserId);
             stmt.setLong(3,date);

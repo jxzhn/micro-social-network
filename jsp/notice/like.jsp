@@ -49,8 +49,8 @@ int code = 0;
     try {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection conn = DriverManager.getConnection(connectString, "root", "ye1397546");
-        PreparedStatement stmt = conn.prepareStatement("select * from users where ID like ?");
+        Connection conn = DriverManager.getConnection(connectString, "user", "123");
+        PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, currentUserId);
         
         //判断用户是否存在
@@ -60,7 +60,7 @@ int code = 0;
             msg = "The user does not exist！";
         } else {
 
-            stmt = conn.prepareStatement("select * from likes as a left join postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Likes as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
             stmt.setString(1, currentUserId);
             stmt.setLong(2,timeStamp);
             stmt.setInt(3,requestNum);
@@ -77,7 +77,7 @@ int code = 0;
                 String imgUrl = rs.getString("b.image");
                 //-----------------------------------------------
                 //查询发帖用户个人信息
-                stmt = conn.prepareStatement("select * from users where ID=?");
+                stmt = conn.prepareStatement("select * from Users where ID=?");
                 stmt.setString(1,userId);
 
                 ResultSet userInfo = stmt.executeQuery();
