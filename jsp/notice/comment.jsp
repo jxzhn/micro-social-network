@@ -25,20 +25,20 @@ String getPostData(InputStream in, int size, String charset) {
 <%
 String msg = "";
 int code = 0;
-//if (request.getMethod().equalsIgnoreCase("post")) {
+if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
-    //String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
-    //JSONObject postData = new JSONObject(postbody);
+    String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
+    JSONObject postData = new JSONObject(postbody);
 
     //session.setAttribute("id","1");
 
-    long timeStamp = 1624468204;
-    int loadedNum = 0;
-    int requestNum = 2;
+    //long timeStamp = 1624468204;
+    //int loadedNum = 0;
+    //int requestNum = 2;
 
-    //long timeStamp = (long)postData.get("timeStamp");
-    //int loadedNum = (int)postData.get("loadedNum");
-    //int requestNum = (int)postData.get("requestNum");
+    long timeStamp = (long)postData.get("timeStamp");
+    int loadedNum = (int)postData.get("loadedNum");
+    int requestNum = (int)postData.get("requestNum");
     String currentUserId = (String)session.getAttribute("id");
 
     //连接数据库
@@ -126,6 +126,6 @@ int code = 0;
     data.put("posts",jsonArray);
     retval.put("data",data);
     out.print(retval.toString());
-//}
+}
 
 %>

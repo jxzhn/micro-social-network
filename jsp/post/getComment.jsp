@@ -56,7 +56,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             msg = "The user does not exist！";
         } else {
 
-            stmt = conn.prepareStatement("select * from Comments where postId=? and createTime<? order by createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Comments where postId=? and createTime<? order by createTime desc limit ? offset ?");
             stmt.setString(1, postId);
             stmt.setLong(2,timeStamp);
             stmt.setInt(3,requestNum);

@@ -57,7 +57,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             msg = "The user does not exist！";
         } else {
 
-                String sql = "select * from Postings where createTime<? order by createTime limit ? offset ?";
+                String sql = "select * from Postings where createTime<? order by createTime desc limit ? offset ?";
                 stmt = conn.prepareStatement(sql);
                 stmt.setLong(1,timeStamp);
                 stmt.setInt(2,requestNum);
