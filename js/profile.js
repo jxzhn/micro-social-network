@@ -137,7 +137,7 @@ async function initProfilePage(){
     following_href.href = "./follow.html" + "?id=" + userId +"&followType=following";
     followed_href.href = "./follow.html" + "?id=" + userId +"&followType=followed";
     //TODO: load tweets
-    loadMoreTweets(5);
+    loadMoreTweets(10);
 }
 initProfilePage();
 
