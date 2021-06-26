@@ -47,7 +47,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject data = new JSONObject();
 
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		//if(userId == null) userId = id;
 		
@@ -56,9 +56,17 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String sql = String.format("select * from Users where ID = '%s'",userId);
 		ResultSet rs = stmt.executeQuery(sql);
 		
-		if(rs.next()){    //查找User表
-			int following = Integer.parseInt(rs.getString("following"));
-			int followed = Integer.parseInt(rs.getString("followed"));
+		if(rs.next()){    //查找Follwer表
+			//int following = Integer.parseInt(rs.getString("following"));
+			//int followed = Integer.parseInt(rs.getString("followed"));
+			sql = String.format("select * from followers where userId = '%s'",userId);
+			rs = stmt.executeQuery(sql);
+			int following = 0;
+			while(rs.next()) following += 1;
+			sql = String.format("select * from followers where userFollowedId = '%s'",userId);
+			rs = stmt.executeQuery(sql);
+			int followed = 0;
+			while(rs.next()) followed += 1;
 			data.put("following",following);
 			data.put("followed",followed);
 		}
