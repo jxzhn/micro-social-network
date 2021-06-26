@@ -146,8 +146,7 @@ async function follow(){
     isFollowing = true;
     try{
         var followInfo = {
-            userIdFollowed: userId,
-            createTime:  new Date().getTime() / 1000
+            userIdFollowed: userId
         }
         console.log("send to /user/follow:");
         console.log(followInfo);
@@ -162,8 +161,11 @@ async function unfollow(){
     isFollowing = false;
     try{
         console.log("send to /user/unfollow:");
-        console.log(userIdToSend);
-        if(!TEST_FLAG)await ajax.post("/user/unfollow", userIdToSend);
+        var followInfo = {
+            userIdFollowed: userId
+        }
+        console.log(followInfo);
+        if(!TEST_FLAG)await ajax.post("/user/unfollow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -462,7 +464,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/dislike:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("/post/dislike", likeInfo);
+            if(!TEST_FLAG) await ajax.post("/post/dislike", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) - 1;
         }
         catch(err){
