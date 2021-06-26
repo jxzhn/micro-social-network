@@ -113,8 +113,8 @@ async function initProfilePage(){
         userName[i].innerHTML = userInfo.user.userName;
     }
     introduction.innerHTML = userInfo.user.introduction;
-    banner.style.backgroundImage = "url(" + userInfo.user.backgroundImage + ")";
-    avatar.style.backgroundImage = "url(" + userInfo.user.avatar + ")";
+    banner.style.backgroundImage = `url("` + userInfo.user.backgroundImage + `")`;
+    avatar.style.backgroundImage = `url("` + userInfo.user.avatar + `")`;
     //TODO: set follow num
     var userFollowNum = {}; 
     try{
@@ -196,8 +196,8 @@ function initPopup(){
     edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
     edit_name.value = userName[0].innerHTML;
     edit_introduction.value = introduction.innerHTML;
-    bannerDataURL = banner.style.backgroundImage.slice(4,-1);
-    avatarDataURL = avatar.style.backgroundImage.slice(4,-1);
+    bannerDataURL = banner.style.backgroundImage.slice(5,-2);
+    avatarDataURL = avatar.style.backgroundImage.slice(5,-2);
     showPopup('edit-popup');
 }
 
@@ -209,7 +209,7 @@ function updateEditBanner(files){
     var reader = new FileReader();
     reader.onload = (e) => {
         bannerDataURL = e.target.result;
-        edit_banner.style.backgroundImage = `url(${bannerDataURL})`;
+        edit_banner.style.backgroundImage = `url("${bannerDataURL}")`;
         document.getElementById('edit-banner-input').value = null;
     }
     reader.readAsDataURL(files[0]);
@@ -222,7 +222,7 @@ function updateEditAvatar(files){
     var reader = new FileReader();
     reader.onload = (e) => {
         avatarDataURL = e.target.result;
-        edit_avatar.style.backgroundImage = `url(${avatarDataURL})`;
+        edit_avatar.style.backgroundImage = `url("${avatarDataURL}")`;
         document.getElementById('edit-avatar-input').value = null;
     }
     reader.readAsDataURL(files[0]);
@@ -257,8 +257,8 @@ function updateInfo(){
         succ_flag = false;
         return;
     }
-    banner.style.backgroundImage = `url(${bannerDataURL})`;
-    avatar.style.backgroundImage = `url(${avatarDataURL})`;
+    banner.style.backgroundImage = `url("${bannerDataURL}")`;
+    avatar.style.backgroundImage = `url("${avatarDataURL}")`;
     for(i in  userName){
         userName[i].innerHTML = edit_name.value;
     }
