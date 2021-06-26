@@ -73,7 +73,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                 } else {
 
                     String sql = "select * from Postings where userId=?";
-                    for (int i = 1; i < n; i++) {
+                    for (int i = 1; i < n+1; i++) {
                         sql += " or userId=?";
                     }
                     sql += " and createTime<? order by createTime desc limit ? offset ?";
@@ -85,9 +85,10 @@ if (request.getMethod().equalsIgnoreCase("post")) {
                         stmt.setString(index,fuserId);
                         index++;
                     }
-                    stmt.setLong(index,timeStamp);
-                    stmt.setInt(index+1,requestNum);
-                    stmt.setInt(index+2,loadedNum);
+                    stmt.setString(index,currentUserId);
+                    stmt.setLong(index+1,timeStamp);
+                    stmt.setInt(index+2,requestNum);
+                    stmt.setInt(index+3,loadedNum);
 
                     rs = stmt.executeQuery();
 
