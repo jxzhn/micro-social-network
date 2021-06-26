@@ -42,7 +42,7 @@ async function initFollowPage(){
         else{
             var userInfo = await ajax.post("/user/userInfo", userIdToSend);
         }
-        userName.textContent = userInfo.userName;
+        userName.textContent = userInfo.user.userName;
     }
     catch(err){
         console.log(err);
