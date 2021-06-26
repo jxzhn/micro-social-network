@@ -41,7 +41,7 @@ async function initFollowPage(){
         else{
             var userInfo = await ajax.post("/user/userInfo", userIdToSend);
         }
-        userName.innerHTML = userInfo.userName;
+        userName.innerHTML = userInfo.user.serName;
     }
     catch(err){
         console.log(err);
@@ -176,7 +176,7 @@ function showTweets() {
         var tweet = userList[i];
         var block = document.createElement('div');
         block.classList.add('tweet-block');
-        var btn = (curFollowType == "following" || tweet.user.currentUserFollowing)? 
+        var btn = tweet.user.currentUserFollowing? 
                 `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`:
                 `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`;
         block.innerHTML =
