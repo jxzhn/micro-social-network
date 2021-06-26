@@ -1,4 +1,4 @@
-var TEST_FLAG = true;
+var TEST_FLAG = false;
 
 //---------------------- Init Page---------------------- 
 var banner = document.getElementById("banner");
