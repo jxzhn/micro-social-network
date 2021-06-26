@@ -146,8 +146,7 @@ async function follow(){
     isFollowing = true;
     try{
         var followInfo = {
-            userIdFollowed: userId,
-            createTime:  Math.round(new Date().getTime() / 1000)
+            userIdFollowed: userId
         }
         console.log("send to /user/follow:");
         console.log(followInfo);

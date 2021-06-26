@@ -135,8 +135,7 @@ async function loadFollowed(){
 //----------------------follow button related--------------------------
 async function follow(obj){
     var followInfo = {
-        userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name"),
-        createTime:  Math.round(new Date().getTime() / 1000)
+        userIdFollowed: obj.parentNode.previousElementSibling.firstElementChild.lastElementChild.getAttribute("name")
     }
     try{
         console.log("send to /user/follow:");
