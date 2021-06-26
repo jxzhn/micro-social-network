@@ -131,13 +131,6 @@ async function initProfilePage(){
     following.innerHTML = userFollowNum.following;
     followed.innerHTML = userFollowNum.followed;
 
-    //TODO: init popup info
-    edit_banner.style.backgroundImage = banner.style.backgroundImage;
-    edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
-    edit_name.value = userName[0].innerHTML;
-    edit_introduction.value = introduction.innerHTML;
-    bannerDataURL = userInfo.user.backgroundImage;
-    avatarDataURL = userInfo.user.avatar;
     //TODO: init follow href
     var following_href = document.getElementById("following-href");
     var followed_href = document.getElementById("followed-href");
@@ -196,6 +189,13 @@ var edit_avatar = document.getElementById("edit-avatar");
 var bannerDataURL;
 var avatarDataURL;
 function initPopup(){
+    //TODO: init popup info
+    edit_banner.style.backgroundImage = banner.style.backgroundImage;
+    edit_avatar.style.backgroundImage = avatar.style.backgroundImage;
+    edit_name.value = userName[0].innerHTML;
+    edit_introduction.value = introduction.innerHTML;
+    bannerDataURL = banner.style.backgroundImage.slice(4,-1);
+    avatarDataURL = avatar.style.backgroundImage.slice(4,-1);
     showPopup('edit-popup');
 }
 
