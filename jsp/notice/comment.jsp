@@ -36,7 +36,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     //int loadedNum = 0;
     //int requestNum = 2;
 
-    long timeStamp = (long)postData.get("timeStamp");
+    long timeStamp = postData.getLong("timeStamp");
     int loadedNum = (int)postData.get("loadedNum");
     int requestNum = (int)postData.get("requestNum");
     String currentUserId = (String)session.getAttribute("id");
