@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="application/json" pageEncoding="utf-8"%>
 <%@ page import="java.io.*, java.util.*,java.sql.*"%>
-<%--@ page import="org.json.*" --%>
 <%@ page import="org.json.simple.*"%>
 
 <%!
@@ -50,6 +49,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String avatar = (String)postData.get("avatar");
 		String introduction = (String)postData.get("introduction");
 		String bkgImage = (String)postData.get("backgroundImage");
+		String userName = (String)postData.get("userName");
 		
 		//数据库修改，修改User表信息
 		Statement stmt = con.createStatement();
@@ -61,8 +61,11 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			msg = "该用户不存在";
 		}
 		else{
-			sql = String.format("update Users set avatar='%s',introduction='%s',bkgImage='%s' where ID='%s'",avatar,introduction,bkgImage,id);
+			if(avatar == null) avatar = rs1.getString("avatar");
+			if(bkgImage == null) bkgImage = rs1.getString("bkgImage");
+			sql = String.format("update Users set name='%s',introduction='%s',bkgImage='%s',avatar='%s' where ID='%s'",userName,introduction,bkgImage,avatar,id);
 			int rs = stmt.executeUpdate(sql);
+			msg = userName;
 		}	
 		
 		rs1.close();
