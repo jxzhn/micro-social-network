@@ -85,12 +85,28 @@
     line-height: 1.2em;
 }
 
+#side-user-name-id-div {
+    width: 60%;
+}
+
 #side-user-name {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 15px;
     font-weight: bold;
 }
 
 #side-user-id {
+    display: inline-block;
+    max-width: 100%;
+    max-height: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 15px;
     color: var(--gray); 
     margin-top: -1em;
