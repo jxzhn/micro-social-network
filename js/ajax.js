@@ -1,4 +1,4 @@
-const baseURL = '/jsp';
+const baseURL = 'jsp';
 const surffix = '.jsp'
 
 function praseErrorCode(resp, resolve, reject) {
