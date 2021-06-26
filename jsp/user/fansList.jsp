@@ -48,10 +48,21 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String id = (String)session.getAttribute("id");;  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		
+		PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
+        stmt.setString(1, id);
+        
+        //判断用户是否存在
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
+            code = 1001;
+            msg = "The user does not exist！";
+        } else {
+
 		//数据库处理，访问
-		Statement stmt = con.createStatement();
-		String sql = String.format("select * from Users where ID in (select userId from Followers where userFollowedId = '%s' order by createTime desc)",userId);
-		ResultSet rs = stmt.executeQuery(sql);
+		String sql = "select * from Users where ID in (select userId from Followers where userFollowedId =? order by createTime desc)";
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1,userId);
+		rs = stmt.executeQuery();
 		
 		List<JSONObject> follows = new ArrayList<JSONObject>();
 		List<String> ids = new ArrayList<String>();
@@ -78,8 +89,12 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		for(int i = 0;i < ids.size();i++){      //对每个粉丝，确定登录用户是否关注了他
 			int currentUserFollowing = 0;
 			String ID = ids.get(i);
-			String sql2 = String.format("select * from Followers where userId='%s' and userFollowedId='%s'",id,ID);
-			ResultSet rs2 = stmt.executeQuery(sql2);
+
+			String sql2 = "select * from Followers where userId=? and userFollowedId=?",id,ID);
+			stmt = con.prepareStatement(sql2);
+			stmt.setString(1,id);
+			stmt.setString(2,ID);
+			ResultSet rs2 = stmt.executeQuery();
 			if(rs2.next()) currentUserFollowing = 1;
 			JSONObject temp = follows.get(i);
 			temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
@@ -100,7 +115,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			data.put("length",length);
 			data.put("fans",follows);
 		}
-
+		}
 		rs.close();
 		stmt.close();
 		con.close();	

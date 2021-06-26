@@ -60,7 +60,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             msg = "The user does not exist！";
         } else {
 
-            stmt = conn.prepareStatement("select * from Likes as a left join Postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime limit ? offset ?");
+            stmt = conn.prepareStatement("select * from Likes as a left join postings as b on a.postId = b.ID where b.userId=? and a.createTime<? order by a.createTime desc limit ? offset ?");
             stmt.setString(1, currentUserId);
             stmt.setLong(2,timeStamp);
             stmt.setInt(3,requestNum);
@@ -124,6 +124,6 @@ if (request.getMethod().equalsIgnoreCase("post")) {
     data.put("posts",jsonArray);
     retval.put("data",data);
     out.print(retval.toString());
-//}
+}
 
 %>

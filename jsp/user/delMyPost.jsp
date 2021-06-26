@@ -48,27 +48,50 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	try{
 		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String postId = (String)postData.get("postId");
+
+		PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
+        stmt.setString(1, id);
+        
+        //判断用户是否存在
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
+            code = 1001;
+            msg = "The user does not exist！";
+        } else {
 		
 		//数据库修改，followers表删除记录
-		Statement stmt = con.createStatement();
 
 		//查询帖子是否存在
-		String sql = String.format("select * from Postings where ID='%s'and userId='%s'",postId,id);
-		ResultSet rs1 = stmt.executeQuery(sql);
+		String sql = "select * from Postings where ID=? and userId=?";
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1,postId);
+		stmt.setString(2,id);
+
+		ResultSet rs1 = stmt.executeQuery();
 		if(rs1.next() == false){
 			code = 1003;
 			msg = "该贴不存在";
 		}
 		else{
 			//要先把对应Likes和comments表里的记录删掉
-			sql = String.format("delete from Likes where postId='%s'",postId);
-			int rs = stmt.executeUpdate(sql);
-			sql = String.format("delete from Comments where postId='%s'",postId);
-			rs = stmt.executeUpdate(sql);
+			sql = "delete from Likes where postId=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,postId);
+			stmt.executeUpdate();
+
+
+			sql = "delete from Comments where postId=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,postId);
+			stmt.executeUpdate();
 
 			//删除帖子
-			sql = String.format("delete from Postings where ID='%s'and userId='%s'",postId,id);
-			rs = stmt.executeUpdate(sql);
+			sql = "delete from Postings where ID=? and userId=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,id);
+			stmt.setString(2,postId);
+			stmt.executeUpdate();
+		}
 		}
 
 		rs1.close();
