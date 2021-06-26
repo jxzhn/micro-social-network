@@ -124,7 +124,7 @@ async function loadFollowed(){
     try{
         console.log("send to /user/fansList:");
         console.log(userIdToSend);
-        if(TEST_FLAG)userList = testRes.follows;
+        if(TEST_FLAG)userList = testRes1.follows;
         else userList = (await ajax.post("/user/fansList", userIdToSend)).fans;
     }
     catch(err){
@@ -178,8 +178,8 @@ function showTweets() {
         var block = document.createElement('div');
         block.classList.add('tweet-block');
         var btn = tweet.user.currentUserFollowing ? 
-                `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`:
-                `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`;
+                `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`:
+                `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`;
         block.innerHTML =
         `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.avatar}">\n` +
         `<div class="tweet-detail">\n` + 
@@ -234,6 +234,39 @@ var testRes = {
                 "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
                 "introduction": "just test just test just test just test just test just test just test",
                 "currentUserFollowing": 0
+            }
+        },
+        {
+            "user" : {
+                "userId" : "32345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 0
+            }
+        },
+        {
+            "user" : {
+                "userId" : "42345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 1
+            }
+        }
+    ]
+}
+
+var testRes1 = {
+    "length" : 2,
+    "follows" : [
+        {
+            "user" : {
+                "userId" : "12345",
+                "userName" : "hu",
+                "avatar" : "https://avatars.githubusercontent.com/u/84268960?v=4",
+                "introduction": "just test just test just test just test just test just test just test",
+                "currentUserFollowing": 1
             }
         },
         {
