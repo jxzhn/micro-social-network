@@ -47,7 +47,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 
 	try{
 		String id = (String)session.getAttribute("id");;  //当前登录用户id
-		String userIdFollowed = (String)postData.get("userId");
+		String userFollowedId = (String)postData.get("userId");
 		
 		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
 		stmt.setString(1,id);
@@ -69,7 +69,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			msg = "该用户不存在";
 		}
 		else{    //用户存在，查找关注表，看登录用户是否关注该用户
-			sql = "select * from Followers where userId =? and userFollowedId=?"；
+			sql = "select * from Followers where userId =? and userFollowedId=?";
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1,id);
 			stmt.setString(2,userFollowedId);
@@ -83,7 +83,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 			rs.close();
 		}
 		}
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}
