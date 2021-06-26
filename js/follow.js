@@ -39,7 +39,7 @@ async function initFollowPage(){
             }
         }
         else{
-            var userInfo = await ajax.post("/user/userInfo");
+            var userInfo = await ajax.post("/user/userInfo", userIdToSend);
         }
         userName.innerHTML = userInfo.userName;
     }
