@@ -43,7 +43,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(connectString, "user", "123");
-        
+        conn.createStatement().execute("SET names 'utf8mb4'");
         //查询帖子是否存在
         PreparedStatement stmt = conn.prepareStatement("select * from Postings where ID like ?");
         stmt.setString(1, postId);
