@@ -84,4 +84,5 @@ async function sendTweet() {
     sendTweetButton.disabled = true;
     imgDataURL = '';
     sendTweetImg.style.display = 'none';
+    window.location.href="./index.html";
 }
