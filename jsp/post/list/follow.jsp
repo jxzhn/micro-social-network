@@ -60,94 +60,89 @@ if (request.getMethod().equalsIgnoreCase("post")) {
             stmt.setString(1, currentUserId);
         
             rs = stmt.executeQuery();
+            int n = 0;
             if (!rs.next()) {
                 msg = "the following list is empty!";
             } else {
                 rs.last(); //结果集指针知道最后一行数据
-                int n = rs.getRow();
+                n = rs.getRow();
                 rs.beforeFirst();//将结果集指针指回到开始位置，这样才能通过while获取rs中的数据
+            }
 
+            String sql = "select * from Postings where userId=?";
+            for (int i = 1; i < n+1; i++) {
+                sql += " or userId=?";
+            }
+            sql += " and createTime<? order by createTime desc limit ? offset ?";
 
-                if (n <= 0) {
-                    code = 0;
-                    msg = "no one post new postings!";
+            stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            int index = 1;
+            while (rs.next()) {
+                String fuserId = rs.getString("userFollowedId");
+                stmt.setString(index,fuserId);
+                index++;
+            }
+            stmt.setString(index,currentUserId);
+            stmt.setLong(index+1,timeStamp);
+            stmt.setInt(index+2,requestNum);
+            stmt.setInt(index+3,loadedNum);
+
+            rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                String userId = rs.getString("userId");
+                String postId = rs.getString("ID");
+                long date = rs.getLong("createTime");
+                String content = rs.getString("contents");
+                String imgUrl = rs.getString("image");
+                int numComment = rs.getInt("comments");
+                int numLike = rs.getInt("likes");
+
+                //查询是否点赞------------------------------------
+                stmt = conn.prepareStatement("select * from Likes where userId=? and postId=?");
+                stmt.setString(1,currentUserId);
+                stmt.setString(2,postId);
+
+                ResultSet likeExist = stmt.executeQuery();
+                boolean liked = false;
+                if (likeExist.next()) {
+                    liked = true;
+                }
+                //-----------------------------------------------
+                //查询发帖用户个人信息
+                stmt = conn.prepareStatement("select * from Users where ID=?");
+                stmt.setString(1,userId);
+
+                ResultSet userInfo = stmt.executeQuery();
+                String userName = "";
+                String userImgUrl = "";
+                if (userInfo.next()) {
+                    userName = userInfo.getString("name");
+                    userImgUrl = userInfo.getString("avatar");
                 } else {
-
-                    String sql = "select * from Postings where userId=?";
-                    for (int i = 1; i < n+1; i++) {
-                        sql += " or userId=?";
-                    }
-                    sql += " and createTime<? order by createTime desc limit ? offset ?";
-
-                    stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                    int index = 1;
-                    while (rs.next()) {
-                        String fuserId = rs.getString("userFollowedId");
-                        stmt.setString(index,fuserId);
-                        index++;
-                    }
-                    stmt.setString(index,currentUserId);
-                    stmt.setLong(index+1,timeStamp);
-                    stmt.setInt(index+2,requestNum);
-                    stmt.setInt(index+3,loadedNum);
-
-                    rs = stmt.executeQuery();
-
-                    while(rs.next()) {
-                        String userId = rs.getString("userId");
-                        String postId = rs.getString("ID");
-                        long date = rs.getLong("createTime");
-                        String content = rs.getString("contents");
-                        String imgUrl = rs.getString("image");
-                        int numComment = rs.getInt("comments");
-                        int numLike = rs.getInt("likes");
-
-                        //查询是否点赞------------------------------------
-                        stmt = conn.prepareStatement("select * from Likes where userId=? and postId=?");
-                        stmt.setString(1,currentUserId);
-                        stmt.setString(2,postId);
-
-                        ResultSet likeExist = stmt.executeQuery();
-                        boolean liked = false;
-                        if (likeExist.next()) {
-                            liked = true;
-                        }
-                        //-----------------------------------------------
-                        //查询发帖用户个人信息
-                        stmt = conn.prepareStatement("select * from Users where ID=?");
-                        stmt.setString(1,userId);
-
-                        ResultSet userInfo = stmt.executeQuery();
-                        String userName = "";
-                        String userImgUrl = "";
-                        if (userInfo.next()) {
-                            userName = userInfo.getString("name");
-                            userImgUrl = userInfo.getString("avatar");
-                        } else {
-                            code = -1;
-                            msg = "fail to get the postings info";
-                        }
-
-                        JSONObject user = new JSONObject();
-                        user.put("userName",userName);
-                        user.put("userId",userId);
-                        user.put("userImgUrl",userImgUrl);
-
-                        JSONObject post = new JSONObject();
-                        post.put("user",user);
-                        post.put("postId",postId);
-                        post.put("date",date);
-                        post.put("content",content);
-                        post.put("imgUrl",imgUrl);
-                        post.put("numComment",numComment);
-                        post.put("liked",liked);
-                        post.put("numLike",numLike);
-
-                        jsonArray.add(post); 
-                    }
+                    code = -1;
+                    msg = "fail to get the postings info";
                 }
 
+                JSONObject user = new JSONObject();
+                user.put("userName",userName);
+                user.put("userId",userId);
+                user.put("userImgUrl",userImgUrl);
+
+                JSONObject post = new JSONObject();
+                post.put("user",user);
+                post.put("postId",postId);
+                post.put("date",date);
+                post.put("content",content);
+                post.put("imgUrl",imgUrl);
+                post.put("numComment",numComment);
+                post.put("liked",liked);
+                post.put("numLike",numLike);
+
+                jsonArray.add(post); 
             }
+                
+
         }
         
         rs.close();
