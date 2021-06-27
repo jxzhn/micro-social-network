@@ -38,7 +38,7 @@ con.createStatement().execute("SET names 'utf8mb4'");
 
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
-	String postBody = getPostData(request.getInputStream(),request.getContentLength(),"utf-8";
+	String postBody = getPostData(request.getInputStream(),request.getContentLength(),"utf-8");
 	JSONObject postData = new JSONObject(postBody);  //得到传入的数据格式
 	int code = 0;
 	String msg = "success";

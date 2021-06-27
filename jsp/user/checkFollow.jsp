@@ -32,7 +32,7 @@ String user="user";
 String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
-conn.createStatement().execute("SET names 'utf8mb4'");
+con.createStatement().execute("SET names 'utf8mb4'");
 //-----------------------------------------------------------------以上是每个jsp固定部分
 
 //获取request中的内容
