@@ -14,6 +14,7 @@ function getQueryVariable(variable)
 }
 
 var userId =  getQueryVariable('id');
+var currentUserId;
 var userIdToSend = {
     userId: userId,
     full: false
@@ -26,6 +27,7 @@ var followed_select = document.getElementById("followed-select");
 
 async function initFollowPage(){
     var currentUser = await currentUserInfoPromise;
+    currentUserId = currentUser.userId;
     var following_label = document.getElementById("following-label");
     var followed_label = document.getElementById("followed-label");
     var userName = document.getElementById("userName");
@@ -38,7 +40,7 @@ async function initFollowPage(){
     catch(err){
         console.log(err);
     }
-    if(userId == currentUser.userId){
+    if(userId == currentUserId){
         following_label.textContent = "我的关注";
         followed_label.textContent = "我的粉丝";
     }
@@ -166,9 +168,12 @@ function showTweets() {
         var tweet = userList[i];
         var block = document.createElement('div');
         block.classList.add('tweet-block');
-        var btn = tweet.user.currentUserFollowing ? 
+        var btn = "";
+        if(currentUserId != tweet.user.userId){
+            btn = tweet.user.currentUserFollowing ? 
                 `<button class="unfollowBtn solid-button" onclick="unfollow(this)" onmouseover="unfollowBtnMouseover(this)", onmouseout="unfollowBtnMouseout(this)" >关注中</button>`:
                 `<button class="followBtn hollow-button" onclick="follow(this)">关注</button>`;
+        }
         block.innerHTML =
         `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.avatar}">\n` +
         `<div class="tweet-detail">\n` + 
