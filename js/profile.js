@@ -270,6 +270,7 @@ async function saveEdit(){
     if(edit_errormsg.textContent.length == 0){
         hidePopup('edit-popup');
     }
+    location.reload();
 }
 
 function cancelEdit(){
