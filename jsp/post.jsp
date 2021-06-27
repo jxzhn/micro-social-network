@@ -15,7 +15,7 @@ String msg = "";
 int code = 0;
 if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
-    String postbody = getPostData(request.getInputStream(), request.getContentLength(), "utf-8");
+    String postBody = getPostData(request.getInputStream(), request.getContentLength(), "utf-8");
     //int imgIndex = postbody.indexOf("imageUrl");
     //int contentIndex = postbody.indexOf(":");
 
