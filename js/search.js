@@ -1,5 +1,3 @@
-var TEST_FLAG = false;
-
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var loadedTweetList = [];
@@ -143,8 +141,7 @@ async function loadMoreTweets(numTweet) {
         }
         console.log("send to /post/list/explore:");
         console.log(infoToSend);
-        if(TEST_FLAG) tweetList = tweetListTest.posts;
-        else tweetList = (await ajax.post("/post/list/explore", infoToSend)).posts;
+        tweetList = (await ajax.post("/post/list/explore", infoToSend)).posts;
     }
     catch(err){
         console.log(err);
@@ -169,7 +166,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/dislike:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("/post/dislike", likeInfo);
+            await ajax.post("/post/dislike", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) - 1;
         }
         catch(err){
@@ -180,7 +177,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/like:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("/post/like", likeInfo);
+            await ajax.post("/post/like", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) + 1;
         }
         catch(err){
