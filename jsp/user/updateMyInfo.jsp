@@ -4,7 +4,7 @@
 
 <%!
 String getPostData(InputStream in, int size, String charset) {
-    Scanner s = new Scanner(in).useDelimiter("\\A");
+    Scanner s = new Scanner(in,charset).useDelimiter("\\A");
     return s.hasNext() ? s.next() : "";
 }
 %>
@@ -20,7 +20,7 @@ String user="user";
 String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
-
+con.createStatement().execute("SET names 'utf8mb4'");
 
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){

@@ -5,7 +5,7 @@
 
 <%!
 String getPostData(InputStream in, int size, String charset) {
-    Scanner s = new Scanner(in).useDelimiter("\\A");
+    Scanner s = new Scanner(in,charset).useDelimiter("\\A");
     return s.hasNext() ? s.next() : "";
 }
 %>
@@ -34,6 +34,7 @@ if (request.getMethod().equalsIgnoreCase("post")) {
         Class.forName("com.mysql.jdbc.Driver");
         //Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = DriverManager.getConnection(connectString, "user", "123");
+        conn.createStatement().execute("SET names 'utf8mb4'");
         PreparedStatement stmt = conn.prepareStatement("select * from Users where ID like ?");
         stmt.setString(1, currentUserId);
         
