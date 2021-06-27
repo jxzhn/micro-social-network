@@ -30,8 +30,8 @@ request.setCharacterEncoding("utf-8");
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
-String user="user";
-String pwd="123";
+String user="root";
+String pwd="ye1397546";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 
@@ -42,74 +42,89 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject postData = new JSONObject(postBody);
 	int code = 0;
 	String msg = "success";
-	
+	JSONObject data = new JSONObject();
+
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		
 		//数据库处理，访问
-		Statement stmt = con.createStatement();
-		String sql = String.format("select * from Users where ID in (select userFollowedId from Followers where userId = '%s' order by createTime desc)",userId);
-		ResultSet rs = stmt.executeQuery(sql);
-		
-		List<JSONObject> follows = new ArrayList<JSONObject>();
-		List<String> ids = new ArrayList<String>();
-		int length = 0;
-		while(rs.next()){
-			length = length + 1;
-			JSONObject userInfo = new JSONObject();
-			JSONObject temp = new JSONObject();
-			String ID = rs.getString("ID");
-			String name = rs.getString("name");
-			String avatar = rs.getString("avatar");
-			String introduction = rs.getString("introduction");
-			ids.add(ID);
-			
-			temp.put("userId",ID);
-			temp.put("userName",name);
-			temp.put("avatar",avatar);
-			temp.put("introduction",introduction);
-			
-			userInfo.put("user",temp);
-			follows.add(userInfo);
-		}
-		
-		for(int i = 0;i < ids.size();i++){
-			int currentUserFollowing = 0;
-			String ID = ids.get(i);
-			String sql2 = String.format("select * from Followers where userId='%s' and userFollowedId='%s'",id,ID);
-			ResultSet rs2 = stmt.executeQuery(sql2);
-			if(rs2.next() == false) currentUserFollowing = 1;
-			JSONObject temp = follows.get(i);
-			temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
-			follows.set(i,temp);
-		}
-		
-		JSONObject data = new JSONObject();
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
 
-		sql = String.format("select * from Users where ID = '%s'",userId);
-		rs = stmt.executeQuery(sql);
-		if(rs.next() == false){
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "User not found";
-			data.put("length",0);
+			msg = "The user does not exist！";
+		} 
+		else {
+			String sql = "select * from Users where ID = ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userId);
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				code = 1001;
+				msg = "User not found";
+				data.put("length",0);
+			}
+			else{
+				sql = "select * from Users where ID in (select userFollowedId from Followers where userId = ? order by createTime desc)";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,userId);
+				rs = stmt.executeQuery();
+				
+				List<JSONObject> follows = new ArrayList<JSONObject>();
+				List<String> ids = new ArrayList<String>();
+				int length = 0;
+				while(rs.next()){
+					length = length + 1;
+					JSONObject userInfo = new JSONObject();
+					JSONObject temp = new JSONObject();
+					String ID = rs.getString("ID");
+					String name = rs.getString("name");
+					String avatar = rs.getString("avatar");
+					String introduction = rs.getString("introduction");
+					ids.add(ID);
+					
+					temp.put("userId",ID);
+					temp.put("userName",name);
+					temp.put("avatar",avatar);
+					temp.put("introduction",introduction);
+					
+					userInfo.put("user",temp);
+					follows.add(userInfo);
+				}
+				
+				for(int i = 0;i < ids.size();i++){
+					int currentUserFollowing = 0;
+					String ID = ids.get(i);
+					sql = "select * from Followers where userId=? and userFollowedId=?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,id);
+					stmt.setString(2,ID);
+					rs = stmt.executeQuery();
+					if(!rs.next()) currentUserFollowing = 1;
+					JSONObject temp = follows.get(i);
+					temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
+					follows.set(i,temp);
+				}
+				data.put("length",length);
+				data.put("follows",follows);
+			}
 		}
-		else{
-			data.put("length",length);
-			data.put("follows",follows);
-		}
-
-		JSONObject retval = new JSONObject();
-		retval.put("code",code);
-		retval.put("msg",msg);
-		retval.put("data",data);
-
-		out.print(retval.toString());
+		rs.close();
+		stmt.close();
+		con.close();
 	}
 	catch(Exception e){
 		msg = e.getMessage();
-		out.print(msg);
+		code = -1;
 	}
+	JSONObject retval = new JSONObject();
+	retval.put("code",code);
+	retval.put("msg",msg);
+	retval.put("data",data);
+	out.print(retval.toString());
 }
 
 %>

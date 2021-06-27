@@ -45,7 +45,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject data = new JSONObject();
 
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId"); //查看的用户id
 		
 		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");

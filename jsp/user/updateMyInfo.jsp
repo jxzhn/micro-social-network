@@ -37,23 +37,27 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		String userName = (String)postData.get("userName");
 		
 		//数据库修改，修改User表信息
-		Statement stmt = con.createStatement();
-
-		String sql = String.format("select * from Users where ID='%s'",id);
-		ResultSet rs1 = stmt.executeQuery(sql);
-		if(rs1.next()==false){
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "该用户不存在";
+			msg = "The user does not exist！";
+		} 
+		else {
+			if(avatar == null) avatar = rs.getString("avatar");
+			if(bkgImage == null) bkgImage = rs.getString("bkgImage");
+			String sql = "update Users set name=?,introduction=?,bkgImage=?,avatar=? where ID=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userName);
+			stmt.setString(2,introduction);
+			stmt.setString(3,bkgImage);
+			stmt.setString(4,avatar);
+			stmt.setString(5,id);
+			int rs1 = stmt.executeUpdate();
+			//msg = userName;
 		}
-		else{
-			if(avatar == null) avatar = rs1.getString("avatar");
-			if(bkgImage == null) bkgImage = rs1.getString("bkgImage");
-			sql = String.format("update Users set name='%s',introduction='%s',bkgImage='%s',avatar='%s' where ID='%s'",userName,introduction,bkgImage,avatar,id);
-			int rs = stmt.executeUpdate(sql);
-			msg = userName;
-		}	
-		
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}

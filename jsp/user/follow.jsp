@@ -54,34 +54,51 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		//long createTime = 1624519145;
 		
 		//数据库修改，followers表增加记录
-		Statement stmt = con.createStatement();
-		
-		//用户是否存在
-		String sql = String.format("select * from Users where ID='%s'",userIdFollowed);
-		ResultSet rs1 = stmt.executeQuery(sql);
-		if(rs1.next()==false){
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "该用户不存在";
-		}
-		else{
-			//增加关注记录
-			sql = String.format("insert into Followers(userId,userFollowedId,createTime) values('%s','%s','%d')",id,userIdFollowed,createTime);
-			int rs = stmt.executeUpdate(sql);
-			
-			if(rs > 0){
-				//User表中Following数量加1，被关注用户Followed数量加1
-				String sql2 = String.format("update Users set following = following + 1 where ID='%s'",id);
-				int rs2 = stmt.executeUpdate(sql2);
-				String sql3 = String.format("update Users set followed = followed + 1 where ID='%s'",userIdFollowed);
-				int rs3 = stmt.executeUpdate(sql3);
+			msg = "The user does not exist！";
+		} 
+		else {
+			//用户是否存在
+			String sql = "select * from Users where ID=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userIdFollowed);
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				code = 1001;
+				msg = "The user does not exist！";
 			}
 			else{
-				code = 1008;
-				msg = "关注已存在";
+				//增加关注记录
+				sql = "insert into Followers(userId,userFollowedId,createTime) values(?,?,?)";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,id);
+				stmt.setString(2,userIdFollowed);
+				stmt.setLong(3,createTime);
+				int rs1 = stmt.executeUpdate();
+				
+				if(rs1 > 0){
+					//User表中Following数量加1，被关注用户Followed数量加1
+					sql = "update Users set following = following + 1 where ID=?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,id);
+					rs1 = stmt.executeUpdate();
+					sql = "update Users set followed = followed + 1 where ID=?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,userIdFollowed);
+					rs1 = stmt.executeUpdate();
+				}
+				else{
+					code = 1008;
+					msg = "关注已存在";
+				}
 			}
 		}
-		
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}

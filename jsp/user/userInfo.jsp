@@ -46,38 +46,47 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject data = new JSONObject();
 
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		//if(userId == "false") userId = id;
 		Boolean full = postData.getBoolean("full");
 		
 		//数据库处理，访问
-		Statement stmt = con.createStatement();
-		String sql = String.format("select * from Users where ID  = '%s'",userId);
-		ResultSet rs = stmt.executeQuery(sql);
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
 
-		if(rs.next()){     //用户存在
-			JSONObject temp = new JSONObject();        //返回用户信息
-			String ID = rs.getString("ID");
-			String name = rs.getString("name");
-			String avatar = rs.getString("avatar");
-			String introduction = rs.getString("introduction");
-			int createTime = Integer.parseInt(rs.getString("createTime"));
-			String bkgImage = rs.getString("bkgImage");
-			
-			temp.put("userId",ID);
-			temp.put("userName",name);
-			if (full) {
-				temp.put("avatar",avatar);
-				temp.put("introduction",introduction);
-				temp.put("backgroundImage",bkgImage);
-			}
-
-			data.put("user",temp);
-		}
-		else{
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "User not found";
+			msg = "The user does not exist！";
+		} else {
+			String sql = "select * from Users where ID  = ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userId);
+			rs = stmt.executeQuery();
+			if(rs.next()){     //用户存在
+				JSONObject temp = new JSONObject();        //返回用户信息
+				String ID = rs.getString("ID");
+				String name = rs.getString("name");
+				String avatar = rs.getString("avatar");
+				String introduction = rs.getString("introduction");
+				int createTime = Integer.parseInt(rs.getString("createTime"));
+				String bkgImage = rs.getString("bkgImage");
+				
+				temp.put("userId",ID);
+				temp.put("userName",name);
+				if (full) {
+					temp.put("avatar",avatar);
+					temp.put("introduction",introduction);
+					temp.put("backgroundImage",bkgImage);
+				}
+
+				data.put("user",temp);
+			}
+			else{
+				code = 1001;
+				msg = "User not found";
+			}
 		}
 		rs.close();
 		stmt.close();

@@ -47,31 +47,41 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	try{
 		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId");
-		//if(userId == null) userId = id;
 		
 		//数据库处理，访问
-		Statement stmt = con.createStatement();
-		String sql = String.format("select * from Users where ID = '%s'",userId);
-		ResultSet rs = stmt.executeQuery(sql);
-		
-		if(rs.next()){    //查找Follwer表
-			//int following = Integer.parseInt(rs.getString("following"));
-			//int followed = Integer.parseInt(rs.getString("followed"));
-			sql = String.format("select * from Followers where userId = '%s'",userId);
-			rs = stmt.executeQuery(sql);
-			int following = 0;
-			while(rs.next()) following += 1;
-			sql = String.format("select * from Followers where userFollowedId = '%s'",userId);
-			rs = stmt.executeQuery(sql);
-			int followed = 0;
-			while(rs.next()) followed += 1;
-			data.put("following",following);
-			data.put("followed",followed);
-		}
-		else{  //找不到该用户
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "User not found";
-		}	
+			msg = "The user does not exist！";
+		} 
+		else {
+			String sql = "select * from Users where ID = ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userId);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()){    //查找Follwer表
+				int following = Integer.parseInt(rs.getString("following"));
+				int followed = Integer.parseInt(rs.getString("followed"));
+				/*sql = String.format("select * from Followers where userId = '%s'",userId);
+				rs = stmt.executeQuery(sql);
+				int following = 0;
+				while(rs.next()) following += 1;
+				sql = String.format("select * from Followers where userFollowedId = '%s'",userId);
+				rs = stmt.executeQuery(sql);
+				int followed = 0;
+				while(rs.next()) followed += 1;*/
+				data.put("following",following);
+				data.put("followed",followed);
+			}
+			else{  //找不到该用户
+				code = 1001;
+				msg = "The user does not exist！";
+			}	
+		}
 		rs.close();
 		stmt.close();
 		con.close();

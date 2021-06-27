@@ -44,40 +44,53 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	String msg = "success";
 	
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userIdFollowed = (String)postData.get("userIdFollowed");
 		
 		//String id = "YesTheory1";  //当前登录用户id
 		//String userIdFollowed = "YesTheory1";
 
-		//数据库修改，followers表删除记录
-		Statement stmt = con.createStatement();
-
-		//看用户是否存在
-		String sql = String.format("select * from Users where ID='%s'",userIdFollowed);
-		ResultSet rs1 = stmt.executeQuery(sql);
-		if(rs1.next()==false){
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "该用户不存在";
-		}
-		else{
-			//删除followers表记录
-			sql = String.format("delete from Followers where userId='%s'and userFollowedId='%s'",id,userIdFollowed);
-			int rs = stmt.executeUpdate(sql);
-			if(rs == 0){
-				code = 1007;
-				msg = "关注不存在";
+			msg = "The user does not exist！";
+		} else {
+			//看用户是否存在
+			String sql = "select * from Users where ID=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userIdFollowed);
+			rs = stmt.executeQuery();
+			if(!rs.next()){
+				code = 1001;
+				msg = "The user does not exist！";
 			}
 			else{
-				//User表中Following和相应Followed数量减1
-				String sql2 = String.format("update Users set following = following - 1 where ID='%s'",id);
-				int rs2 = stmt.executeUpdate(sql2);
-				String sql3 = String.format("update Users set followed = followed - 1 where ID='%s'",userIdFollowed);
-				int rs3 = stmt.executeUpdate(sql3);
+				//删除followers表记录
+				sql = "delete from Followers where userId=? and userFollowedId=?";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,id);
+				stmt.setString(2,userIdFollowed);
+				int rs1 = stmt.executeUpdate();
+				if(rs1 == 0){
+					code = 1007;
+					msg = "关注不存在";
+				}
+				else{
+					//User表中Following和相应Followed数量减1
+					sql = "update Users set following = following - 1 where ID=?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,id);
+					rs1 = stmt.executeUpdate();
+					sql = "update Users set followed = followed - 1 where ID=?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,userIdFollowed);
+					rs1 = stmt.executeUpdate();
+				}
 			}
 		}
-		
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}

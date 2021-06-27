@@ -45,7 +45,7 @@ if(request.getMethod().equalsIgnoreCase("post")){
 	JSONObject data = new JSONObject();
 
 	try{
-		String id = (String)session.getAttribute("id");;  //当前登录用户id
+		String id = (String)session.getAttribute("id");  //当前登录用户id
 		String userId = (String)postData.get("userId");
 		if(userId == null) userId = id;
 		int loadedNum = (int)postData.get("loadedNum");
@@ -53,69 +53,82 @@ if(request.getMethod().equalsIgnoreCase("post")){
 		long timeStamp = (int)postData.get("timeStamp");
 		
 		//数据库处理，访问
-		Statement stmt = con.createStatement();
-		
-		//查找该用户是否存在
-		String sql1 = String.format("select * from Users where ID = '%s'",userId);
-		ResultSet rs1 = stmt.executeQuery(sql1);
-		JSONObject userInfo = new JSONObject();
-		if(rs1.next()){
-			String userName = rs1.getString("name");      //发布帖子的用户信息
-			String userImgUrl = rs1.getString("avatar");
-			userInfo.put("userName",userName);
-			userInfo.put("userId",userId);
-			userInfo.put("userImgUrl",userImgUrl);
-
-			//查询用户发布的帖子，且帖子发布时间早于进入页面的时间戳
-			String sql = String.format("select * from Postings where userId = '%s'and createTime < '%d' order by createTime desc",userId,timeStamp);
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			List<JSONObject> posts = new ArrayList<>();
-			List<String> postIds = new ArrayList<>();
-			int length = 0;
-			while(rs.next()){
-				length = length + 1;
-				
-				if(length > loadedNum && length <= loadedNum+requestNum){    //获得帖子信息
-					JSONObject temp = new JSONObject();
-					String postId = rs.getString("ID");
-					long date = Integer.parseInt(rs.getString("createTime"));
-					String content = rs.getString("contents");
-					int numLike = Integer.parseInt(rs.getString("likes"));
-					int numComment = Integer.parseInt(rs.getString("comments"));
-					String imgUrl = rs.getString("image");
-					
-					postIds.add(postId);
-					
-					temp.put("user",userInfo);
-					temp.put("postId",postId);
-					temp.put("date",date);
-					temp.put("content",content);
-					temp.put("imgUrl",imgUrl);
-					temp.put("numComment",numComment);
-					temp.put("numLike",numLike);
-					posts.add(temp);
-				}
-			}
-			
-			//记录登录用户是否给该帖子点赞
-			for(int i = 0;i < postIds.size();i++){
-				sql = String.format("select * from Likes where userId = '%s'and postId = '%s'",id,postIds.get(i));
-				rs = stmt.executeQuery(sql);
-				int liked = 0;
-				if(rs.next()) liked = 1;
-				posts.get(i).put("liked",liked);
-			}
-
-			data.put("posts",posts);
-			rs.close();
-		}
-		else{
+		PreparedStatement stmt = con.prepareStatement("select * from Users where ID like ?");
+		stmt.setString(1,id);
+		ResultSet rs = stmt.executeQuery();
+		if (!rs.next()) {
 			code = 1001;
-			msg = "该用户不存在";
+			msg = "The user does not exist！";
+		} 
+		else {		
+			//查找该用户是否存在
+			String sql = "select * from Users where ID = ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1,userId);
+			rs = stmt.executeQuery();
+			JSONObject userInfo = new JSONObject();
+			if(rs.next()){
+				String userName = rs.getString("name");      //发布帖子的用户信息
+				String userImgUrl = rs.getString("avatar");
+				userInfo.put("userName",userName);
+				userInfo.put("userId",userId);
+				userInfo.put("userImgUrl",userImgUrl);
+
+				//查询用户发布的帖子，且帖子发布时间早于进入页面的时间戳
+				sql = "select * from Postings where userId = ? and createTime < ? order by createTime desc";
+				stmt = con.prepareStatement(sql);
+				stmt.setString(1,userId);
+				stmt.setLong(2,timeStamp);
+				rs = stmt.executeQuery();
+				
+				List<JSONObject> posts = new ArrayList<>();
+				List<String> postIds = new ArrayList<>();
+				int length = 0;
+				while(rs.next()){
+					length = length + 1;
+					
+					if(length > loadedNum && length <= loadedNum+requestNum){    //获得帖子信息
+						JSONObject temp = new JSONObject();
+						String postId = rs.getString("ID");
+						long date = Integer.parseInt(rs.getString("createTime"));
+						String content = rs.getString("contents");
+						int numLike = Integer.parseInt(rs.getString("likes"));
+						int numComment = Integer.parseInt(rs.getString("comments"));
+						String imgUrl = rs.getString("image");
+						
+						postIds.add(postId);
+						
+						temp.put("user",userInfo);
+						temp.put("postId",postId);
+						temp.put("date",date);
+						temp.put("content",content);
+						temp.put("imgUrl",imgUrl);
+						temp.put("numComment",numComment);
+						temp.put("numLike",numLike);
+						posts.add(temp);
+					}
+				}
+				
+				//记录登录用户是否给该帖子点赞
+				for(int i = 0;i < postIds.size();i++){
+					sql = "select * from Likes where userId = ? and postId = ?";
+					stmt = con.prepareStatement(sql);
+					stmt.setString(1,id);
+					stmt.setString(2,postIds.get(i));
+					rs = stmt.executeQuery();
+					int liked = 0;
+					if(rs.next()) liked = 1;
+					posts.get(i).put("liked",liked);
+				}
+
+				data.put("posts",posts);
+			}
+			else{
+				code = 1001;
+				msg = "The user does not exist！";
+			}
 		}
-		
-		rs1.close();
+		rs.close();
 		stmt.close();
 		con.close();
 	}
