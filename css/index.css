@@ -41,6 +41,7 @@
     border-radius: 999em;
     margin-right: 12px;
     border: 1px solid var(--light-gray);
+    object-fit: cover;
 }
 
 .tweet-user-name {
