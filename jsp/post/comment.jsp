@@ -27,7 +27,7 @@ String msg = "";
 int code = 0;
 if (request.getMethod().equalsIgnoreCase("post")) {
     //获得请求体
-    String postbody = getPostData(request.getInputStream(), request.getContentLength(), null);
+    String postbody = getPostData(request.getInputStream(), request.getContentLength(), "utf-8");
     JSONObject postData = new JSONObject(postbody);
 
     //String contents = "yuyyyyyyyyyyyyyyyyyyyyy";
