@@ -79,6 +79,7 @@
     border-radius: 999em;
     border: solid 1px var(--light-gray);
     margin-right: 12px;
+    object-fit: cover;
 }
 
 #side-user>div {
