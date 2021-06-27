@@ -270,7 +270,7 @@ async function clickLike(likeElement) {
 }
 
 function goUserProfile(i) {
-    if (!i) {
+    if (i == undefined) {
         window.location.href = "./profile.html?id=" + tweet.user.userId;
     }
     else{

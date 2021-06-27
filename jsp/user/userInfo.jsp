@@ -38,7 +38,7 @@ Connection con=DriverManager.getConnection(connectString,user,pwd);
 
 //获取request中的内容
 if(request.getMethod().equalsIgnoreCase("post")){
-	String postBody = getPostData(request.getInputStream(),request.getContentLength(),null);
+	String postBody = getPostData(request.getInputStream(),request.getContentLength(),"utf-8");
 	JSONObject postData = new JSONObject(postBody);
 
 	int code = 0;

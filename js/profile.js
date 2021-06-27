@@ -133,7 +133,7 @@ async function follow(){
         }
         console.log("send to /user/follow:");
         console.log(followInfo);
-        if(!TEST_FLAG)await ajax.post("/user/follow", followInfo);
+        await ajax.post("/user/follow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -148,7 +148,7 @@ async function unfollow(){
             userIdFollowed: userId
         }
         console.log(followInfo);
-        if(!TEST_FLAG)await ajax.post("/user/unfollow", followInfo);
+        await ajax.post("/user/unfollow", followInfo);
     }
     catch(err){
         console.log(err);
@@ -261,7 +261,7 @@ async function saveEdit(){
         }
         console.log("send to /user/updateMyInfo:");
         console.log(infoToSend);
-        if(!TEST_FLAG) await ajax.post("/user/updateMyInfo", infoToSend);
+        await ajax.post("/user/updateMyInfo", infoToSend);
     }
     catch(err){
         console.log(err);
@@ -372,7 +372,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/dislike:");
             console.log(likeInfo);
-            if(!TEST_FLAG) await ajax.post("/post/dislike", likeInfo);
+            await ajax.post("/post/dislike", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) - 1;
         }
         catch(err){
@@ -383,7 +383,7 @@ async function clickLike(likeElement, i) {
         try{
             console.log("send to /post/like:");
             console.log(likeInfo);
-            if(!TEST_FLAG)await ajax.post("/post/like", likeInfo);
+            await ajax.post("/post/like", likeInfo);
             likeElement.lastChild.nodeValue = parseInt(likeElement.lastChild.nodeValue) + 1;
         }
         catch(err){
