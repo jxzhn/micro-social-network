@@ -67,9 +67,9 @@ DESC Followers;
 DESC Likes;
 DESC Comments; */
 
-INSERT INTO Users(ID,name,password,createTime,avatar) VALUES ("jonson","中大刘德华","jonsonI$theBEST",1624340575,"https://avatars.githubusercontent.com/u/47637319?v=4");
-INSERT INTO Users(ID,name,password,createTime,avatar) VALUES ("user","不配拥有姓名的测试账号","123",1624340575,"https://avatars.githubusercontent.com/u/84268956?v=4");
-INSERT INTO Users(ID,name,password,createTime,avatar) VALUES ("yess","好耶","gOOOOOOOOd!",1624340575,"https://storage.googleapis.com/kaggle-avatars/images/6995825-kg.png");
+INSERT INTO Users(ID,name,password,createTime,avatar,following,followed) VALUES ("jonson","中大刘德华","jonsonI$theBEST",1624340575,"https://avatars.githubusercontent.com/u/47637319?v=4",2,1);
+INSERT INTO Users(ID,name,password,createTime,avatar,following,followed) VALUES ("user","不配拥有姓名的测试账号","123",1624340575,"https://avatars.githubusercontent.com/u/84268956?v=4",2,1);
+INSERT INTO Users(ID,name,password,createTime,avatar,following,followed) VALUES ("yess","好耶","gOOOOOOOOd!",1624340575,"https://storage.googleapis.com/kaggle-avatars/images/6995825-kg.png",0,2);
 
 
 INSERT INTO Postings(ID,userId,createTime,contents,likes) VALUES ("p_1","jonson",1623340575,"太棒了，我们的微微博跑起来了😀",2);
