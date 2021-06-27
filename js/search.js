@@ -1,7 +1,7 @@
 var loading = document.getElementById('loading');
 var loadingLock = false;
 var loadedTweetList = [];
-
+var currentIdx = 0;
 Date.prototype.Format = function(fmt) {
     var o = {   
         "M+" : this.getMonth()+1,                 //月份   
@@ -28,24 +28,24 @@ function showTweets(tweetList) {
         block.classList.add('tweet-block');
         
         block.innerHTML =
-        `<img onclick="goUserProfile(${i})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
+        `<img onclick="goUserProfile(${currentIdx})" class="tweet-user-img" src="${tweet.user.userImgUrl}">\n` +
         `<div class="tweet-detail">\n` + 
             `<div class="tweet-info-row">\n` + 
-                `<span class="tweet-user-name" onclick="goUserProfile(${i})">${tweet.user.userName}</span>\n` + 
-                `<span class="tweet-user-id" onclick="goUserProfile(${i})">@${tweet.user.userId}</span>\n` + 
+                `<span class="tweet-user-name" onclick="goUserProfile(${currentIdx})">${tweet.user.userName}</span>\n` + 
+                `<span class="tweet-user-id" onclick="goUserProfile(${currentIdx})">@${tweet.user.userId}</span>\n` + 
                 `<span class="tweet-dot">.</span>\n` + 
                 `<span class="tweet-date">${new Date(tweet.date*1000).Format('MM 月 dd 日')}</span>\n` + 
             `</div>\n` + 
-            `<div class="tweet-content" onclick="goDetail(${i})">\n` + 
+            `<div class="tweet-content" onclick="goDetail(${currentIdx})">\n` + 
                 `<span>${tweet.content}</span>\n` + 
                 `<div class="tweet-content-img" style="display: ${tweet.imgUrl?'block':'none'}; background-image: url(${tweet.imgUrl})"></div>\n` + 
             `</div>\n` + 
             `<div class="tweet-interact-row">\n` + 
-                `<span class="tweet-comment" onclick="goDetail(${i})"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
-                `<span class="tweet-like ${tweet.liked?'tweet-liked':''}" onclick="clickLike(this, ${i});"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
+                `<span class="tweet-comment" onclick="goDetail(${currentIdx})"><i class="far fa-comment"></i>${tweet.numComment}</span>\n` + 
+                `<span class="tweet-like ${tweet.liked?'tweet-liked':''}" onclick="clickLike(this, ${currentIdx});"><i class="${tweet.liked?'fas':'far'} fa-heart"></i>${tweet.numLike}</span>\n` + 
             `</div>\n` + 
         `</div>`
-
+        currentIdx += 1;
         loading.parentNode.insertBefore(block, loading);
     }
 }
