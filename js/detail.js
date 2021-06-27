@@ -77,7 +77,7 @@ async function cancelDetail(){
         console.log("send to /user/delMyPost:");
         console.log(postIdtoSend);
         await ajax.post("/user/delMyPost", postIdtoSend);
-        history.back();
+        window.location.href="./index.html";
     }
     catch(err){
         console.log(err);
@@ -338,6 +338,7 @@ async function sendComment() {
     tweetComentLen.style.color = 'var(--red)';
     tweetSendCommentButton.disabled = true;
     tweetCommentBox.style.display = 'none';
+    location.reload();
 }
 
 window.addEventListener('scroll', () => {
