@@ -30,8 +30,8 @@ request.setCharacterEncoding("utf-8");
 //访问数据库
 String connectString="jdbc:mysql://localhost:3306/wwb"
 		+"?autoReconnect=true&useUnicode=true"+"&characterEncoding=UTF-8";
-String user="root";
-String pwd="ye1397546";
+String user="user";
+String pwd="123";
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection(connectString,user,pwd);
 
@@ -96,16 +96,14 @@ if(request.getMethod().equalsIgnoreCase("post")){
 				}
 				
 				for(int i = 0;i < ids.size();i++){
-					int currentUserFollowing = 0;
 					String ID = ids.get(i);
 					sql = "select * from Followers where userId=? and userFollowedId=?";
 					stmt = con.prepareStatement(sql);
 					stmt.setString(1,id);
 					stmt.setString(2,ID);
 					rs = stmt.executeQuery();
-					if(!rs.next()) currentUserFollowing = 1;
 					JSONObject temp = follows.get(i);
-					temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
+					temp.getJSONObject("user").put("currentUserFollowing", rs.next());
 					follows.set(i,temp);
 				}
 				data.put("length",length);

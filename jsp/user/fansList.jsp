@@ -95,9 +95,8 @@ if(request.getMethod().equalsIgnoreCase("post")){
 				stmt.setString(1,id);
 				stmt.setString(2,ID);
 				ResultSet rs2 = stmt.executeQuery();
-				if(rs2.next()) currentUserFollowing = 1;
 				JSONObject temp = follows.get(i);
-				temp.getJSONObject("user").put("currrentUserFollowing",currentUserFollowing);
+				temp.getJSONObject("user").put("currentUserFollowing", rs2.next());
 				follows.set(i,temp);
 
 				rs2.close();
