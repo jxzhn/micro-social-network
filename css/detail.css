@@ -34,6 +34,7 @@
     border-radius: 999em;
     margin-right: 12px;
     border: 1px solid var(--light-gray);
+    object-fit: cover;
 }
 
 .tweet-detail-user-name {
@@ -70,6 +71,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    object-fit: cover;
 }
 
 .tweet-detail-interact-row {
