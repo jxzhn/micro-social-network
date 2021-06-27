@@ -251,26 +251,26 @@ function updateInfo(){
 
 async function saveEdit(){
     edit_errormsg.textContent = "";
-    //TODO: save info
-    try{
-        var infoToSend = {
-            userName: edit_name.value,
-            avatar: avatarDataURL,
-            introduction: edit_introduction.value,
-            backgroundImage: bannerDataURL
-        }
-        console.log("send to /user/updateMyInfo:");
-        console.log(infoToSend);
-        await ajax.post("/user/updateMyInfo", infoToSend);
-    }
-    catch(err){
-        console.log(err);
-    }
     updateInfo();
+    //TODO: save info
     if(edit_errormsg.textContent.length == 0){
+        try{
+            var infoToSend = {
+                userName: edit_name.value,
+                avatar: avatarDataURL,
+                introduction: edit_introduction.value,
+                backgroundImage: bannerDataURL
+            }
+            console.log("send to /user/updateMyInfo:");
+            console.log(infoToSend);
+            await ajax.post("/user/updateMyInfo", infoToSend);
+        }
+        catch(err){
+            console.log(err);
+        }
         hidePopup('edit-popup');
+        location.reload();
     }
-    location.reload();
 }
 
 function cancelEdit(){
