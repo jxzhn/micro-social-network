@@ -76,6 +76,7 @@
     border-radius: 999em;
     margin-left:1em;
     border: 1px solid var(--light-gray);
+    object-fit: cover;
 }
 .like-user-detail,.comment-user-detail{
     padding:10px;
@@ -111,6 +112,7 @@
     height: 50px;
     border-radius: 999em;
     margin-right: 12px;
+    object-fit: cover;
 }
 
 .tweet-content-img-like{  /*原博的图片*/
@@ -118,6 +120,7 @@
     height: 120px;
     border-radius: 10px;/*和边框的10px对应*/
     margin-right: 12px;
+    object-fit: cover;
 }
 
 .tweet-content, #comment-info-notice{

@@ -190,6 +190,7 @@ async function loadMoreTweets(numTweet, is_same_noticeType) {
             showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length);
             loadedCount += noticeList.length;
         }
+        
     }
     else  //当时切换noticeType来加载数据，要清空loadedCount和loadedTweetList
     {
@@ -210,10 +211,10 @@ async function loadMoreTweets(numTweet, is_same_noticeType) {
             showTweets(loadedTweetList, userName, userId, loadedCount, loadedCount+noticeList.length);
             loadedCount += noticeList.length;
         }
-        if(noticeList.length < numTweet)
-        {
-            LOAD_FLAG=false;//加上这个变量，当取得数小于numtweet，表示将数据库取尽，此时可不再loading。
-        }
+    }
+    if(noticeList.length < numTweet)
+    {
+        LOAD_FLAG=false;//加上这个变量，当取得数小于numtweet，表示将数据库取尽，此时可不再loading。
     }
     loading.style.display = 'none';
     loadingLock = false;
